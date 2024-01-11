@@ -1,0 +1,13 @@
+fastapi==0.103.0
+pydantic==2.4.2
+requests==2.26.0
+openai==1.6.1
+websocket-client==0.58.0
+anthropic==0.3.11
+bardapi==0.1.38
+pytz==2022.7
+starlette==0.27.0
+slack_sdk==3.26.2
+pyyaml==6.0.1
+httpx==0.25.0
+sse-starlette==1.8.2

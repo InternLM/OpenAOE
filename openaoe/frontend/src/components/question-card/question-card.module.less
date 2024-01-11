@@ -1,0 +1,63 @@
+.share-info {
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 24px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--share-info-bg);
+    box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d, 0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e, 0 2.288533303243457px 2.288533303243457px -2.5px #00000029, 0 10px 10px -3.75px #00000010;
+    backdrop-filter: blur(12px);
+    position: relative;
+    .name {
+        cursor: pointer;
+        color: var(--question-title);
+    }
+    .desc {
+        font-size: 16px;
+        color: var(--question-desc);
+    }
+    .tags {
+        display: flex;
+        gap: 4px;
+    }
+    .tag {
+        cursor: pointer;
+        background: var(--theme-color);
+        color: white;
+        padding: 4px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+    .footer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--question-title);
+
+        font-size: 16px;
+        .answer, .vote {
+            border-radius: 4px;
+            padding: 2px 4px;
+            color: var(--question-time);
+        }
+        .username {
+            margin-left: auto;
+            color: var(--question-time);
+        }
+    }
+}
+
+.blur-card {
+    width: 400px;
+    height: 200px;
+    margin: 20px 0;
+    padding: 20px;
+    background: rgb(0 0 0 / 5%);
+    box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d, 0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e, 0 2.288533303243457px 2.288533303243457px -2.5px #00000029, 0 10px 10px -3.75px #00000010;
+    backdrop-filter: blur(40px);
+    border-radius: 30px;
+    position: relative;
+}

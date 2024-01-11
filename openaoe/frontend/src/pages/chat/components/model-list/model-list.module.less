@@ -1,0 +1,74 @@
+@home-max-width: 900px;
+@home-min-width: 350px;
+.home-models {
+    max-width: @home-max-width;
+    min-width: @home-min-width;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 24px auto 48px;
+    --scale: 1;
+}
+.model-avatar {
+    --size: 60px;
+    border-radius: 50%;
+    //box-shadow: 2px 2px 4px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    position: relative;
+    background: #252525;
+    width: calc(var(--size) * var(--scale));
+    height: calc(var(--size) * var(--scale));
+    top: calc((var(--size) * var(--scale) - var(--size)) / 2 * -1);
+
+    transition: 15ms all ease-out;
+    .model-avatar-img {
+        --img-size: 40px;
+        width: calc(var(--img-size) * var(--scale));
+        transition: 15ms all ease-out;
+    }
+    .model-chosen {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 22px;
+    }
+    .model-name {
+        position: absolute;
+        bottom: -24px;
+        color: #c6c6c6;
+        font-size: 0.8rem;
+        width: 150px;
+        text-align: center;
+    }
+}
+
+.model-avatar-chosen {
+    border: 2px solid rgba(53, 199, 59, 1);
+}
+@media screen and (max-width: 768px) {
+    .model-avatar {
+        width: 60px;
+        height: 60px;
+        .model-avatar-img {
+            width: 40px;
+        }
+        .model-chosen {
+            width: 20px;
+        }
+    }
+}
+@media screen and (max-width: 414px) {
+    .model-avatar {
+        width: 40px;
+        height: 40px;
+        .model-avatar-img {
+            width: 30px;
+        }
+        .model-chosen {
+            width: 16px;
+        }
+    }
+}

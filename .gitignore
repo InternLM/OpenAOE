@@ -1,0 +1,17 @@
+# IDE related
+.idea
+*.iml
+
+# frontend related
+*/node_modules
+*/frontend/package-lock.json
+*/frontend/node_modules
+*/frontend/dist
+
+# pip related
+*.pyc
+build
+dist
+*.egg-info
+out
+gen

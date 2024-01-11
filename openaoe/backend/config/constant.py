@@ -1,0 +1,16 @@
+TYPE_BOT = "bot"
+TYPE_USER = "user"
+TYPE_SYSTEM = "system"
+
+DATE_PATTERN = "%Y%m%d"
+TIMEOUT_SECONDS = 30
+
+VENDOR_OPENAI = "gpt"
+VENDOR_MINIMAX = "minimax"
+VENDOR_GOOGLE = "bard"
+VENDOR_XUNFEI = "spark"
+VENDOR_CLAUDE = "claude"
+VENDOR_INTERNLM = "internlm"
+
+DEFAULT_TIMEOUT_SECONDS = 600
+

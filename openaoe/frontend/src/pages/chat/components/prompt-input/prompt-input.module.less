@@ -1,0 +1,191 @@
+@link-color: #35c73b;
+@input-border-color: black;
+@chat-width: 100%;
+@font-text-size: 0.8rem;
+@home-max-width: 900px;
+@home-min-width: 350px;
+.home-prompt-wrapper {
+    max-width: @home-max-width;
+    min-width: @home-min-width;
+    position: absolute;
+    z-index: 999;
+    width: @chat-width;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel-bg-color);
+    color: var(--font-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    box-sizing: border-box;
+    font-size: @font-text-size;
+    bottom: 48px;
+    transition: all 0.5s ease-in-out;
+    text-align: left;
+    max-height: 700px;
+    overflow: auto;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    &::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
+    }
+    .prompt {
+        padding: 0 20px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .prompt-trash {
+            cursor: pointer;
+            height: 20px;
+        }
+        .prompt-operation {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    }
+    .chosen-prompt {
+        background: var(--panel-chosen-bg-color);
+        border-radius: 10px;
+    }
+    .model-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .model-avatar {
+        width: 20px;
+        height: 20px;
+        padding: 4px;
+        border-radius: 4px;
+    }
+}
+.home-input-wrapper {
+    max-width: @home-max-width;
+    min-width: @home-min-width;
+    position: relative;
+    text-align: center;
+    border-radius: 12px;
+    width: @chat-width;
+    margin: 20px auto 0;
+    padding: 5px 16px;
+    background: #F4F5F9;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    &:hover:not(:focus-within) {
+        background: #EBECF0;
+        .prompt-editor:not(:hover) {
+            background: #EBECF0;
+        }
+    }
+    &:focus-within {
+        background: #FFFFFF;
+        border: 2px solid var(--input-border-color);
+    }
+    .model-name-list {
+        display: inline-block;
+        position: absolute;
+        //bottom: -24px;
+        left: 0;
+    }
+    .model-name {
+        line-height: 1;
+        font-size: @font-text-size;
+        color: @link-color;
+
+        margin-right: 4px;
+        margin-left: 4px;
+    }
+    .empty-editor {
+        &::before {
+            content: attr(data-text) " ";
+            position: absolute;
+            left: 0;
+            cursor: text;
+            color: rgba(18, 19, 22, 0.35);
+            font-size: @font-text-size;
+        }
+    }
+    .prompt-editor {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        border-radius: 2px;
+        box-shadow: none;
+        font-size: @font-text-size;
+        line-height: 1.2;
+        box-sizing: border-box;
+        border: none;
+        padding: 0.1rem 0;
+        background: #F4F5F9;
+        resize: none;
+        text-align: left;
+        min-height: calc(1.2 * 0.8rem + 0.2rem);
+        max-height: 4.8em;
+        overflow: auto;
+        caret-color: @link-color;
+        white-space: pre-wrap;
+        &:hover {
+            background: #EBECF0;
+        }
+        &:focus {
+            background: #FFFFFF;
+        }
+        &:focus-within {
+            background: #FFFFFF;
+        }
+        &:focus-visible {
+            outline-style: none;
+        }
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-transition-delay: 99999s;
+            -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+        }
+    }
+    .backup-textarea {
+        position: relative;
+        transform: translateY(-100%);
+        pointer-events: none;
+        background: transparent;
+    }
+    .submit-btn {
+        padding: 4px 8px;
+        border-radius: 6px;
+    }
+    .prompt-clip {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        margin: 2px;
+        margin-inline-start: auto;
+        margin-block-start: auto;
+    }
+    :global {
+        .ql-toolbar.ql-snow {
+            border: none;
+            padding: 0 4px;
+            text-align: left;
+        }
+        .ql-editor {
+            padding: 0;
+        }
+        .ql-container.ql-snow {
+            border: none;
+            display: inline-block;
+            width: 100%;
+            padding: 0 8px;
+            font-size: @font-text-size;
+        }
+    }
+}
+
+@media screen and (max-height: 810px) {
+    .home-prompt-wrapper {
+        max-height: 480px;
+    }
+}

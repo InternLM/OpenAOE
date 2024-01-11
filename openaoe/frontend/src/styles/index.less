@@ -1,0 +1,51 @@
+// @import './normalize.css'; normalize.css通过cdn引入了
+@theme-color: #35c73b;
+body {
+    --theme-color: @theme-color;
+    --body-bg: white;
+    --font-color: black;
+    --input-border-color: black;
+    --panel-bg-color: #f4f4f4;
+    --user-chat-bg: #def9dc;
+    --panel-chosen-bg-color: #e4e4e4;
+    --shadow-color: #d6d6d6;
+    --icon-bg-color: #f4f5f9;
+    --code-bg-color: #fffefe;
+    --home-bg: url("@/assets/home/aoe_bg_light.svg");
+    --question-title: black;
+    --question-desc: #252525;
+    --question-time: #004f03;
+    --share-info-bg: rgba(255, 255, 255, 40%);
+    transition: all 0.4s linear;
+}
+body[data-theme="dark"] {
+    background: #2e2e2e;
+    --body-bg: #2e2e2e;
+    --font-color: white;
+    --input-border-color: #89f043;
+    --panel-bg-color: black;
+    --user-chat-bg: #def9dc;
+    --panel-chosen-bg-color: #3b3b3b;
+    --shadow-color: #bfbfbf;
+    --icon-bg-color: #f4f5f9;
+    --code-bg-color: #212121;
+    --question-title: white;
+    --question-desc: #e7e7e7;
+    --question-time: #78f57d;
+    --share-info-bg: rgba(255, 255, 255, 5%);
+    --home-bg: url("@/assets/home/aoe_bg_dark.svg");
+    transition: all 0.4s linear;
+}
+
+.modelName {
+    --theme-color: @theme-color;
+    line-height: 1;
+    font-size: 0.8rem;
+    color: var(--theme-color);
+    padding: 0 2px;
+    pointer-events: none;
+    user-select: none;
+}
+.seal-message-root-wrapper {
+    z-index: 9999 !important;
+}

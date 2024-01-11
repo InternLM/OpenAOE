@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/AOE_logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/css/normalize.css">
+    <title>AOE</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+      html {
+        font-size: 16px;
+      }
+
+      @media screen and (min-width: 375px) {
+        html {
+          font-size: calc(100% + 0.2 * (100vw - 375px) / 39);
+          font-size: calc(16px + 0.2 * (100vw - 375px) / 39);
+        }
+      }
+      @media screen and (min-width: 414px) {
+        html {
+          font-size: 18px
+        }
+      }
+      @media screen and (min-width: 600px) {
+        html {
+          font-size: 20px
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

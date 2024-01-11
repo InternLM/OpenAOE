@@ -1,0 +1,90 @@
+@home-max-width: 900px;
+@home-min-width: 350px;
+.home-share {
+    max-width: @home-max-width;
+    min-width: @home-min-width;
+    text-align: center;
+    margin: 24px auto 48px;
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    justify-content: center;
+    color: #cdcdcd;
+    font-size: 16px;
+    border-top: 1px solid var(--theme-color);
+    padding-top: 24px;
+    .share-btn {
+        background: var(--theme-color);
+        //border-radius: 8px;
+    }
+}
+.hidden-scrollbar {
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    &::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
+    }
+}
+.modal {
+    :global {
+        .seal-button-primary {
+            background-color: var(--theme-color);
+        }
+        .seal-input-group .seal-input-inner-container:focus-within {
+            outline: 1px solid var(--theme-color);
+        }
+        .seal-input-group .seal-input-inner-container {
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+    }
+    .question-list {
+        position: absolute;
+        width: 372px;
+        border-radius: 6px;
+        max-height: 150px;
+        overflow-y: auto;
+        background: white;
+        padding-bottom: 12px;
+        box-shadow: 4px 4px 14px rgba(0,48,130,.1);
+        .hidden-scrollbar();
+    }
+    .question-item {
+        cursor: pointer;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 372px;
+        box-sizing: border-box;
+        line-height: 24px;
+        padding: 4px 6px;
+    }
+    .chosen-item {
+        background: #e4e4e4;
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 8px;
+    }
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.tag {
+    cursor: pointer;
+    background-color: var(--icon-bg-color);
+    color: var(--theme-color);
+    padding: 4px 6px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+.chosen {
+    background: var(--theme-color);
+    color: white;
+}

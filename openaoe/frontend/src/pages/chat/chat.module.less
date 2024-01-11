@@ -1,0 +1,39 @@
+@home-max-width: 900px;
+@home-min-width: 350px;
+@font-title-size: 24px;
+@text-normal-color: #464a53;
+.home {
+    margin: auto;
+    padding: 0 8px;
+    .home-chats {
+        width: 100%;
+        position: relative;
+        // chat高度 = 屏幕高度 - input高度 - models高度 - operation高度
+        height: calc(100vh - 75px - 38px - 150px);
+    }
+}
+
+.homeModal {
+    background: var(--body-bg) !important;
+    color: var(--font-color);
+    :global {
+        .seal-modal-right .seal-modal-title {
+            color: var(--font-color);
+        }
+    }
+}
+@media screen and (max-width: 768px) {
+    .home {
+        .home-chats {
+            height: calc(100vh - 75px - 38px - 70px - 92px);
+        }
+    }
+
+}
+@media screen and (max-width: 414px) {
+    .home {
+        .home-chats {
+            height: calc(100vh - 75px - 70px - 38px - 62px);
+        }
+    }
+}

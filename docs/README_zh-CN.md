@@ -1,0 +1,104 @@
+<div align="center">
+  <img src="_static/image/aoe-logo.svg" width="250"/>
+
+[![PyPI](https://img.shields.io/pypi/v/Open-AOE)](https://pypi.org/project/Open-AOE)
+[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/open-aoe?label=docker)](https://hub.docker.com/r/opensealion/open-aoe?label=docker)
+
+
+[English](../README.md) | 简体中文
+
+</div>
+
+
+## 最新进展 🎉
+
+- \[2024/01\] 发布v0.0.1版本，正式开源。
+
+______________________________________________________________________
+
+# 简介
+## 什么是 AOE？
+AOE，取自 DOTA2 的技能范围伤害的简写：释放一个技能，可以对群体产生效果。
+在这里，AOE 表示用户的一个 prompt 可以同时获得多个大模型的并行输出。
+![](docs/_static/gif/aoe-zh_hans.gif)
+
+
+## 为了解决了什么问题？
+目前，市面上有很多基于 OpenAI 的聊天开源框架，但是，单 prompt 多模型回复的开源框架还处于一个空白阶段。
+
+AOE 的出现，填补了这个领域的空白：
+AOE 可以帮助大模型算法研究、评测、工程开发人员甚至非专业人士，快速接入市面上的知名的商业大模型和开源大模型， 并提供了单模型串行回答和多模型并行回答两种模式。
+
+
+
+## 可以提供什么服务？
+1. 发送一次 prompt 同时给一个或者多个大语言模型，并获得其返回。
+2. 提供商用大模型API的接入，默认支持gpt3.5、gpt4、Google Palm、Minimax、Claude、Spark等，也支持用户自定义接入其他大模型API。
+3. 提供开源大模型API的接入，用户可以使用 [LMDeploy](https://github.com/InternLM/lmdeploy) 来一键部署开源大模型。
+4. 我们同时提供了后端 API 和 WEB 端, 来满足不同用户的需求。
+
+
+
+
+
+# 快速安装
+我们将提供 3 种不同的方式安装：基于 pip、基于 docker 以及基于源代码，实现开箱即用。
+
+
+## 基于 pip
+- 安装：
+```shell
+pip install open-aoe
+```
+
+- 启动：
+```shell
+open-aoe -f /path/to/your/config.yaml
+```
+
+## 基于 docker
+- 安装：
+```shell
+docker pull open-aoe:latest
+```
+
+- 启动：
+```shell
+docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name open-aoe open-aoe:latest
+```
+
+## 基于源代码
+- 安装：
+```shell
+git clone https://github.com/internlm/open-aoe
+```
+
+- 启动：
+```shell
+cd open-aoe/openaoe
+pip install -r backend/requirements.txt
+python main.py -f /path/to/your/config.yaml
+```
+
+> `/path/to/your/config.yaml` 是 open-aoe 启动时读取的配置文件，里面包含了大模型的相关配置信息，
+> 包括：调用API地址、AKSK、Token等信息，是 open-aoe 启动的必备文件。文件模板可以在 `openaoe/backend/config/config.yaml` 中找到。
+
+# 二次开发
+> **欢迎 fork**
+
+如果想基于此项目做二次开发，下面这些信息将会对你有帮助。
+
+
+## 技术栈
+我们使用到的技术栈是：
+1. 基于 Python + fastapi 的后端框架； 
+2. 基于 Typescript + [Sealion-Client](https://github.com/OpenSealion/sealion-client) （基于React封装）+ [Sealion-UI](https://github.com/OpenSealion/sealion-ui) 的前端框架。
+
+
+## 整个仓库的简要说明
+1. 前端代码在 openaoe/frontend 
+2. 后端代码在 openaoe/backend
+3. 项目入口文件在 openaoe/main.py
+
+
+# TODO

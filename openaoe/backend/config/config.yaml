@@ -1,0 +1,27 @@
+---
+models:
+    gpt:
+        api_base:
+        api_key:
+
+    claude:
+        api_key:
+
+    bard:
+        api_base:
+        api_key:
+
+    minimax:
+        api_base:
+        group_id:
+        jwt:
+
+    spark:
+        api_base:
+        app_id:
+        ak:
+        sk:
+
+    internlm:
+        api_base:
+...

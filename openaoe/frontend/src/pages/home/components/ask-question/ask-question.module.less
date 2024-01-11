@@ -1,0 +1,36 @@
+.btn {
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    width: 100px;
+    background: var(--theme-color);
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.modal {
+    :global {
+        .seal-button-primary {
+            background-color: var(--theme-color);
+        }
+        .seal-input-group .seal-input-inner-container:focus-within {
+            outline: 1px solid var(--theme-color);
+        }
+        .seal-input-group .seal-input-inner-container {
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+    }
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;;
+}

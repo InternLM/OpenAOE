@@ -1,0 +1,368 @@
+@font-text-size: 1rem;
+@table-border-color: #cdcdcd;
+@color-red: #f44336;
+@color-blue: #2196f3;
+@color-yellow: #ffeb3b;
+@color-brown: #795548;
+@color-peach: #ffccbc;
+@color-black: #333;
+@session-chat-width: 600px;
+@chat-max-width: 900px;
+@chat-min-width: 350px;
+.hidden-scrollbar {
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    &::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
+    }
+}
+
+.styled-scrollbar {
+    // 火狐
+    scrollbar-color: var(--panel-bg-color) transparent;
+    scrollbar-width: thin;
+
+    // 定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background-color: transparent;
+    }
+
+    // 定义滚动条轨道 内阴影+圆角
+    &::-webkit-scrollbar-track {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: transparent;
+    }
+
+    // 定义滑块 内阴影+圆角
+    &::-webkit-scrollbar-thumb {
+        background: var(--panel-bg-color);
+        border-radius: 10px;
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+}
+.sessions {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    gap: 48px;
+    padding: 12px 0;
+    position: relative;
+}
+.preview-sessions {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    gap: 48px;
+    padding: 12px 0;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    background: var(--body-bg);
+}
+.session-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.chat {
+    min-width: @chat-min-width;
+    max-width: @chat-max-width;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    overflow: auto;
+    position: relative;
+    .hidden-scrollbar();
+
+    .empty-chat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        .empty-chat-text {
+            font-size: 16px;
+            color: var(--font-color);
+            border-radius: 12px;
+            border: 2px solid black;
+            padding: 24px;
+            text-align: left;
+            span {
+                font-weight: bold;;
+            }
+            code {
+                font-weight: 500;
+                color: var(--theme-color);
+            }
+        }
+    }
+    .message{
+        position: relative;
+        display: flex;
+        gap: 12px;
+        padding: 12px 0 20px;
+    }
+
+    .message-wrapper {
+        border-radius: 1px 12px 12px 12px;
+        padding: 0.4rem 0.6rem;
+        font-size: @font-text-size;
+        line-height: 1.2;
+        text-align: left;
+        position: relative;
+        max-width: 80%;
+        &::after {
+            // 撑开父元素
+            display: block;
+            content: attr(title);
+            width: auto;
+            height: 1px;
+            font-weight: bold;
+            color: transparent;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        p {
+            margin: 0;
+            overflow: auto;
+            .styled-scrollbar();
+            word-break: break-word;
+        }
+        li {
+            list-style: inherit;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table tr, table th, table td {
+            padding: 6px 13px;
+            border: 1px solid @table-border-color;
+        }
+        pre {
+            position: relative;
+        }
+        legend {
+            font-weight: bold;
+            padding: 0 4px;
+        }
+        .chat-user-title {
+            position: absolute;
+            font-weight: bold;
+            padding: 0 4px;
+            top: -0.5rem;
+            right: 12px;
+            background: linear-gradient(180deg, transparent 50%, var(--user-chat-bg) 50%, var(--user-chat-bg) 100%);
+        }
+        .chat-bot-title {
+            position: absolute;
+            font-weight: bold;
+            padding: 0 4px;
+            top: -0.5rem;
+            left: 12px;
+            background: linear-gradient(180deg, transparent 50%, var(--panel-bg-color) 50%, var(--panel-bg-color) 100%);
+        }
+    }
+    .message-item:last-child {
+        min-height: calc(100% - 60px);
+        margin-bottom: 0; // 这样最后一条消息就会固定在底部
+        transition: all 1s ease-in-out;
+    }
+    .stream-wrapper {
+        -webkit-animation: glow 0.6s ease 0s infinite alternate;
+        -moz-animation: glow 0.6s ease 0s infinite alternate;
+        animation: glow 0.6s ease 0s infinite alternate;
+    }
+
+    .chat-user {
+        background: var(--user-chat-bg);
+        color: black;
+    }
+
+    .chat-bot {
+        color: var(--font-color);
+        background: var(--panel-bg-color);
+    }
+
+    .chat-operations {
+        font-size: 12px;
+        color: #adadad;
+        position: absolute;
+        top: -16px;
+        left: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .chat-date {
+        font-size: 12px;
+        color: #D7D8DD;
+        transform: translateY(12px);
+        position: absolute;
+        min-width: 130px;
+    }
+
+    .chat-checkbox {
+        /* Add if not using autoprefixer */
+        -webkit-appearance: none;
+        /* Remove most all native input styles */
+        appearance: none;
+        /* For iOS < 15 */
+        background-color: transparent;
+        /* Not removed via appearance */
+        margin: 0;
+
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid var(--theme-color);
+        border-radius: 0.3em;
+        transform: translateY(0.45em);
+
+        display: grid;
+        place-content: center;
+        &::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+            transform: scale(0);
+            transform-origin: bottom left;
+            transition: 120ms transform ease-in-out;
+            background-color: white;
+        }
+        &:checked {
+            background-color: var(--theme-color);
+            border: 0.15em solid var(--theme-color);
+            transition: all 120ms ease-in-out;
+        }
+        &:checked::before {
+            transform: scale(1);
+        }
+        &:disabled {
+            border: 0.15em solid #e6e6e6;
+            background: #cdcdcd;
+            transition: all 120ms ease-in-out;
+            cursor: not-allowed;
+        }
+    }
+    .model-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 20%;
+        box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        font-size: 0.7rem;
+        font-weight: bold;
+        .model-avatar-img {
+            width: 30px;
+        }
+        .model-name {
+            position: absolute;
+            font-size: 12px;
+            bottom: -24px;
+            color: #c6c6c6;
+        }
+    }
+    .copy-code-btn::after {
+        position: absolute;
+        content: 'copy';
+        // 跟代码块编剧保持一致
+        right: 0.5em;
+        top: 0.5em;
+        font-size: 0.6rem;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #d9d9d9;
+        padding: 0.1em;
+        background: var(--code-bg-color);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .clear-line {
+        display: flex;
+        align-items: center;
+        margin: 16px 0;
+        color: #cdcdcd;
+        font-weight: 500;
+        font-size: 14px;
+        white-space: nowrap;
+        text-align: center;
+        border-block-start: 0 #cdcdcd;
+        width: 100%;
+        &::before, &::after {
+            position: relative;
+            width: 50%;
+            border-block-start: 1px solid transparent;
+            border-block-start-color: inherit;
+            border-block-end: 0;
+            transform: translateY(50%);
+            content: '';
+        }
+    }
+
+    .markdown-block {
+        blockquote {
+            color: #30363d;
+            padding: 0 1em;
+            border-left: 0.25em solid #8b949e;
+            margin: 0.5em;
+        }
+    }
+}
+
+#mario {
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0;
+    background-color: @color-blue;
+    animation-duration: 250ms;
+    box-shadow: -6px 0px 0 0 @color-red,-4px 0px 0 0 @color-red,-2px 0px 0 0 @color-red,0px 0px 0 0 @color-red,2px 0px 0 0 @color-red,4px 0px 0 0 @color-red, -4px -2px 0 0 @color-peach,-2px -2px 0 0 @color-peach,0px -2px 0 0 @color-peach,2px -2px 0 0 @color-peach,4px -2px 0 0 @color-peach,6px -2px 0 0 @color-peach,8px -2px 0 0 @color-peach, -8px -4px 0 0 @color-brown,-6px -4px 0 0 @color-brown, -4px -4px 0 0 @color-peach,-2px -4px 0 0 @color-peach,0px -4px 0 0 @color-peach,2px -4px 0 0 @color-peach, 4px -4px 0 0 @color-black,6px -4px 0 0 @color-black,8px -4px 0 0 @color-black,10px -4px 0 0 @color-black, -8px -6px 0 0 @color-brown,-4px -6px 0 0 @color-brown,-2px -6px 0 0 @color-brown, -6px -6px 0 0 @color-peach,0px -6px 0 0 @color-peach,2px -6px 0 0 @color-peach,4px -6px 0 0 @color-peach,8px -6px 0 0 @color-peach,10px -6px 0 0 @color-peach,12px -6px 0 0 @color-peach, 6px -6px 0 0 @color-black, -8px -8px 0 0 @color-brown,-4px -8px 0 0 @color-brown, -6px -8px 0 0 @color-peach,-2px -8px 0 0 @color-peach,0px -8px 0 0 @color-peach,2px -8px 0 0 @color-peach,6px -8px 0 0 @color-peach,8px -8px 0 0 @color-peach,10px -8px 0 0 @color-peach, 4px -8px 0 0 @color-black, -6px -10px 0 0 @color-brown,-4px -10px 0 0 @color-brown,-2px -10px 0 0 @color-brown, 0px -10px 0 0 @color-peach,2px -10px 0 0 @color-peach,6px -10px 0 0 @color-peach, 4px -10px 0 0 @color-black, -6px -12px 0 0 @color-red,-4px -12px 0 0 @color-red,-2px -12px 0 0 @color-red,0px -12px 0 0 @color-red,2px -12px 0 0 @color-red,4px -12px 0 0 @color-red,6px -12px 0 0 @color-red,8px -12px 0 0 @color-red,10px -12px 0 0 @color-red, -4px -14px 0 0 @color-red,-2px -14px 0 0 @color-red,0px -14px 0 0 @color-red,2px -14px 0 0 @color-red,4px -14px 0 0 @color-red, -8px 2px 0 0 @color-red,-6px 2px 0 0 @color-red,-4px 2px 0 0 @color-red,-2px 2px 0 0 @color-red,4px 2px 0 0 @color-red,6px 2px 0 0 @color-red, 0px 2px 0 0 @color-blue,2px 2px 0 0 @color-blue, -8px 4px 0 0 @color-red,-6px 4px 0 0 @color-red,-4px 4px 0 0 @color-red, -2px 4px 0 0 @color-blue,0px 4px 0 0 @color-blue,4px 4px 0 0 @color-blue,6px 4px 0 0 @color-blue, 2px 4px 0 0 @color-yellow, -8px 6px 0 0 @color-red,-6px 6px 0 0 @color-red,-4px 6px 0 0 @color-red,-2px 6px 0 0 @color-red, 0px 6px 0 0 @color-blue,2px 6px 0 0 @color-blue,4px 6px 0 0 @color-blue,6px 6px 0 0 @color-blue, -8px 8px 0 0 @color-red,-6px 8px 0 0 @color-red,-4px 8px 0 0 @color-red, -2px 8px 0 0 @color-peach,0px 8px 0 0 @color-peach, 2px 8px 0 0 @color-blue,4px 8px 0 0 @color-blue,6px 8px 0 0 @color-blue, -6px 10px 0 0 @color-blue,2px 10px 0 0 @color-blue,4px 10px 0 0 @color-blue, -4px 10px 0 0 @color-red, -2px 10px 0 0 @color-peach,0px 10px 0 0 @color-peach, -4px 12px 0 0 @color-blue,-2px 12px 0 0 @color-blue,0px 12px 0 0 @color-blue, 2px 12px 0 0 @color-brown,4px 12px 0 0 @color-brown,6px 12px 0 0 @color-brown, -4px 14px 0 0 @color-brown,-2px 14px 0 0 @color-brown,0px 14px 0 0 @color-brown,2px 14px 0 0 @color-brown;
+    animation: running-mario 1000ms steps(1) infinite;
+}
+
+@keyframes running-mario {
+    0% {
+        background-color: #2196f3;
+        box-shadow: -6px 0px 0 0 #f44336,-4px 0px 0 0 #f44336,-2px 0px 0 0 #f44336,0px 0px 0 0 #f44336,2px 0px 0 0 #f44336,4px 0px 0 0 #f44336, -4px -2px 0 0 #ffccbc,-2px -2px 0 0 #ffccbc,0px -2px 0 0 #ffccbc,2px -2px 0 0 #ffccbc,4px -2px 0 0 #ffccbc,6px -2px 0 0 #ffccbc,8px -2px 0 0 #ffccbc, -8px -4px 0 0 #795548,-6px -4px 0 0 #795548, -4px -4px 0 0 #ffccbc,-2px -4px 0 0 #ffccbc,0px -4px 0 0 #ffccbc,2px -4px 0 0 #ffccbc, 4px -4px 0 0 #333,6px -4px 0 0 #333,8px -4px 0 0 #333,10px -4px 0 0 #333, -8px -6px 0 0 #795548,-4px -6px 0 0 #795548,-2px -6px 0 0 #795548, -6px -6px 0 0 #ffccbc,0px -6px 0 0 #ffccbc,2px -6px 0 0 #ffccbc,4px -6px 0 0 #ffccbc,8px -6px 0 0 #ffccbc,10px -6px 0 0 #ffccbc,12px -6px 0 0 #ffccbc, 6px -6px 0 0 #333, -8px -8px 0 0 #795548,-4px -8px 0 0 #795548, -6px -8px 0 0 #ffccbc,-2px -8px 0 0 #ffccbc,0px -8px 0 0 #ffccbc,2px -8px 0 0 #ffccbc,6px -8px 0 0 #ffccbc,8px -8px 0 0 #ffccbc,10px -8px 0 0 #ffccbc, 4px -8px 0 0 #333, -6px -10px 0 0 #795548,-4px -10px 0 0 #795548,-2px -10px 0 0 #795548, 0px -10px 0 0 #ffccbc,2px -10px 0 0 #ffccbc,6px -10px 0 0 #ffccbc, 4px -10px 0 0 #333, -6px -12px 0 0 #f44336,-4px -12px 0 0 #f44336,-2px -12px 0 0 #f44336,0px -12px 0 0 #f44336,2px -12px 0 0 #f44336,4px -12px 0 0 #f44336,6px -12px 0 0 #f44336,8px -12px 0 0 #f44336,10px -12px 0 0 #f44336, -4px -14px 0 0 #f44336,-2px -14px 0 0 #f44336,0px -14px 0 0 #f44336,2px -14px 0 0 #f44336,4px -14px 0 0 #f44336, -8px 2px 0 0 #f44336,-6px 2px 0 0 #f44336,-4px 2px 0 0 #f44336,-2px 2px 0 0 #f44336,4px 2px 0 0 #f44336,6px 2px 0 0 #f44336, 0px 2px 0 0 #2196f3,2px 2px 0 0 #2196f3, -8px 4px 0 0 #f44336,-6px 4px 0 0 #f44336,-4px 4px 0 0 #f44336, -2px 4px 0 0 #2196f3,0px 4px 0 0 #2196f3,4px 4px 0 0 #2196f3,6px 4px 0 0 #2196f3, 2px 4px 0 0 #ffeb3b, -8px 6px 0 0 #f44336,-6px 6px 0 0 #f44336,-4px 6px 0 0 #f44336,-2px 6px 0 0 #f44336, 0px 6px 0 0 #2196f3,2px 6px 0 0 #2196f3,4px 6px 0 0 #2196f3,6px 6px 0 0 #2196f3, -8px 8px 0 0 #f44336,-6px 8px 0 0 #f44336,-4px 8px 0 0 #f44336, -2px 8px 0 0 #ffccbc,0px 8px 0 0 #ffccbc, 2px 8px 0 0 #2196f3,4px 8px 0 0 #2196f3,6px 8px 0 0 #2196f3, -6px 10px 0 0 #2196f3,2px 10px 0 0 #2196f3,4px 10px 0 0 #2196f3, -4px 10px 0 0 #f44336, -2px 10px 0 0 #ffccbc,0px 10px 0 0 #ffccbc, -4px 12px 0 0 #2196f3,-2px 12px 0 0 #2196f3,0px 12px 0 0 #2196f3, 2px 12px 0 0 #795548,4px 12px 0 0 #795548,6px 12px 0 0 #795548, -4px 14px 0 0 #795548,-2px 14px 0 0 #795548,0px 14px 0 0 #795548,2px 14px 0 0 #795548;
+    }
+    25% {
+        background-color: #f44336;
+        box-shadow: -4px 0px 0 0 #f44336,-2px 0px 0 0 #f44336,2px 0px 0 0 #f44336,6px 0px 0 0 #f44336, 4px 0px 0 0 #2196f3, 8px 0px 0 0 #ffccbc,10px 0px 0 0 #ffccbc, -2px -2px 0 0 #f44336,0px -2px 0 0 #f44336,6px -2px 0 0 #f44336, 2px -2px 0 0 #2196f3,4px -2px 0 0 #2196f3, -4px -4px 0 0 #ffccbc,-2px -4px 0 0 #ffccbc,0px -4px 0 0 #ffccbc,2px -4px 0 0 #ffccbc,4px -4px 0 0 #ffccbc,6px -4px 0 0 #ffccbc,8px -4px 0 0 #ffccbc, -8px -6px 0 0 #795548,-6px -6px 0 0 #795548, -4px -6px 0 0 #ffccbc,-2px -6px 0 0 #ffccbc,0px -6px 0 0 #ffccbc,2px -6px 0 0 #ffccbc, 4px -6px 0 0 #333,6px -6px 0 0 #333,8px -6px 0 0 #333,10px -6px 0 0 #333, -8px -8px 0 0 #795548,-4px -8px 0 0 #795548,-2px -8px 0 0 #795548, -6px -8px 0 0 #ffccbc,0px -8px 0 0 #ffccbc,2px -8px 0 0 #ffccbc,4px -8px 0 0 #ffccbc,8px -8px 0 0 #ffccbc,10px -8px 0 0 #ffccbc,12px -8px 0 0 #ffccbc, 6px -8px 0 0 #333, -8px -10px 0 0 #795548,-4px -10px 0 0 #795548, -6px -10px 0 0 #ffccbc,-2px -10px 0 0 #ffccbc,0px -10px 0 0 #ffccbc,2px -10px 0 0 #ffccbc,6px -10px 0 0 #ffccbc,8px -10px 0 0 #ffccbc,10px -10px 0 0 #ffccbc, 4px -10px 0 0 #333, -6px -12px 0 0 #795548,-4px -12px 0 0 #795548,-2px -12px 0 0 #795548, 0px -12px 0 0 #ffccbc,2px -12px 0 0 #ffccbc,6px -12px 0 0 #ffccbc, 4px -12px 0 0 #333, -6px -14px 0 0 #f44336,-4px -14px 0 0 #f44336,-2px -14px 0 0 #f44336,0px -14px 0 0 #f44336,2px -14px 0 0 #f44336,4px -14px 0 0 #f44336,6px -14px 0 0 #f44336,8px -14px 0 0 #f44336,10px -14px 0 0 #f44336, -4px -16px 0 0 #f44336,-2px -16px 0 0 #f44336,0px -16px 0 0 #f44336,2px -16px 0 0 #f44336,4px -16px 0 0 #f44336, -8px 2px 0 0 #ffccbc,-6px 2px 0 0 #ffccbc,8px 2px 0 0 #ffccbc,10px 2px 0 0 #ffccbc,12px 2px 0 0 #ffccbc, -4px 2px 0 0 #f44336,-2px 2px 0 0 #f44336,0px 2px 0 0 #f44336,2px 2px 0 0 #f44336,4px 2px 0 0 #f44336,6px 2px 0 0 #f44336, -10px 4px 0 0 #ffccbc,-8px 4px 0 0 #ffccbc,-6px 4px 0 0 #ffccbc,8px 4px 0 0 #ffccbc,10px 4px 0 0 #ffccbc, -4px 4px 0 0 #2196f3, -2px 4px 0 0 #f44336,0px 4px 0 0 #f44336,2px 4px 0 0 #f44336,4px 4px 0 0 #f44336,6px 4px 0 0 #f44336, -8px 6px 0 0 #795548,-6px 6px 0 0 #795548, -4px 6px 0 0 #2196f3,-2px 6px 0 0 #2196f3,0px 6px 0 0 #2196f3,2px 6px 0 0 #2196f3,4px 6px 0 0 #2196f3,6px 6px 0 0 #2196f3,8px 6px 0 0 #2196f3, -8px 8px 0 0 #795548, -6px 8px 0 0 #2196f3,-4px 8px 0 0 #2196f3,-2px 8px 0 0 #2196f3,0px 8px 0 0 #2196f3,2px 8px 0 0 #2196f3,4px 8px 0 0 #2196f3,6px 8px 0 0 #2196f3,8px 8px 0 0 #2196f3, -10px 10px 0 0 #795548,-8px 10px 0 0 #795548, -6px 10px 0 0 #2196f3,-4px 10px 0 0 #2196f3,2px 10px 0 0 #2196f3,4px 10px 0 0 #2196f3,6px 10px 0 0 #2196f3, -10px 12px 0 0 #795548,0px 12px 0 0 #795548,2px 12px 0 0 #795548,4px 12px 0 0 #795548, 2px 14px 0 0 #795548,4px 14px 0 0 #795548,6px 14px 0 0 #795548;
+    }
+    50% {
+        background-color: #2196f3;
+        box-shadow: -6px 0px 0 0 #f44336,-4px 0px 0 0 #f44336,-2px 0px 0 0 #f44336,0px 0px 0 0 #f44336,2px 0px 0 0 #f44336,4px 0px 0 0 #f44336, -4px -2px 0 0 #ffccbc,-2px -2px 0 0 #ffccbc,0px -2px 0 0 #ffccbc,2px -2px 0 0 #ffccbc,4px -2px 0 0 #ffccbc,6px -2px 0 0 #ffccbc,8px -2px 0 0 #ffccbc, -8px -4px 0 0 #795548,-6px -4px 0 0 #795548, -4px -4px 0 0 #ffccbc,-2px -4px 0 0 #ffccbc,0px -4px 0 0 #ffccbc,2px -4px 0 0 #ffccbc, 4px -4px 0 0 #333,6px -4px 0 0 #333,8px -4px 0 0 #333,10px -4px 0 0 #333, -8px -6px 0 0 #795548,-4px -6px 0 0 #795548,-2px -6px 0 0 #795548, -6px -6px 0 0 #ffccbc,0px -6px 0 0 #ffccbc,2px -6px 0 0 #ffccbc,4px -6px 0 0 #ffccbc,8px -6px 0 0 #ffccbc,10px -6px 0 0 #ffccbc,12px -6px 0 0 #ffccbc, 6px -6px 0 0 #333, -8px -8px 0 0 #795548,-4px -8px 0 0 #795548, -6px -8px 0 0 #ffccbc,-2px -8px 0 0 #ffccbc,0px -8px 0 0 #ffccbc,2px -8px 0 0 #ffccbc,6px -8px 0 0 #ffccbc,8px -8px 0 0 #ffccbc,10px -8px 0 0 #ffccbc, 4px -8px 0 0 #333, -6px -10px 0 0 #795548,-4px -10px 0 0 #795548,-2px -10px 0 0 #795548, 0px -10px 0 0 #ffccbc,2px -10px 0 0 #ffccbc,6px -10px 0 0 #ffccbc, 4px -10px 0 0 #333, -6px -12px 0 0 #f44336,-4px -12px 0 0 #f44336,-2px -12px 0 0 #f44336,0px -12px 0 0 #f44336,2px -12px 0 0 #f44336,4px -12px 0 0 #f44336,6px -12px 0 0 #f44336,8px -12px 0 0 #f44336,10px -12px 0 0 #f44336, -4px -14px 0 0 #f44336,-2px -14px 0 0 #f44336,0px -14px 0 0 #f44336,2px -14px 0 0 #f44336,4px -14px 0 0 #f44336, -8px 2px 0 0 #f44336,-6px 2px 0 0 #f44336,-4px 2px 0 0 #f44336,-2px 2px 0 0 #f44336,4px 2px 0 0 #f44336,6px 2px 0 0 #f44336, 0px 2px 0 0 #2196f3,2px 2px 0 0 #2196f3, -8px 4px 0 0 #f44336,-6px 4px 0 0 #f44336,-4px 4px 0 0 #f44336, -2px 4px 0 0 #2196f3,0px 4px 0 0 #2196f3,4px 4px 0 0 #2196f3,6px 4px 0 0 #2196f3, 2px 4px 0 0 #ffeb3b, -8px 6px 0 0 #f44336,-6px 6px 0 0 #f44336,-4px 6px 0 0 #f44336,-2px 6px 0 0 #f44336, 0px 6px 0 0 #2196f3,2px 6px 0 0 #2196f3,4px 6px 0 0 #2196f3,6px 6px 0 0 #2196f3, -8px 8px 0 0 #f44336,-6px 8px 0 0 #f44336,-4px 8px 0 0 #f44336, -2px 8px 0 0 #ffccbc,0px 8px 0 0 #ffccbc, 2px 8px 0 0 #2196f3,4px 8px 0 0 #2196f3,6px 8px 0 0 #2196f3, -6px 10px 0 0 #2196f3,2px 10px 0 0 #2196f3,4px 10px 0 0 #2196f3, -4px 10px 0 0 #f44336, -2px 10px 0 0 #ffccbc,0px 10px 0 0 #ffccbc, -4px 12px 0 0 #2196f3,-2px 12px 0 0 #2196f3,0px 12px 0 0 #2196f3, 2px 12px 0 0 #795548,4px 12px 0 0 #795548,6px 12px 0 0 #795548, -4px 14px 0 0 #795548,-2px 14px 0 0 #795548,0px 14px 0 0 #795548,2px 14px 0 0 #795548;
+    }
+    75% {
+        background-color: #2196f3;
+        box-shadow: -14px 0px 0 0 #ffccbc,-12px 0px 0 0 #ffccbc,12px 0px 0 0 #ffccbc,14px 0px 0 0 #ffccbc,16px 0px 0 0 #ffccbc, -10px 0px 0 0 #f44336,-8px 0px 0 0 #f44336,-6px 0px 0 0 #f44336,-4px 0px 0 0 #f44336,2px 0px 0 0 #f44336,4px 0px 0 0 #f44336,6px 0px 0 0 #f44336,10px 0px 0 0 #f44336, -2px 0px 0 0 #2196f3,0px 0px 0 0 #2196f3,8px 0px 0 0 #2196f3, -10px -2px 0 0 #f44336,-8px -2px 0 0 #f44336,-6px -2px 0 0 #f44336,-4px -2px 0 0 #f44336,0px -2px 0 0 #f44336,2px -2px 0 0 #f44336,4px -2px 0 0 #f44336, -2px -2px 0 0 #2196f3,6px -2px 0 0 #2196f3, -4px -4px 0 0 #ffccbc,-2px -4px 0 0 #ffccbc,0px -4px 0 0 #ffccbc,2px -4px 0 0 #ffccbc,4px -4px 0 0 #ffccbc,6px -4px 0 0 #ffccbc,8px -4px 0 0 #ffccbc, -8px -6px 0 0 #795548,-6px -6px 0 0 #795548, -4px -6px 0 0 #ffccbc,-2px -6px 0 0 #ffccbc,0px -6px 0 0 #ffccbc,2px -6px 0 0 #ffccbc, 4px -6px 0 0 #333,6px -6px 0 0 #333,8px -6px 0 0 #333,10px -6px 0 0 #333, -8px -8px 0 0 #795548,-4px -8px 0 0 #795548,-2px -8px 0 0 #795548, -6px -8px 0 0 #ffccbc,0px -8px 0 0 #ffccbc,2px -8px 0 0 #ffccbc,4px -8px 0 0 #ffccbc,8px -8px 0 0 #ffccbc,10px -8px 0 0 #ffccbc,12px -8px 0 0 #ffccbc, 6px -8px 0 0 #333, -8px -10px 0 0 #795548,-4px -10px 0 0 #795548, -6px -10px 0 0 #ffccbc,-2px -10px 0 0 #ffccbc,0px -10px 0 0 #ffccbc,2px -10px 0 0 #ffccbc,6px -10px 0 0 #ffccbc,8px -10px 0 0 #ffccbc,10px -10px 0 0 #ffccbc, 4px -10px 0 0 #333, -6px -12px 0 0 #795548,-4px -12px 0 0 #795548,-2px -12px 0 0 #795548, 0px -12px 0 0 #ffccbc,2px -12px 0 0 #ffccbc,6px -12px 0 0 #ffccbc, 4px -12px 0 0 #333, -6px -14px 0 0 #f44336,-4px -14px 0 0 #f44336,-2px -14px 0 0 #f44336,0px -14px 0 0 #f44336,2px -14px 0 0 #f44336,4px -14px 0 0 #f44336,6px -14px 0 0 #f44336,8px -14px 0 0 #f44336,10px -14px 0 0 #f44336, -4px -16px 0 0 #f44336,-2px -16px 0 0 #f44336,0px -16px 0 0 #f44336,2px -16px 0 0 #f44336,4px -16px 0 0 #f44336, -14px 2px 0 0 #ffccbc,-12px 2px 0 0 #ffccbc,-10px 2px 0 0 #ffccbc,14px 2px 0 0 #ffccbc,16px 2px 0 0 #ffccbc, -6px 2px 0 0 #f44336,-4px 2px 0 0 #f44336,10px 2px 0 0 #f44336,12px 2px 0 0 #f44336, -2px 2px 0 0 #2196f3,0px 2px 0 0 #2196f3,2px 2px 0 0 #2196f3,4px 2px 0 0 #2196f3,6px 2px 0 0 #2196f3,8px 2px 0 0 #2196f3, -14px 4px 0 0 #ffccbc,-12px 4px 0 0 #ffccbc, -6px 4px 0 0 #2196f3,-4px 4px 0 0 #2196f3,-2px 4px 0 0 #2196f3,2px 4px 0 0 #2196f3,4px 4px 0 0 #2196f3,6px 4px 0 0 #2196f3, 0px 4px 0 0 #ffeb3b,8px 4px 0 0 #ffeb3b, 14px 4px 0 0 #795548, -8px 6px 0 0 #2196f3,-6px 6px 0 0 #2196f3,-4px 6px 0 0 #2196f3,-2px 6px 0 0 #2196f3,0px 6px 0 0 #2196f3,2px 6px 0 0 #2196f3,4px 6px 0 0 #2196f3,6px 6px 0 0 #2196f3,8px 6px 0 0 #2196f3,10px 6px 0 0 #2196f3, 12px 6px 0 0 #795548,14px 6px 0 0 #795548, -10px 8px 0 0 #2196f3,-8px 8px 0 0 #2196f3,-6px 8px 0 0 #2196f3,-4px 8px 0 0 #2196f3,-2px 8px 0 0 #2196f3,0px 8px 0 0 #2196f3,2px 8px 0 0 #2196f3,4px 8px 0 0 #2196f3,6px 8px 0 0 #2196f3,8px 8px 0 0 #2196f3,10px 8px 0 0 #2196f3, 12px 8px 0 0 #795548,14px 8px 0 0 #795548, -12px 10px 0 0 #795548,-10px 10px 0 0 #795548,12px 10px 0 0 #795548,14px 10px 0 0 #795548, -8px 10px 0 0 #2196f3,-6px 10px 0 0 #2196f3,-4px 10px 0 0 #2196f3,6px 10px 0 0 #2196f3,8px 10px 0 0 #2196f3,10px 10px 0 0 #2196f3, -12px 12px 0 0 #795548,-10px 12px 0 0 #795548,-8px 12px 0 0 #795548, -10px 14px 0 0 #795548,-8px 14px 0 0 #795548,-6px 14px 0 0 #795548;
+    }
+    100% {
+        background-color: #2196f3;
+        box-shadow: -6px 0px 0 0 #f44336,-4px 0px 0 0 #f44336,-2px 0px 0 0 #f44336,0px 0px 0 0 #f44336,2px 0px 0 0 #f44336,4px 0px 0 0 #f44336, -4px -2px 0 0 #ffccbc,-2px -2px 0 0 #ffccbc,0px -2px 0 0 #ffccbc,2px -2px 0 0 #ffccbc,4px -2px 0 0 #ffccbc,6px -2px 0 0 #ffccbc,8px -2px 0 0 #ffccbc, -8px -4px 0 0 #795548,-6px -4px 0 0 #795548, -4px -4px 0 0 #ffccbc,-2px -4px 0 0 #ffccbc,0px -4px 0 0 #ffccbc,2px -4px 0 0 #ffccbc, 4px -4px 0 0 #333,6px -4px 0 0 #333,8px -4px 0 0 #333,10px -4px 0 0 #333, -8px -6px 0 0 #795548,-4px -6px 0 0 #795548,-2px -6px 0 0 #795548, -6px -6px 0 0 #ffccbc,0px -6px 0 0 #ffccbc,2px -6px 0 0 #ffccbc,4px -6px 0 0 #ffccbc,8px -6px 0 0 #ffccbc,10px -6px 0 0 #ffccbc,12px -6px 0 0 #ffccbc, 6px -6px 0 0 #333, -8px -8px 0 0 #795548,-4px -8px 0 0 #795548, -6px -8px 0 0 #ffccbc,-2px -8px 0 0 #ffccbc,0px -8px 0 0 #ffccbc,2px -8px 0 0 #ffccbc,6px -8px 0 0 #ffccbc,8px -8px 0 0 #ffccbc,10px -8px 0 0 #ffccbc, 4px -8px 0 0 #333, -6px -10px 0 0 #795548,-4px -10px 0 0 #795548,-2px -10px 0 0 #795548, 0px -10px 0 0 #ffccbc,2px -10px 0 0 #ffccbc,6px -10px 0 0 #ffccbc, 4px -10px 0 0 #333, -6px -12px 0 0 #f44336,-4px -12px 0 0 #f44336,-2px -12px 0 0 #f44336,0px -12px 0 0 #f44336,2px -12px 0 0 #f44336,4px -12px 0 0 #f44336,6px -12px 0 0 #f44336,8px -12px 0 0 #f44336,10px -12px 0 0 #f44336, -4px -14px 0 0 #f44336,-2px -14px 0 0 #f44336,0px -14px 0 0 #f44336,2px -14px 0 0 #f44336,4px -14px 0 0 #f44336, -8px 2px 0 0 #f44336,-6px 2px 0 0 #f44336,-4px 2px 0 0 #f44336,-2px 2px 0 0 #f44336,4px 2px 0 0 #f44336,6px 2px 0 0 #f44336, 0px 2px 0 0 #2196f3,2px 2px 0 0 #2196f3, -8px 4px 0 0 #f44336,-6px 4px 0 0 #f44336,-4px 4px 0 0 #f44336, -2px 4px 0 0 #2196f3,0px 4px 0 0 #2196f3,4px 4px 0 0 #2196f3,6px 4px 0 0 #2196f3, 2px 4px 0 0 #ffeb3b, -8px 6px 0 0 #f44336,-6px 6px 0 0 #f44336,-4px 6px 0 0 #f44336,-2px 6px 0 0 #f44336, 0px 6px 0 0 #2196f3,2px 6px 0 0 #2196f3,4px 6px 0 0 #2196f3,6px 6px 0 0 #2196f3, -8px 8px 0 0 #f44336,-6px 8px 0 0 #f44336,-4px 8px 0 0 #f44336, -2px 8px 0 0 #ffccbc,0px 8px 0 0 #ffccbc, 2px 8px 0 0 #2196f3,4px 8px 0 0 #2196f3,6px 8px 0 0 #2196f3, -6px 10px 0 0 #2196f3,2px 10px 0 0 #2196f3,4px 10px 0 0 #2196f3, -4px 10px 0 0 #f44336, -2px 10px 0 0 #ffccbc,0px 10px 0 0 #ffccbc, -4px 12px 0 0 #2196f3,-2px 12px 0 0 #2196f3,0px 12px 0 0 #2196f3, 2px 12px 0 0 #795548,4px 12px 0 0 #795548,6px 12px 0 0 #795548, -4px 14px 0 0 #795548,-2px 14px 0 0 #795548,0px 14px 0 0 #795548,2px 14px 0 0 #795548;
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0.9); }
+
+    100% {
+        box-shadow: 2px 2px 2px 2px rgba(195, 195, 195, 0.6); }
+}
+

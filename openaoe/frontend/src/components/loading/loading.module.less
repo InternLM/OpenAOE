@@ -1,0 +1,38 @@
+@triangle-width: 32px;
+.loading-icon {
+    -webkit-animation: aoe 1.2s infinite ease-in-out;
+    -o-animation: aoe 1.2s infinite ease-in-out;
+    animation: aoe 1.2s infinite ease-in-out;
+}
+.home-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+@keyframes aoe {
+    0% {
+        width: 0;
+        height: 0;
+        border-width: 0 @triangle-width calc(1.732 * @triangle-width) @triangle-width;
+        border-style: solid;
+        border-color: transparent transparent var(--user-chat-bg) transparent;
+    }
+    40% {
+        background: var(--user-chat-bg);
+        border-width: @triangle-width;
+        border-radius: 50%;
+    }
+    67% {
+        background: var(--user-chat-bg);
+        border-width: @triangle-width;
+        border-radius: 4px;
+    }
+    100% {
+        width: 0;
+        height: 0;
+        border-width: 0 @triangle-width calc(1.732 * @triangle-width) @triangle-width;
+        border-style: solid;
+        border-color: transparent transparent var(--user-chat-bg) transparent;
+    }
+}

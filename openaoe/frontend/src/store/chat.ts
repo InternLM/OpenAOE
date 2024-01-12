@@ -128,7 +128,7 @@ export const useChatStore = create<ChatStore>()(
             },
             retry(bot: '', model: '') {
                 const modelName = model || get().lastBotMessage(bot).model || '';
-                const provider = ALL_MODELS.find((bot) => bot.model === model).provider;
+                const provider = ALL_MODELS.find((bot) => bot.model === modelName).provider;
                 const text = get().lastUserMessage(bot).text;
                 if ((get().lastMessage(bot).id === get().lastBotMessage(bot).id) && get().getSession(bot).clearContextIndex !== get().getSession(bot).messages.length) {
                     // 如果最后一条消息是bot的回复且当前没有清空上下文

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from openaoe.backend.model.dto.OpenaiDto import OpenaiCompletionReqDto, OpenaiChatStreamReqDto, \
-    OpenaiChatCompletionV2ReqDto
+from openaoe.backend.model.Openai import OpenaiCompletionBody, OpenaiChatStreamBody, \
+    OpenaiChatCompletionV2Body
 from openaoe.backend.service.service_openai import completions, chat_completion_stream, chat_completion_svc, \
     proxy_files, proxy_assistants, proxy_threads, proxy_messages, proxy_runs
 
@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.post("/v1/text/chat", tags=["OpenAI"])
-async def openai_chat(request: Request, body: OpenaiChatCompletionV2ReqDto):
+async def openai_chat(request: Request, body: OpenaiChatCompletionV2Body):
     """
     OpenAI ChatCompletion
     """
@@ -18,7 +18,7 @@ async def openai_chat(request: Request, body: OpenaiChatCompletionV2ReqDto):
 
 
 @router.post("/v1/completions", include_in_schema=False, tags=["OpenAI"])
-async def openai_completions(request: Request, body: OpenaiCompletionReqDto):
+async def openai_completions(request: Request, body: OpenaiCompletionBody):
     """
     OpenAI completion
     """
@@ -27,7 +27,7 @@ async def openai_completions(request: Request, body: OpenaiCompletionReqDto):
 
 
 @router.post("/v1/text/chat-stream", tags=["OpenAI"])
-async def openai_chat_stream(request: Request, req_dto: OpenaiChatStreamReqDto):
+async def openai_chat_stream(request: Request, req_dto: OpenaiChatStreamBody):
     """
     OpenAI ChatCompletion with Stream
     """

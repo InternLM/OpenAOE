@@ -12,7 +12,7 @@ class Messages(BaseModel):
     text: str
 
 
-class MinimaxChatCompletionReqDto(BaseModel):
+class MinimaxChatCompletionBody(BaseModel):
     model: Optional[str] = 'abab5-chat'
     prompt: str
     role_meta: Optional[Union[RoleMeta, None]] = None

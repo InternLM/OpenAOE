@@ -32,7 +32,7 @@ class Payload(BaseModel):
     message: Message
 
 
-class XunfeiSparkChatReqDto(BaseModel):
+class XunfeiSparkChatBody(BaseModel):
     header: Optional[Header] = None
     parameter: Parameter
     payload: Payload

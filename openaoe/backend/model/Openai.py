@@ -4,6 +4,7 @@ from openai._types import NOT_GIVEN
 
 
 class Context(BaseModel):
+    send_type: str = 'assistant'
     sender_type: str = "assistant"
     text: str = ''
 
@@ -11,6 +12,50 @@ class Context(BaseModel):
 class RoleMeta(BaseModel):
     user_name: Optional[str] = 'user'
     bot_name: Optional[str] = 'assistant'
+
+
+class FunctionProperty(BaseModel):
+    type: str
+    description: Optional[str] = ''
+    enum: Optional[List[object]] = []
+
+
+class FunctionParameter(BaseModel):
+    type: str
+    required: Optional[List[str]]
+    properties: Optional[Dict[str, FunctionProperty]]
+
+
+class Function(BaseModel):
+    name: str
+    description: Optional[str] = ''
+    parameters: Optional[FunctionParameter]
+
+
+class FunctionCall(BaseModel):
+    name: str
+    arguments: str
+
+
+class OpenaiChatCompletionBody(BaseModel):
+    """
+        see https://platform.openai.com/docs/api-reference/chat/create
+    """
+    model: Optional[str] = 'gpt-3.5-turbo'
+    role_meta: Optional[RoleMeta]
+    prompt: Optional[str]
+    messages: Optional[List[Context]]
+    temperature: Optional[float] = 1
+    top_p: Optional[float] = 1
+    n: Optional[int] = 1
+    stop: Optional[Union[str, List]] = None
+    presence_penalty: Optional[float] = 0
+    frequency_penalty: Optional[float] = 0
+    user: Optional[str] = None
+    stream: Optional[bool] = False
+    timeout: Optional[int] = 600
+    functions: Optional[List[Function]] = NOT_GIVEN
+    function_call: Optional[object] = NOT_GIVEN
 
 
 class TextMsg(BaseModel):
@@ -31,31 +76,11 @@ class ImgMsg(BaseModel):
 class Message(BaseModel):
     role: str
     content: Optional[Union[str, List[Union[TextMsg, ImgMsg]]]] = ''
+    function_call: Optional[FunctionCall] = None
+    name: Optional[str] = None
 
 
-class InternlmChatCompletionReqDto(BaseModel):
-    """
-        see https://platform.openai.com/docs/api-reference/chat/create
-    """
-    model: Optional[str] = 'internlm-chat-7b'
-    role_meta: Optional[RoleMeta]
-    prompt: Optional[str]
-    messages: List[Context]
-    temperature: Optional[float] = 0.7
-    top_p: Optional[float] = 1
-    n: Optional[int] = 1
-    stop: Optional[Union[str, List]] = "false"
-    presence_penalty: Optional[float] = 0
-    frequency_penalty: Optional[float] = 0
-    user: Optional[str] = NOT_GIVEN
-    stream: Optional[bool] = False
-    timeout: Optional[int] = 600
-    session_id: Optional[int] = -1
-    ignore_eos: Optional[bool] = False
-    max_tokens: Optional[int] = 1024
-
-
-class OpenaiChatCompletionV2ReqDto(BaseModel):
+class OpenaiChatCompletionV2Body(BaseModel):
     model: Optional[str] = 'gpt-3.5-turbo'
     messages: Union[str, List[Message]]
     temperature: Optional[float] = 1
@@ -67,9 +92,11 @@ class OpenaiChatCompletionV2ReqDto(BaseModel):
     presence_penalty: Optional[float] = NOT_GIVEN
     frequency_penalty: Optional[float] = NOT_GIVEN
     timeout: Optional[int] = 600
+    functions: Optional[List[Function]] = NOT_GIVEN
+    function_call: Optional[object] = NOT_GIVEN
 
 
-class OpenaiCompletionReqDto(BaseModel):
+class OpenaiCompletionBody(BaseModel):
     """
         see https://platform.openai.com/docs/api-reference/completions/create
     """
@@ -89,7 +116,7 @@ class OpenaiCompletionReqDto(BaseModel):
     timeout: Optional[int] = 600
 
 
-class OpenaiChatStreamReqDto(BaseModel):
+class OpenaiChatStreamBody(BaseModel):
     model: Optional[str] = 'gpt-3.5-turbo'
     prompt: str
     temperature: Optional[float] = 1
@@ -102,7 +129,7 @@ class OpenaiChatStreamReqDto(BaseModel):
     # function_call: Optional[object] = 'auto'
 
 
-class OpenaiCheckReqDto(BaseModel):
+class OpenaiCheckBody(BaseModel):
     model: Optional[str] = 'gpt-3.5-turbo'
     prompt: str
     api_key: str

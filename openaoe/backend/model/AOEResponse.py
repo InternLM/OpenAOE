@@ -2,13 +2,13 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class ReturnBase(BaseModel):
+class AOEResponse(BaseModel):
     msg: Optional[str] = "ok"
     msgCode: Optional[str] = "10000"
     data: Optional[object] = None
 
 
-class ProxyReturnBase(BaseModel):
+class AOEProxyResponse(BaseModel):
     statusCode: Optional[int] = 200
     headers: Optional[dict] = {}
     body: Optional[object] = None

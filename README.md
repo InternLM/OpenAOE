@@ -54,7 +54,7 @@ pip install -U open-aoe
 ```
 ### **Start**
 ```shell
-open-aoe -f /path/to/your/config.yaml
+open-aoe -f /path/to/your/config-template.yaml
 ```
 
 ## Run by docker
@@ -75,7 +75,7 @@ docker build . -f docker/Dockerfile -t open-aoe:latest
 
 ### **Start**
 ```shell
-docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name Open-AOE open-aoe:latest
+docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config-template.yaml --name Open-AOE open-aoe:latest
 ```
 
 ## Run by source code

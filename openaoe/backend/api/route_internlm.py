@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Request
 
-from openaoe.backend.model.dto.InternlmDto import InternlmChatCompletionReqDto
+from openaoe.backend.model.Internlm import InternlmChatCompletionBody
 from openaoe.backend.service.service_internlm import chat_completion_v1, chat_completion_stream_v1
 
 router = APIRouter()
 
 
 @router.post("/v1/chat/completions", tags=["Internlm"])
-async def internlm_chat_completions_v1(request: Request, body: InternlmChatCompletionReqDto):
+async def internlm_chat_completions_v1(request: Request, body: InternlmChatCompletionBody):
     """
     Internlm ChatCompletion
     """
@@ -16,7 +16,7 @@ async def internlm_chat_completions_v1(request: Request, body: InternlmChatCompl
 
 
 @router.post("/v1/chat/completions-stream", tags=["Internlm"])
-async def internlm_chat_completions_v1(request: Request, body: InternlmChatCompletionReqDto):
+async def internlm_chat_completions_v1(request: Request, body: InternlmChatCompletionBody):
     """
     Internlm ChatCompletion
     """

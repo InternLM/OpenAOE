@@ -1,9 +1,14 @@
 #!/bin/bash
 
 old_version=$(grep -Po "(?<=version=')[^']+(?=')" setup.py)
-echo "Current version is $old_version. New version?"
+echo "Current version is $old_version. New version?(enter to use the current version)"
 read new_version
-sed -i "s/version='$old_version'/version='$new_version'/g" setup.py
+if [[ -z $new_version ]]
+then
+    new_version=$old_version
+else
+    sed -i "s/version='$old_version'/version='$new_version'/g" setup.py
+fi
 
 read -p "frontend updates? (y/[n])" -r
 if [[ $REPLY =~ ^[Yy]$ ]]
@@ -12,6 +17,7 @@ then
     cd openaoe/frontend
     npm install
     npm run build
+    cd ../..
 fi
 
 rm -rf build/* dist/*

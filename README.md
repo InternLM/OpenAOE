@@ -48,6 +48,8 @@ We will provide three different ways to run open-aoe: run by pip， run by docke
 
 
 ## Run by pip 
+> [!TIP]
+> Require python >= 3.9
 ### **Install**
 ```shell
 pip install -U open-aoe 

@@ -1,7 +1,7 @@
 FROM node:18-alpine AS frontend-builder
 WORKDIR /app
 COPY openaoe/frontend .
-RUN npm install && npm run build
+#RUN npm install && npm run build
 
 
 FROM python:3.9

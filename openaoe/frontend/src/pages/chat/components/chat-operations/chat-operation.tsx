@@ -8,7 +8,7 @@ import { createMessage, useChatStore } from '@/store/chat.ts';
 import { useBotStore } from '@/store/bot.ts';
 
 interface ChatOperationProps {
-    botName: string;
+    modelName: string;
 }
 
 const EraserIcon = () => {
@@ -120,15 +120,15 @@ const RetryIcon = () => {
     );
 };
 const ChatOperation = (props: ChatOperationProps) => {
-    const { botName } = props;
+    const { modelName } = props;
     const chatStore = useChatStore();
     const { sessions } = chatStore;
-    const currSession = sessions.find((session) => session.name === botName);
+    const currSession = sessions.find((session) => session.name === modelName);
     const botStore = useBotStore();
 
     // 清空session上下文
     const handleClearContext = () => {
-        const sessionIdx = chatStore.sessions.findIndex((session) => session.name === botName);
+        const sessionIdx = chatStore.sessions.findIndex((session) => session.name === modelName);
         const newSession = chatStore.sessions[sessionIdx];
         if (chatStore.lastMessage(newSession.name).sender_type === CLEAR_CONTEXT) return;
 
@@ -147,13 +147,13 @@ const ChatOperation = (props: ChatOperationProps) => {
 
     // 清空session历史记录
     const handleClearHistory = () => {
-        const sessionIdx = sessions.findIndex((session) => session.name === botName);
+        const sessionIdx = sessions.findIndex((session) => session.name === modelName);
 
         chatStore.updateSession(sessionIdx, { messages: [], clearContextIndex: 0 });
     };
 
     const handleStopStream = () => {
-        chatStore.closeController(botName);
+        chatStore.closeController(modelName);
     };
 
     useEffect(() => {
@@ -165,7 +165,7 @@ const ChatOperation = (props: ChatOperationProps) => {
     return (
         <div className={styles.homeOperation}>
             {/** if the last message is generating，which means: stream=true */}
-            {chatStore.lastMessage(botName).stream && (
+            {chatStore.lastMessage(modelName).stream && (
                 <Tooltip title="Stop generating" className={styles.opBtn}>
                     <div {...getNeedEventCallback(handleStopStream)}>
                         <img
@@ -178,7 +178,7 @@ const ChatOperation = (props: ChatOperationProps) => {
                 </Tooltip>
             )}
             {/** if message list is not empty && stream=false */}
-            {!!currSession.messages?.length && !chatStore.lastMessage(botName).stream && (
+            {!!currSession.messages?.length && !chatStore.lastMessage(modelName).stream && (
                 <>
                     <Tooltip title="Clear context" className={styles.opBtn}>
                         <div {...getNeedEventCallback(handleClearContext)}>

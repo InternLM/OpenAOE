@@ -73,7 +73,13 @@ docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name O
 ```shell
 git clone https://github.com/internlm/Open-AOE
 ```
-2. [optional] build the frontend projec
+2. (optional) build the frontend project
+```shell
+cd Open-AOE/openaoe/frontend
+npm i
+npm run build
+```
+
 
 - Start
 ```shell

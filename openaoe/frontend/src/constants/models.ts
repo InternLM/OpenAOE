@@ -74,13 +74,6 @@ export const ALL_MODELS: BotState[] = [
         border: '#be1313',
         background: 'linear-gradient(180deg, rgba(207, 72, 72, 0.15) 0%, rgba(151, 43, 43, 0.7) 53.12%, #742828 100%)',
     },
-    // {
-    //     provider: 'baidu',
-    //     model: [''],
-    //     avatar: baidu,
-    //     border: '#4e6ef2',
-    //     background: 'linear-gradient(180deg, rgba(39, 83, 123, 0.15) 0%, #2548df 100%)',
-    // },
     {
         provider: 'spark',
         model: '',

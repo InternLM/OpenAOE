@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from ..model.dto.MinimaxDto import MinimaxChatCompletionReqDto
-from ..service.service_minimax import chat_completion, minimax_chat_stream_svc
+from openaoe.backend.model.dto.MinimaxDto import MinimaxChatCompletionReqDto
+from openaoe.backend.service.service_minimax import chat_completion, minimax_chat_stream_svc
 
 router = APIRouter()
 

@@ -7,12 +7,12 @@ from urllib.parse import urlencode
 from fastapi import Request
 from websocket import create_connection
 
-from ..config.biz_config import get_model_configuration, get_base_url
-from ..config.constant import VENDOR_XUNFEI
-from ..model.dto.ReturnBase import ReturnBase
-from ..model.dto.XunfeiDto import XunfeiSparkChatReqDto
-from ..util.log import log
-from ..util.time_util import get_current_date
+from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
+from openaoe.backend.config.constant import VENDOR_XUNFEI
+from openaoe.backend.model.dto.ReturnBase import ReturnBase
+from openaoe.backend.model.dto.XunfeiDto import XunfeiSparkChatReqDto
+from openaoe.backend.util.log import log
+from openaoe.backend.util.time_util import get_current_date
 
 logger = log(__name__)
 

@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 from time import mktime
 from wsgiref.handlers import format_date_time
 
-from ..util.log import logger
-from ..config.constant import DATE_PATTERN
+from openaoe.backend.util.log import logger
+from openaoe.backend.config.constant import DATE_PATTERN
 
 
 def get_current_date() -> str:

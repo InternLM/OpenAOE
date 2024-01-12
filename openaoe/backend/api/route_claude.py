@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from ..model.dto.ClaudeDto import ClaudeChatReqDto
-from ..service.service_claude import claude_chat_anthropic, claude_chat_stream_svc
+from openaoe.backend.model.dto.ClaudeDto import ClaudeChatReqDto
+from openaoe.backend.service.service_claude import claude_chat_anthropic, claude_chat_stream_svc
 
 router = APIRouter()
 

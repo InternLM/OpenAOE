@@ -4,11 +4,11 @@ import requests
 from fastapi.encoders import jsonable_encoder
 from sse_starlette.sse import EventSourceResponse
 
-from ..config.biz_config import get_base_url
-from ..config.constant import *
-from ..model.dto.InternlmDto import InternlmChatCompletionReqDto
-from ..model.dto.ReturnBase import ReturnBase
-from ..util.log import log
+from openaoe.backend.config.biz_config import get_base_url
+from openaoe.backend.config.constant import *
+from openaoe.backend.model.dto.InternlmDto import InternlmChatCompletionReqDto
+from openaoe.backend.model.dto.ReturnBase import ReturnBase
+from openaoe.backend.util.log import log
 
 logger = log(__name__)
 

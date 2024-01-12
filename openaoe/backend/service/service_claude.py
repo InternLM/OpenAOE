@@ -7,11 +7,11 @@ from fastapi import Request
 from slack_sdk.errors import SlackApiError
 from sse_starlette.sse import EventSourceResponse
 
-from ..config.biz_config import get_api_key
-from ..config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
-from ..config.constant import VENDOR_CLAUDE
-from ..model.dto.ClaudeDto import ClaudeChatReqDto, ClaudeMessage
-from ..model.dto.ReturnBase import ReturnBase
+from openaoe.backend.config.biz_config import get_api_key
+from openaoe.backend.config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
+from openaoe.backend.config.constant import VENDOR_CLAUDE
+from openaoe.backend.model.dto.ClaudeDto import ClaudeChatReqDto, ClaudeMessage
+from openaoe.backend.model.dto.ReturnBase import ReturnBase
 
 
 def send_message(client, channel, text):

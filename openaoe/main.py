@@ -7,16 +7,16 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import HTMLResponse
 
-from backend.api.route_claude import router as claude
-from backend.api.route_google import router as google
-from backend.api.route_internlm import router as internlm
-from backend.api.route_minimax import router as minimax
-from backend.api.route_openai import router as openai
-from backend.api.route_xunfei import router as xunfei
-from backend.config.biz_config import app_abs_path, img_out_path
-from backend.config.biz_config import load_config
-from backend.util.log import log
-from backend.util.str_util import safe_join
+from openaoe.backend.api.route_claude import router as claude
+from openaoe.backend.api.route_google import router as google
+from openaoe.backend.api.route_internlm import router as internlm
+from openaoe.backend.api.route_minimax import router as minimax
+from openaoe.backend.api.route_openai import router as openai
+from openaoe.backend.api.route_xunfei import router as xunfei
+from openaoe.backend.config.biz_config import app_abs_path, img_out_path
+from openaoe.backend.config.biz_config import load_config
+from openaoe.backend.util.log import log
+from openaoe.backend.util.str_util import safe_join
 
 logger = log(__name__)
 

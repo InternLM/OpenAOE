@@ -10,8 +10,8 @@ from sse_starlette.sse import EventSourceResponse
 from openaoe.backend.config.biz_config import get_api_key
 from openaoe.backend.config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
 from openaoe.backend.config.constant import VENDOR_CLAUDE
-from openaoe.backend.model.dto.ClaudeDto import ClaudeChatReqDto, ClaudeMessage
-from openaoe.backend.model.dto.ReturnBase import ReturnBase
+from openaoe.backend.model.Claude import ClaudeChatBody, ClaudeMessage
+from openaoe.backend.model.AOEResponse import AOEResponse
 
 
 def send_message(client, channel, text):
@@ -47,11 +47,11 @@ def find_direct_message_channel(client, user_id):
         print(f"Error opening DM channel: {e}")
 
 
-def claude_chat_anthropic(request: Request, req_dto: ClaudeChatReqDto):
+def claude_chat_anthropic(request: Request, req_dto: ClaudeChatBody):
     api_key = get_api_key(VENDOR_CLAUDE)
     prompt = gen_prompt(req_dto.prompt, req_dto.messages)
     if not prompt or len(prompt) == 0:
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data="prompt or messages must be set"
@@ -65,21 +65,21 @@ def claude_chat_anthropic(request: Request, req_dto: ClaudeChatReqDto):
             prompt=f"{HUMAN_PROMPT} {prompt}{AI_PROMPT}",
             temperature=req_dto.temperature
         )
-        return ReturnBase(data=completion)
+        return AOEResponse(data=completion)
     except Exception as e:
         print(f"claude-chat failed: {e}")
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)
         )
 
 
-def claude_chat_stream_svc(request, req_dto: ClaudeChatReqDto):
+def claude_chat_stream_svc(request, req_dto: ClaudeChatBody):
     api_key = get_api_key(VENDOR_CLAUDE)
     prompt = gen_prompt(req_dto.prompt, req_dto.messages)
     if not prompt or len(prompt) == 0:
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data="prompt or messages must be set"

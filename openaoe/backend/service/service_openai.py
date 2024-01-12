@@ -8,8 +8,8 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.dto.OpenaiDto import OpenaiChatCompletionReqDto, OpenaiCompletionReqDto, OpenaiChatCompletionV2ReqDto
-from openaoe.backend.model.dto.ReturnBase import ReturnBase, ProxyReturnBase
+from openaoe.backend.model.Openai import OpenaiChatCompletionBody, OpenaiCompletionBody, OpenaiChatCompletionV2Body
+from openaoe.backend.model.AOEResponse import AOEResponse, AOEProxyResponse
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
@@ -45,7 +45,7 @@ def get_req_params(req_dto, request):
     return model, messages, temperature, api_base, api_key
 
 
-def get_req_params_v2(req_dto: OpenaiChatCompletionV2ReqDto, request):
+def get_req_params_v2(req_dto: OpenaiChatCompletionV2Body, request):
     model = req_dto.model
     messages = req_dto.messages
     temperature = req_dto.temperature
@@ -61,7 +61,7 @@ def get_req_params_v2(req_dto: OpenaiChatCompletionV2ReqDto, request):
     return model, messages, temperature, max_tokens, top_p, n, presence_penalty, frequency_penalty, api_base, api_key
 
 
-def completions(request: Request, req_dto: OpenaiCompletionReqDto):
+def completions(request: Request, req_dto: OpenaiCompletionBody):
     """
     model: text-davinci-003, text-davinci-002, text-curie-001, text-babbage-001, text-ada-001
     """
@@ -97,11 +97,11 @@ def completions(request: Request, req_dto: OpenaiCompletionReqDto):
             best_of=best_of,
             timeout=req_dto.timeout
         )
-        base = ReturnBase(
+        base = AOEResponse(
             data=res.parse()
         )
     except Exception as e:
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)
@@ -109,7 +109,7 @@ def completions(request: Request, req_dto: OpenaiCompletionReqDto):
     return base
 
 
-def chat_completion_svc(request: Request, req_dto: OpenaiChatCompletionV2ReqDto):
+def chat_completion_svc(request: Request, req_dto: OpenaiChatCompletionV2Body):
     model, messages, temperature, max_tokens, top_p, n, presence_penalty, frequency_penalty, api_base, api_key = get_req_params_v2(
         req_dto, request)
     msgs = []
@@ -142,12 +142,12 @@ def chat_completion_svc(request: Request, req_dto: OpenaiChatCompletionV2ReqDto)
             function_call=req_dto.function_call
         )
     except Exception as e:
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)
         )
-    base = ReturnBase(
+    base = AOEResponse(
         data=res.parse()
     )
     return base
@@ -281,7 +281,7 @@ async def proxy_openai(request: Request, vendor_prefix):
     if "content-type" in headers and "multipart/form-data" in headers["content-type"]:
         body_str = "image"
 
-    response = ProxyReturnBase()
+    response = AOEProxyResponse()
     api_key = get_api_key(VENDOR_OPENAI)
 
     headers["Authorization"] = f"Bearer {api_key}"

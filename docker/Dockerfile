@@ -14,4 +14,4 @@ ENV CONFIG_PATH=/app/config.yaml
 EXPOSE 10099
 CMD ["python", "-u", "/app/main.py", "-f", "/app/config.yaml"]
 
-# docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name open-aoe open-aoe:latest
+# docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config-template.yaml --name open-aoe open-aoe:latest

@@ -6,14 +6,14 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.dto.InternlmDto import InternlmChatCompletionReqDto
-from openaoe.backend.model.dto.ReturnBase import ReturnBase
+from openaoe.backend.model.Internlm import InternlmChatCompletionBody
+from openaoe.backend.model.AOEResponse import AOEResponse
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
 
 
-def get_req_params_v2(req_dto: InternlmChatCompletionReqDto):
+def get_req_params_v2(req_dto: InternlmChatCompletionBody):
     model = req_dto.model
     messages = req_dto.messages
     temperature = req_dto.temperature
@@ -28,7 +28,7 @@ def get_req_params_v2(req_dto: InternlmChatCompletionReqDto):
     return model, messages, temperature, max_tokens, top_p, n, presence_penalty, frequency_penalty, api_base, stream, role_meta
 
 
-def chat_completion_v1(request, req_dto: InternlmChatCompletionReqDto):
+def chat_completion_v1(request, req_dto: InternlmChatCompletionBody):
     messages = req_dto.messages
     msgs = []
     for msg in messages:
@@ -71,12 +71,12 @@ def chat_completion_v1(request, req_dto: InternlmChatCompletionReqDto):
     else:
         res = requests.post(url, headers=headers, json=data)
         if res and res.status_code == 200:
-            base = ReturnBase(
+            base = AOEResponse(
                 data=res.json()
             )
             return base
         else:
-            return ReturnBase(
+            return AOEResponse(
                 data="request failed"
             )
 

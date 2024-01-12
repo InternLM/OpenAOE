@@ -79,14 +79,7 @@ def main():
     logger.info(f"your config file is: {config_path.file}")
     load_config(config_path.file)
 
-    import uvicorn
-    uvicorn.run(
-        app,
-        host='0.0.0.0',
-        port=10099,
-        timeout_keep_alive=600,
-        workers=1
-    )
+    os.system("gunicorn openaoe.main:app -w 3 -k uvicorn.workers.UvicornWorker --preload --bind 0.0.0.0:10099 -t 600")
 
 
 if __name__ == "__main__":

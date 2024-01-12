@@ -13,8 +13,8 @@ def recursive_files(base_dir):
 
 setup(
     name='open-aoe',
-    version='0.0.1-post45',
-    description='AOE (All yOu nEed) retrieves answers from different LLM in parallel',
+    version='0.0.1-post63',
+    description='LLM Group Chat Framework: chat with multiple LLMs at the same time',
     long_description=utils.get_file_content("README.md"),
     long_description_content_type='text/markdown',
     author='arkmon',

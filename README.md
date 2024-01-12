@@ -44,50 +44,60 @@ AOE can help large model algorithm researchers, evaluators, engineering develope
 
 
 # Quick Run
-We will provide 3 different ways to run open-aoe: run by pip， run by docker and run by source code as well.
+We will provide three different ways to run open-aoe: run by pip， run by docker and run by source code as well.
 
 
-## Run by pip
-- Install
+## Run by pip 
+### **Install**
 ```shell
-pip install open-aoe
+pip install -U open-aoe 
 ```
-- Start
+### **Start**
 ```shell
 open-aoe -f /path/to/your/config.yaml
 ```
 
 ## Run by docker
-- Install
+### **Install**
+
+There are two ways to get the Open-AOE docker image by:
+1. pull the open-aoe docker image
 ```shell
 docker pull open-aoe:latest
 ```
-- Start
+
+2. or build a docker image
+```shell
+git clone https://github.com/internlm/Open-AOE
+cd open-aoe
+docker build . -f docker/Dockerfile -t open-aoe:latest
+```
+
+### **Start**
 ```shell
 docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name Open-AOE open-aoe:latest
 ```
 
 ## Run by source code
-- Install
+### **Install**
 1. clone this project
 ```shell
 git clone https://github.com/internlm/Open-AOE
 ```
-2. (optional) build the frontend project
+2. [_optional_] build the frontend project when the frontend codes are changed
 ```shell
-cd Open-AOE/openaoe/frontend
-npm i
+cd open-aoe/openaoe/frontend
+npm install
 npm run build
 ```
 
 
-- Start
+### **Start**
 ```shell
-cd Open-AOE/openaoe
+cd open-aoe/openaoe
 pip install -r backend/requirements.txt
-python main.py -f /path/to/your/config.yaml
+python -m main
 ```
-- 
 
 
 > [!TIP]
@@ -98,15 +108,21 @@ python main.py -f /path/to/your/config.yaml
 
 
 #  Tech Introduction
-> **You are always welcome to fork this project.**
+> **You are always welcome to fork this project and contribute your work**
 
-If you want to add more LLMs/features based on Open-AOE, the following info might be helpful.
+If you want to add more LLMs' APIs or features based on Open-AOE, the following info might be helpful.
 
 ## Tech Stack
 The technology stack we use includes:
 
-- Backend framework based on python + fastapi;
-- Frontend framework based on typescript + Sealion-Client (encapsulated based on React) + Sealion-UI.
+1. Backend framework based on python + fastapi;
+2. Frontend framework based on typescript + Sealion-Client (encapsulated based on React) + Sealion-UI.
+3. Build tools:
+   1. conda: quickly create a virtual python env to install necessary packages
+   2. npm: build the frontend project
+
+> [!TIP]
+> The build tools can be installed by [sealion-cli](https://github.com/opensealion/sealion-cli) by `pip install -U sealion-cli`
 
 ## Organization of the Repo
 - Frontend code in `openaoe/frontend`

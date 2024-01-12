@@ -44,47 +44,63 @@ AOE 可以帮助大模型算法研究、评测、工程开发人员甚至非专�
 # 快速安装
 我们将提供 3 种不同的方式安装：基于 pip、基于 docker 以及基于源代码，实现开箱即用。
 
-
 ## 基于 pip
-- 安装：
+### **安装**
 ```shell
-pip install open-aoe
+pip install -U open-aoe 
 ```
-
-- 启动：
+### **运行**
 ```shell
 open-aoe -f /path/to/your/config.yaml
 ```
 
 ## 基于 docker
-- 安装：
+### **安装**
+有两种方式获取 Open-AOE 的 docker 镜像：
+1. 官方拉取
 ```shell
 docker pull open-aoe:latest
 ```
 
-- 启动：
+2. 本地构建
 ```shell
-docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name open-aoe open-aoe:latest
+git clone https://github.com/internlm/Open-AOE
+cd open-aoe
+docker build . -f docker/Dockerfile -t open-aoe:latest
+```
+
+### **运行**
+```shell
+docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name Open-AOE open-aoe:latest
 ```
 
 ## 基于源代码
-- 安装：
+### **安装**
+1. 克隆项目
 ```shell
-git clone https://github.com/internlm/open-aoe
+git clone https://github.com/internlm/Open-AOE
+```
+2. [_可选_] （如果前端代码发生变动）重新构建前端项目 
+```shell
+cd open-aoe/openaoe/frontend
+npm install
+npm run build
 ```
 
-- 启动：
+
+### **运行**
 ```shell
 cd open-aoe/openaoe
 pip install -r backend/requirements.txt
-python main.py -f /path/to/your/config.yaml
-```
+python -m main
+``````
 
+> [!TIP]
 > `/path/to/your/config.yaml` 是 open-aoe 启动时读取的配置文件，里面包含了大模型的相关配置信息，
 > 包括：调用API地址、AKSK、Token等信息，是 open-aoe 启动的必备文件。文件模板可以在 `openaoe/backend/config/config.yaml` 中找到。
 
 # 二次开发
-> **欢迎 fork**
+> **欢迎 fork，一起共建 ~**
 
 如果想基于此项目做二次开发，下面这些信息将会对你有帮助。
 
@@ -93,6 +109,12 @@ python main.py -f /path/to/your/config.yaml
 我们使用到的技术栈是：
 1. 基于 Python + fastapi 的后端框架； 
 2. 基于 Typescript + [Sealion-Client](https://github.com/OpenSealion/sealion-client) （基于React封装）+ [Sealion-UI](https://github.com/OpenSealion/sealion-ui) 的前端框架。
+3. 构建工具：
+   1. conda: 快速创建 python 环境来安装后端必要的依赖包
+   2. npm: 构建前端项目 
+
+> [!TIP]
+> 构建工具可通过 [sealion-cli](https://github.com/opensealion/sealion-cli) 快速获得: `pip install -U sealion-cli`
 
 
 ## 整个仓库的简要说明

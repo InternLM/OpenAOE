@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from ..model.dto.GoogleDto import GooglePalmChatReqDto, GooglePalmTextReqDto, GoogleBardAskImgReqDto
-from ..service.service_google import palm_chat_svc, palm_text_svc, bard_ask_img_svc
+from openaoe.backend.model.dto.GoogleDto import GooglePalmChatReqDto, GooglePalmTextReqDto, GoogleBardAskImgReqDto
+from openaoe.backend.service.service_google import palm_chat_svc, palm_text_svc, bard_ask_img_svc
 
 router = APIRouter()
 

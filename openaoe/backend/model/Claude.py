@@ -7,7 +7,7 @@ class ClaudeMessage(BaseModel):
     content: str
 
 
-class ClaudeChatReqDto(BaseModel):
+class ClaudeChatBody(BaseModel):
     """
         see
         - https://github.com/anthropics/anthropic-sdk-python

@@ -2,10 +2,13 @@
 .idea
 *.iml
 
-# frontend related
+# frontend ignore
 */node_modules
 */frontend/package-lock.json
 */frontend/node_modules
+
+# backend ignore
+*/backend/config/config.yaml
 
 # pip related
 *.pyc

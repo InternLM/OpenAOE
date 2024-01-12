@@ -1,7 +1,6 @@
 import hashlib
 import hmac
 import json
-import traceback
 from urllib.parse import urlencode
 
 from fastapi import Request
@@ -9,8 +8,8 @@ from websocket import create_connection
 
 from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
 from openaoe.backend.config.constant import VENDOR_XUNFEI
-from openaoe.backend.model.dto.ReturnBase import ReturnBase
-from openaoe.backend.model.dto.XunfeiDto import XunfeiSparkChatReqDto
+from openaoe.backend.model.AOEResponse import AOEResponse
+from openaoe.backend.model.Xunfei import XunfeiSparkChatBody
 from openaoe.backend.util.log import log
 from openaoe.backend.util.time_util import get_current_date
 
@@ -60,7 +59,7 @@ def websocket_process(url: str, body: dict):
     return res
 
 
-def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatReqDto):
+def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatBody):
     url = get_base_url(VENDOR_XUNFEI)
     app_id = get_model_configuration(VENDOR_XUNFEI, "app_id")
     ak = get_model_configuration(VENDOR_XUNFEI, "ak")
@@ -105,10 +104,10 @@ def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatReqDto):
     }
     try:
         r = websocket_process(url, body)
-        return ReturnBase(data=r)
+        return AOEResponse(data=r)
     except Exception as e:
         logger.error(e)
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)

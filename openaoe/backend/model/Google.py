@@ -11,7 +11,7 @@ class Prompt(BaseModel):
     messages: List[Message]
 
 
-class GooglePalmChatReqDto(BaseModel):
+class GooglePalmChatBody(BaseModel):
     model: Optional[str] = "chat-bison-001"
     prompt: Prompt
     temperature: Optional[float] = 0.1
@@ -27,7 +27,7 @@ class GoogleSafetySetting(BaseModel):
     threshold: Optional[str] = "BLOCK_NONE"
 
 
-class GooglePalmTextReqDto(BaseModel):
+class GooglePalmTextBody(BaseModel):
     model: Optional[str] = "text-bison-001"
     prompt: TextPrompt
     temperature: Optional[float] = 0.1
@@ -36,7 +36,7 @@ class GooglePalmTextReqDto(BaseModel):
     safety_settings: Optional[List[GoogleSafetySetting]] = []
 
 
-class GoogleBardAskImgReqDto(BaseModel):
+class GoogleBardAskImgBody(BaseModel):
     img_url: str
     prompt: str
     bard_token: str

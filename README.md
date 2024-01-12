@@ -67,17 +67,22 @@ docker pull open-aoe:latest
 docker run -p 10099:10099 -v /path/to/your/config.yaml:/app/config.yaml --name Open-AOE open-aoe:latest
 ```
 
-## Install by source code
+## Run by source code
 - Install
+1. clone this project
 ```shell
 git clone https://github.com/internlm/Open-AOE
 ```
+2. [optional] build the frontend projec
+
 - Start
 ```shell
 cd Open-AOE/openaoe
 pip install -r backend/requirements.txt
 python main.py -f /path/to/your/config.yaml
 ```
+- 
+
 
 > [!TIP]
 > `/path/to/your/config.yaml` is the configuration file read by Open-AOE at startup, 

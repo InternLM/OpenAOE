@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request
 
-from ..model.dto.OpenaiDto import OpenaiCompletionReqDto, OpenaiChatStreamReqDto, \
+from openaoe.backend.model.dto.OpenaiDto import OpenaiCompletionReqDto, OpenaiChatStreamReqDto, \
     OpenaiChatCompletionV2ReqDto
-from ..service.service_openai import completions, chat_completion_stream, chat_completion_svc, \
+from openaoe.backend.service.service_openai import completions, chat_completion_stream, chat_completion_svc, \
     proxy_files, proxy_assistants, proxy_threads, proxy_messages, proxy_runs
 
 router = APIRouter()

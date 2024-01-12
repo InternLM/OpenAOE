@@ -5,12 +5,12 @@ from bardapi import Bard
 from fastapi import Request
 from fastapi.encoders import jsonable_encoder
 
-from ..config.biz_config import get_api_key, get_base_url
-from ..config.constant import *
-from ..model.dto.GoogleDto import GooglePalmChatReqDto, GooglePalmTextReqDto, GoogleBardAskImgReqDto, \
+from openaoe.backend.config.biz_config import get_api_key, get_base_url
+from openaoe.backend.config.constant import *
+from openaoe.backend.model.dto.GoogleDto import GooglePalmChatReqDto, GooglePalmTextReqDto, GoogleBardAskImgReqDto, \
     GoogleSafetySetting
-from ..model.dto.ReturnBase import ReturnBase
-from ..util.log import log
+from openaoe.backend.model.dto.ReturnBase import ReturnBase
+from openaoe.backend.util.log import log
 
 logger = log(__name__)
 

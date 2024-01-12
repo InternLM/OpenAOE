@@ -6,11 +6,11 @@ from fastapi.encoders import jsonable_encoder
 from openai import OpenAI
 from sse_starlette.sse import EventSourceResponse
 
-from ..config.biz_config import get_api_key, get_base_url
-from ..config.constant import *
-from ..model.dto.OpenaiDto import OpenaiChatCompletionReqDto, OpenaiCompletionReqDto, OpenaiChatCompletionV2ReqDto
-from ..model.dto.ReturnBase import ReturnBase, ProxyReturnBase
-from ..util.log import log
+from openaoe.backend.config.biz_config import get_api_key, get_base_url
+from openaoe.backend.config.constant import *
+from openaoe.backend.model.dto.OpenaiDto import OpenaiChatCompletionReqDto, OpenaiCompletionReqDto, OpenaiChatCompletionV2ReqDto
+from openaoe.backend.model.dto.ReturnBase import ReturnBase, ProxyReturnBase
+from openaoe.backend.util.log import log
 
 logger = log(__name__)
 

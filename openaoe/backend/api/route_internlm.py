@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from ..model.dto.InternlmDto import InternlmChatCompletionReqDto
-from ..service.service_internlm import chat_completion_v1, chat_completion_stream_v1
+from openaoe.backend.model.dto.InternlmDto import InternlmChatCompletionReqDto
+from openaoe.backend.service.service_internlm import chat_completion_v1, chat_completion_stream_v1
 
 router = APIRouter()
 

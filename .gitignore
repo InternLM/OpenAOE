@@ -6,7 +6,6 @@
 */node_modules
 */frontend/package-lock.json
 */frontend/node_modules
-*/frontend/dist
 
 # backend ignore
 */backend/config/config.yaml

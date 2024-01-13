@@ -25,13 +25,10 @@ def get_req_param(request, req_dto):
         "user_name": req_dto.role_meta.user_name,
         "bot_name": req_dto.role_meta.bot_name
     }
-    messages = []
-    for msg in req_dto.messages:
-        message = {
-            "sender_type": msg.sender_type,
-            "text": msg.text
-        }
-        messages.append(message)
+    messages = [
+        { "sender_type": msg.sender_type, "text": msg.text }
+        for msg in req_dto.messages or []
+    ]
 
     payload = {
         "model": req_dto.model,

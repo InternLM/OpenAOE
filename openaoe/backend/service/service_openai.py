@@ -27,20 +27,21 @@ def get_req_params(req_dto, request):
     else:
         user_name = "user"
         bot_name = "assistant"
-    messages = []
-    if contexts is not None:
-        for context in contexts:
-            role = "user" if user_name == "user" else bot_name
-            content = context.text
-            messages.append({
-                "role": role,
-                "content": content
-            })
-    messages.append({"role": "user", "content": prompt})
+    messages = [ 
+        {
+            "role": "user" if user_name == "user" else bot_name,
+            "content": context.text
+        }
+        for context in contexts or []
+    ] + [
+        {
+            "role": "user",
+            "content": prompt
+    }]
 
     api_base = get_base_url(VENDOR_OPENAI)
     api_key = get_api_key(VENDOR_OPENAI)
-    if api_key is None or api_key == "":
+    if not api_key:
         logger.error(f"get api_key for model: {model} failed")
     return model, messages, temperature, api_base, api_key
 
@@ -56,7 +57,7 @@ def get_req_params_v2(req_dto: OpenaiChatCompletionV2Body, request):
     frequency_penalty = req_dto.frequency_penalty
     api_base = get_base_url(VENDOR_OPENAI)
     api_key = get_api_key(VENDOR_OPENAI)
-    if api_key is None or api_key == "":
+    if not api_key:
         logger.error(f"get api_key for model: {model} failed")
     return model, messages, temperature, max_tokens, top_p, n, presence_penalty, frequency_penalty, api_base, api_key
 

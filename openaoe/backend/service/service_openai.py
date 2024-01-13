@@ -27,16 +27,18 @@ def get_req_params(req_dto, request):
     else:
         user_name = "user"
         bot_name = "assistant"
-    messages = []
-    if contexts is not None:
-        for context in contexts:
-            role = "user" if user_name == "user" else bot_name
-            content = context.text
-            messages.append({
-                "role": role,
-                "content": content
-            })
-    messages.append({"role": "user", "content": prompt})
+    if contexts:
+        messages = [ 
+            {
+                "role": "user" if user_name == "user" else bot_name,
+                "content": context.text
+            }
+            for context in contexts or []
+        ] + [
+            {
+            "role": "user",
+            "content": prompt
+        }]
 
     api_base = get_base_url(VENDOR_OPENAI)
     api_key = get_api_key(VENDOR_OPENAI)

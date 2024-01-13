@@ -51,13 +51,10 @@ def palm_chat_svc(request: Request, req_dto: GooglePalmChatBody):
     url = get_base_url(VENDOR_GOOGLE)
     logger.info(f"proxy-server={url}")
     url = f"{url}/{req_dto.model}:generateMessage?key={api_key}"
-    messages = []
-    for message in req_dto.prompt.messages:
-        item = {
-            "content": message.content,
-            "author": message.author
-        }
-        messages.append(item)
+    messages = [
+        { "content": msg.content, "author": msg.author }
+        for msg in req_dto.prompt.messages or []
+    ]
     body = {
         "prompt": {
             "messages": messages

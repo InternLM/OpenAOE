@@ -77,7 +77,7 @@ def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatBody):
     texts = [ 
         { "role": item.role, "content": item.content } 
         for item in req_dto.payload.message.text or []
-        ]
+    ]
     uid = None
     if req_dto.header is not None:
         uid = None if req_dto.header.uid is None else req_dto.header.uid

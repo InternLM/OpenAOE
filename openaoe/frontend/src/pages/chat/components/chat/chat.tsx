@@ -12,8 +12,9 @@ import {
 import CodeBlock from '@components/code-block/code-block.tsx';
 import { autoScroll, getNeedEventCallback } from '@utils/utils.ts';
 import {
-    ALL_MODELS, CLEAR_CONTEXT, PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
+    CLEAR_CONTEXT, PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
+import { ALL_MODELS } from '@config/model-config.ts';
 import ChatOperation from '@pages/chat/components/chat-operations/chat-operation.tsx';
 import { useChatStore, ChatMessage as ChatMessageProps, ChatSession as ChatSessionProps } from '@/store/chat.ts';
 import styles from './chat.module.less';

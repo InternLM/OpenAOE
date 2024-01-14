@@ -5,12 +5,12 @@ from bardapi import Bard
 from fastapi import Request
 from fastapi.encoders import jsonable_encoder
 
-from ..config.biz_config import get_api_key, get_base_url
-from ..config.constant import *
-from ..model.dto.GoogleDto import GooglePalmChatReqDto, GooglePalmTextReqDto, GoogleBardAskImgReqDto, \
+from openaoe.backend.config.biz_config import get_api_key, get_base_url
+from openaoe.backend.config.constant import *
+from openaoe.backend.model.Google import GooglePalmChatBody, GooglePalmTextBody, GoogleBardAskImgBody, \
     GoogleSafetySetting
-from ..model.dto.ReturnBase import ReturnBase
-from ..util.log import log
+from openaoe.backend.model.AOEResponse import AOEResponse
+from openaoe.backend.util.log import log
 
 logger = log(__name__)
 
@@ -23,7 +23,7 @@ def doRequest(url, body):
         ).json()
         if response_json.get('error') is not None:
             err_msg = response_json.get('error').get("message")
-            base = ReturnBase(
+            base = AOEResponse(
                 msg="error",
                 msgCode="-1",
                 data=err_msg
@@ -33,12 +33,12 @@ def doRequest(url, body):
         # remove messages
         if response_json and response_json.get("messages"):
             response_json.pop("messages")
-        base = ReturnBase(
+        base = AOEResponse(
             data=response_json
         )
     except Exception as e:
         logger.error(f"{e}")
-        base = ReturnBase(
+        base = AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)
@@ -46,18 +46,15 @@ def doRequest(url, body):
     return base
 
 
-def palm_chat_svc(request: Request, req_dto: GooglePalmChatReqDto):
+def palm_chat_svc(request: Request, req_dto: GooglePalmChatBody):
     api_key = get_api_key(VENDOR_GOOGLE)
     url = get_base_url(VENDOR_GOOGLE)
     logger.info(f"proxy-server={url}")
     url = f"{url}/{req_dto.model}:generateMessage?key={api_key}"
-    messages = []
-    for message in req_dto.prompt.messages:
-        item = {
-            "content": message.content,
-            "author": message.author
-        }
-        messages.append(item)
+    messages = [
+        { "content": msg.content, "author": msg.author }
+        for msg in req_dto.prompt.messages or []
+    ]
     body = {
         "prompt": {
             "messages": messages
@@ -69,7 +66,7 @@ def palm_chat_svc(request: Request, req_dto: GooglePalmChatReqDto):
     return doRequest(url, body)
 
 
-def palm_text_svc(request, req_dto: GooglePalmTextReqDto):
+def palm_text_svc(request, req_dto: GooglePalmTextBody):
     api_key = get_api_key(VENDOR_GOOGLE)
     url = get_base_url(VENDOR_GOOGLE)
     url = f"{url}/{req_dto.model}:generateText?key={api_key}"
@@ -89,7 +86,7 @@ def palm_text_svc(request, req_dto: GooglePalmTextReqDto):
     return doRequest(url, body)
 
 
-def bard_ask_img_svc(req_dto: GoogleBardAskImgReqDto):
+def bard_ask_img_svc(req_dto: GoogleBardAskImgBody):
     img_url = req_dto.img_url
     prompt = req_dto.prompt
     bard_token = req_dto.bard_token
@@ -98,12 +95,12 @@ def bard_ask_img_svc(req_dto: GoogleBardAskImgReqDto):
     try:
         bard = Bard(token=bard_token)
         result = bard.ask_about_image(input_text=prompt, image=img)
-        return ReturnBase(
+        return AOEResponse(
             data=result
         )
     except Exception as e:
         logger.error(f"{e}")
-        return ReturnBase(
+        return AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)

@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Request
 
-from ..model.dto.MinimaxDto import MinimaxChatCompletionReqDto
-from ..service.service_minimax import chat_completion, minimax_chat_stream_svc
+from openaoe.backend.model.Minimax import MinimaxChatCompletionBody
+from openaoe.backend.service.service_minimax import chat_completion, minimax_chat_stream_svc
 
 router = APIRouter()
 
 
 @router.post("/v1/text/chat", tags=["MiniMax"])
-async def minimax_chat(request: Request, body: MinimaxChatCompletionReqDto):
+async def minimax_chat(request: Request, body: MinimaxChatCompletionBody):
     """
     prompt 表示对话前提 \n
     []messages 表示历史对话记录，其中sender_type固定取值为USER/BOT
@@ -17,7 +17,7 @@ async def minimax_chat(request: Request, body: MinimaxChatCompletionReqDto):
 
 
 @router.post("/v1/text/chat-stream", tags=["MiniMax"])
-async def minimax_chat_stream(request: Request, req_dto: MinimaxChatCompletionReqDto):
+async def minimax_chat_stream(request: Request, req_dto: MinimaxChatCompletionBody):
     """
     prompt 表示对话前提\n
     []messages 表示历史对话记录，其中sender_type固定取值为USER/BOT

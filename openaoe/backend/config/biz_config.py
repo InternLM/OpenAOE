@@ -1,7 +1,7 @@
 import sys
 import yaml
 
-from ..util.log import log
+from openaoe.backend.util.log import log
 import os
 
 logger = log(__name__)

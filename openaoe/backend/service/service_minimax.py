@@ -4,11 +4,11 @@ import requests
 from fastapi import Request
 from sse_starlette.sse import EventSourceResponse
 
-from ..config.biz_config import get_model_configuration, get_base_url
-from ..config.constant import *
-from ..model.dto.MinimaxDto import MinimaxChatCompletionReqDto
-from ..model.dto.ReturnBase import ReturnBase
-from ..util.log import log
+from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
+from openaoe.backend.config.constant import *
+from openaoe.backend.model.Minimax import MinimaxChatCompletionBody
+from openaoe.backend.model.AOEResponse import AOEResponse
+from openaoe.backend.util.log import log
 
 logger = log(__name__)
 
@@ -25,13 +25,10 @@ def get_req_param(request, req_dto):
         "user_name": req_dto.role_meta.user_name,
         "bot_name": req_dto.role_meta.bot_name
     }
-    messages = []
-    for msg in req_dto.messages:
-        message = {
-            "sender_type": msg.sender_type,
-            "text": msg.text
-        }
-        messages.append(message)
+    messages = [
+        { "sender_type": msg.sender_type, "text": msg.text }
+        for msg in req_dto.messages or []
+    ]
 
     payload = {
         "model": req_dto.model,
@@ -45,16 +42,16 @@ def get_req_param(request, req_dto):
     return url, headers, payload
 
 
-def chat_completion(request: Request, req_dto: MinimaxChatCompletionReqDto):
+def chat_completion(request: Request, req_dto: MinimaxChatCompletionBody):
     url, headers, payload = get_req_param(request, req_dto)
     try:
         response = requests.post(url=url, headers=headers, json=payload)
-        base = ReturnBase(
+        base = AOEResponse(
             data=response.json()
         )
     except Exception as e:
         logger.error(f"{e}")
-        base = ReturnBase(
+        base = AOEResponse(
             msg="error",
             msgCode="-1",
             data=str(e)
@@ -95,7 +92,7 @@ def should_stop(chunk) -> bool:
     return True
 
 
-def minimax_chat_stream_svc(request, req_dto: MinimaxChatCompletionReqDto):
+def minimax_chat_stream_svc(request, req_dto: MinimaxChatCompletionBody):
     async def event_generator():
         url, headers, payload = get_req_param(request, req_dto)
 

@@ -1,5 +1,6 @@
 /**
  *  Description: This file is used to define basic configuration of the model API
+ *  These configurations are used as default request payload for the model API.
  *  TODO: Add more models' basic API configuration here.
  */
 
@@ -134,7 +135,7 @@ const internlm = {
     stream: true
 };
 
-const API_PREFIX = '/gw/alles-apin-hub';
+const API_PREFIX = '';
 
 const API = new Map();
 API.set('minimax', {

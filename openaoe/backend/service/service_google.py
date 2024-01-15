@@ -13,7 +13,22 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def doRequest(url, body):
+def palm_chat_svc(req_dto: GooglePalmChatBody):
+    api_key = get_api_key(VENDOR_GOOGLE)
+    url = get_base_url(VENDOR_GOOGLE)
+    url = f"{url}/google/v1beta2/models/{req_dto.model}:generateMessage?key={api_key}"
+    messages = [
+        {"content": msg.content, "author": msg.author}
+        for msg in req_dto.prompt.messages or []
+    ]
+    body = {
+        "prompt": {
+            "messages": messages
+        },
+        "temperature": req_dto.temperature,
+        "candidate_count": req_dto.candidate_count,
+        "model": req_dto.model
+    }
     try:
         response_json = requests.post(
             url=url,
@@ -42,22 +57,3 @@ def doRequest(url, body):
             data=str(e)
         )
     return base
-
-
-def palm_chat_svc(request: Request, req_dto: GooglePalmChatBody):
-    api_key = get_api_key(VENDOR_GOOGLE)
-    url = get_base_url(VENDOR_GOOGLE)
-    url = f"{url}/google/v1beta2/models/{req_dto.model}:generateMessage?key={api_key}"
-    messages = [
-        {"content": msg.content, "author": msg.author}
-        for msg in req_dto.prompt.messages or []
-    ]
-    body = {
-        "prompt": {
-            "messages": messages
-        },
-        "temperature": req_dto.temperature,
-        "candidate_count": req_dto.candidate_count,
-        "model": req_dto.model
-    }
-    return doRequest(url, body)

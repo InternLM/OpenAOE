@@ -8,6 +8,6 @@ router = APIRouter()
 
 
 @router.post("/v1/palm/chat", tags=["PaLM"])
-async def palm_chat(request: Request, body: GooglePalmChatBody):
-    ret = palm_chat_svc(request, body)
+async def palm_chat(body: GooglePalmChatBody):
+    ret = palm_chat_svc(body)
     return ret

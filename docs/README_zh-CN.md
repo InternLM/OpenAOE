@@ -125,4 +125,9 @@ python -m main
 3. 项目入口文件在 openaoe/main.py
 
 
-# TODO
+## 如何添加新的模型API？
+### 前端
+- 在 `openaoe/frontend/src/config/model-config.ts` 文件里面添加新模型的基本信息（用于展示），比如 `name`, `avatar`, `provider` 等。
+- 在 `openaoe/frontend/src/config/api-config.ts` 文件里面添加新模型的API请求payload配置，比如 `url`, `method`, `parameter` 等。
+- 在 `openaoe/frontend/src/services/fetch.ts` 文件里修改API和处理特殊情况, 以适配你的API定义.
+

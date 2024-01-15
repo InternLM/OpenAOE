@@ -13,21 +13,6 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def get_req_params_v2(req_dto: InternlmChatCompletionBody):
-    model = req_dto.model
-    messages = req_dto.messages
-    temperature = req_dto.temperature
-    max_tokens = req_dto.max_tokens
-    top_p = req_dto.top_p
-    n = req_dto.n
-    presence_penalty = req_dto.presence_penalty
-    frequency_penalty = req_dto.frequency_penalty
-    api_base = get_base_url(VENDOR_INTERNLM)
-    stream = req_dto.stream
-    role_meta = req_dto.role_meta
-    return model, messages, temperature, max_tokens, top_p, n, presence_penalty, frequency_penalty, api_base, stream, role_meta
-
-
 def chat_completion_v1(request, req_dto: InternlmChatCompletionBody):
     messages = req_dto.messages
     msgs = []

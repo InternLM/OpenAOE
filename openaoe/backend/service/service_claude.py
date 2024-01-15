@@ -1,78 +1,14 @@
 import json
-import time
 from typing import List
 
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
-from fastapi import Request
-from slack_sdk.errors import SlackApiError
 from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_api_key
 from openaoe.backend.config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
 from openaoe.backend.config.constant import VENDOR_CLAUDE
-from openaoe.backend.model.claude import ClaudeChatBody, ClaudeMessage
-from openaoe.backend.model.aoe_response import AOEResponse
-
-
-def send_message(client, channel, text):
-    try:
-        return client.chat_postMessage(channel=channel, text=text)
-    except SlackApiError as e:
-        print(f"Error sending message: {e}")
-
-
-def fetch_messages(client, channel, last_message_timestamp, bot_user_id):
-    response = client.conversations_history(channel=channel, oldest=last_message_timestamp)
-    return [msg['text'] for msg in response['messages'] if msg['user'] == bot_user_id]
-
-
-def get_new_messages(client, channel, last_message_timestamp, bot_user_id):
-    time.sleep(1)
-    result_index = 0
-    while True:
-        messages = fetch_messages(client, channel, last_message_timestamp, bot_user_id)
-        if messages and "*Please note:*" in messages[0]:
-            result_index = 1
-
-        if messages and len(messages) > result_index and not messages[result_index].endswith('Typing…_'):
-            return messages[result_index]
-        time.sleep(1)
-
-
-def find_direct_message_channel(client, user_id):
-    try:
-        response = client.conversations_open(users=user_id)
-        return response['channel']['id']
-    except SlackApiError as e:
-        print(f"Error opening DM channel: {e}")
-
-
-def claude_chat_anthropic(request: Request, req_dto: ClaudeChatBody):
-    api_key = get_api_key(VENDOR_CLAUDE)
-    prompt = gen_prompt(req_dto.prompt, req_dto.messages)
-    if not prompt or len(prompt) == 0:
-        return AOEResponse(
-            msg="error",
-            msgCode="-1",
-            data="prompt or messages must be set"
-        )
-
-    try:
-        anthropic = Anthropic(api_key=api_key)
-        completion = anthropic.completions.create(
-            model=req_dto.model,
-            max_tokens_to_sample=req_dto.max_tokens,
-            prompt=f"{HUMAN_PROMPT} {prompt}{AI_PROMPT}",
-            temperature=req_dto.temperature
-        )
-        return AOEResponse(data=completion)
-    except Exception as e:
-        print(f"claude-chat failed: {e}")
-        return AOEResponse(
-            msg="error",
-            msgCode="-1",
-            data=str(e)
-        )
+from openaoe.backend.model.AOEResponse import AOEResponse
+from openaoe.backend.model.Claude import ClaudeChatBody, ClaudeMessage
 
 
 def claude_chat_stream_svc(request, req_dto: ClaudeChatBody):
@@ -131,12 +67,6 @@ def claude_chat_stream_svc(request, req_dto: ClaudeChatBody):
     return EventSourceResponse(stream())
 
 
-def is_valid_model(model: str):
-    valid_models = ["claude-1", "claude-1-100k", "claude-instant-1", "claude-instant-1-100k", "claude-1.3",
-                    "claude-1.3-100k", "claude-1.0", "claude-instant-1.1-100k", "claude-instant-1.0"]
-    return model in valid_models
-
-
 def gen_prompt(prompt: str, messages: List[ClaudeMessage]):
     if not messages or len(messages) == 0:
         if not prompt or len(prompt) == 0:
@@ -155,6 +85,4 @@ def gen_prompt(prompt: str, messages: List[ClaudeMessage]):
     return ret
 
 
-if __name__ == "__main__":
-    # main()
-    pass
+

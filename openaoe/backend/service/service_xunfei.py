@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import json
+import urllib
 from urllib.parse import urlencode
 
 from fastapi import Request
@@ -60,12 +61,15 @@ def websocket_process(url: str, body: dict):
 
 
 def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatBody):
-    url = get_base_url(VENDOR_XUNFEI)
+    api_base = get_base_url(VENDOR_XUNFEI)
     app_id = get_model_configuration(VENDOR_XUNFEI, "app_id")
     ak = get_model_configuration(VENDOR_XUNFEI, "ak")
     sk = get_model_configuration(VENDOR_XUNFEI, "sk")
+
+    url_parse = urllib.parse.urlparse(api_base)
+    host = url_parse.hostname
+
     date = get_current_date()
-    host = "spark-api.xf-yun.com"
     authorization = calc_authorization(ak=ak, sk=sk, date=date, host=host)
     v = {
         "authorization": authorization,
@@ -73,9 +77,9 @@ def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatBody):
         "host": host
     }
     v_urlencode = urlencode(v)
-    url = f"{url}?{v_urlencode}"
-    texts = [ 
-        { "role": item.role, "content": item.content } 
+    url = f"{api_base}/v2.1/chat?{v_urlencode}"
+    texts = [
+        {"role": item.role, "content": item.content}
         for item in req_dto.payload.message.text or []
     ]
     uid = None

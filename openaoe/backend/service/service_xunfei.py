@@ -4,7 +4,6 @@ import json
 import urllib
 from urllib.parse import urlencode
 
-from fastapi import Request
 from websocket import create_connection
 
 from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
@@ -60,7 +59,7 @@ def websocket_process(url: str, body: dict):
     return res
 
 
-def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatBody):
+def spark_chat_svc(req_dto: XunfeiSparkChatBody):
     api_base = get_base_url(VENDOR_XUNFEI)
     app_id = get_model_configuration(VENDOR_XUNFEI, "app_id")
     ak = get_model_configuration(VENDOR_XUNFEI, "ak")

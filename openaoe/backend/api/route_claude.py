@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 
-from openaoe.backend.model.Claude import ClaudeChatBody
+from openaoe.backend.model.claude import ClaudeChatBody
 from openaoe.backend.service.service_claude import claude_chat_stream_svc
 
 

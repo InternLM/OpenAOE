@@ -74,13 +74,10 @@ def spark_chat_svc(request: Request, req_dto: XunfeiSparkChatBody):
     }
     v_urlencode = urlencode(v)
     url = f"{url}?{v_urlencode}"
-    texts = []
-    for item in req_dto.payload.message.text:
-        text = {
-            "role": item.role,
-            "content": item.content
-        }
-        texts.append(text)
+    texts = [ 
+        { "role": item.role, "content": item.content } 
+        for item in req_dto.payload.message.text or []
+    ]
     uid = None
     if req_dto.header is not None:
         uid = None if req_dto.header.uid is None else req_dto.header.uid

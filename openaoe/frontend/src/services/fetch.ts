@@ -1,5 +1,5 @@
-import API from '@constants/api.ts';
-import { DEFAULT_BOT } from '@constants/models.ts';
+import API from '@config/api-config';
+import { DEFAULT_BOT } from '@constants/models';
 
 export const getHeaders = () => {
     return {
@@ -9,6 +9,7 @@ export const getHeaders = () => {
 export const getUrl = (provider) => {
     return API.get(provider)?.url || API.get(DEFAULT_BOT).url;
 };
+// TODO: build your own api payload here
 export const getPayload = (provider: string, model: string, prompt: string, messages: { text: string; sender_type: string; }[]) => {
     const payload = { ...API.get(provider) || API.get(DEFAULT_BOT) };
     delete payload.url;

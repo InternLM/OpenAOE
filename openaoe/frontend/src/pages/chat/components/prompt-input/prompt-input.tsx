@@ -1,6 +1,7 @@
 import {
-    ALL_MODELS, PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
+    PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
+import { ALL_MODELS } from '@config/model-config.ts';
 import { message } from 'sea-lion-ui';
 import React, {
     useEffect, useLayoutEffect, useState

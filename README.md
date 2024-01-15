@@ -98,7 +98,7 @@ npm run build
 ```shell
 cd open-aoe/openaoe
 pip install -r backend/requirements.txt
-python -m main
+python -m main -f /path/to/your/config-template.yaml
 ```
 
 

@@ -9,6 +9,7 @@ from openaoe.backend.model.AOEResponse import AOEResponse
 from openaoe.backend.model.Google import GooglePalmChatBody
 from openaoe.backend.util.log import log
 
+
 logger = log(__name__)
 
 

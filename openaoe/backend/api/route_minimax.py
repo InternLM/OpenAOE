@@ -3,6 +3,7 @@ from fastapi import APIRouter, Request
 from openaoe.backend.model.Minimax import MinimaxChatCompletionBody
 from openaoe.backend.service.service_minimax import minimax_chat_stream_svc
 
+
 router = APIRouter()
 
 

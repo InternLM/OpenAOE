@@ -1,23 +1,23 @@
 ---
 models:
     gpt:
-        api_base:
+        api_base: https://api.openai.com/v1
         api_key:
 
     claude:
         api_key:
 
     bard:
-        api_base:
+        api_base: https://bard.google.com
         api_key:
 
     minimax:
-        api_base:
+        api_base: https://api.minimax.chat
         group_id:
         jwt:
 
     spark:
-        api_base:
+        api_base: wss://spark-api.xf-yun.com
         app_id:
         ak:
         sk:
@@ -25,3 +25,5 @@ models:
     internlm:
         api_base:
 ...
+
+

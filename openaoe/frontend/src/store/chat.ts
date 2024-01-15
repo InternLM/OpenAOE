@@ -4,7 +4,8 @@ import { persist } from 'zustand/middleware';
 import { scrollToBottom } from '@utils/utils.ts';
 import { getHeaders, getPayload, getUrl } from '@services/fetch.ts';
 import { fetchBotAnswer } from '@services/home.ts';
-import {ALL_MODELS, DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT} from '@constants/models.ts';
+import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT} from '@constants/models.ts';
+import { ALL_MODELS } from '@config/model-config.ts';
 
 export interface ChatMessage {
     text: string;

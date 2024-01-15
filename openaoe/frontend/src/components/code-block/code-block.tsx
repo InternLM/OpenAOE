@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import assembly from 'react-syntax-highlighter/dist/esm/languages/hljs/armasm.js';
 import python from 'react-syntax-highlighter/dist/esm/languages/hljs/python';

@@ -34,9 +34,6 @@ class Message(BaseModel):
 
 
 class InternlmChatCompletionBody(BaseModel):
-    """
-        see https://platform.openai.com/docs/api-reference/chat/create
-    """
     model: Optional[str] = 'internlm-chat-7b'
     role_meta: Optional[RoleMeta]
     prompt: Optional[str]

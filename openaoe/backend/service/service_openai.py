@@ -5,13 +5,12 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.openai import OpenaiChatCompletionV2Body
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
 
 
-def messages_process(req_dto) -> str:
+def messages_process(req_dto):
     prompt = req_dto.prompt
     contexts = req_dto.messages
     role_meta = req_dto.role_meta
@@ -22,20 +21,20 @@ def messages_process(req_dto) -> str:
         user_name = "user"
         bot_name = "assistant"
     messages = [
-        {
-            "role": "user" if user_name == "user" else bot_name,
-            "content": context.text
-        }
-        for context in contexts or []
-    ] + [
-        {
-            "role": "user",
-            "content": prompt
-    }]
+                   {
+                       "role": "user" if user_name == "user" else bot_name,
+                       "content": context.text
+                   }
+                   for context in contexts or []
+               ] + [
+                   {
+                       "role": "user",
+                       "content": prompt
+                   }]
     return messages
 
 
-def chat_completion_stream(request, body: OpenaiChatCompletionV2Body):
+def chat_completion_stream(request, body):
     async def event_generator():
         while True:
             client = OpenAI(

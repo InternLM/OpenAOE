@@ -9,6 +9,8 @@ import { BotState } from '@/store/bot.ts';
 
 // TODO: Add more models here.
 // Models used to be showed in the model selection part.
+// provider is required
+// model is required and must be unique
 export const ALL_MODELS: BotState[] = [
     {
         provider: 'internlm',
@@ -61,7 +63,7 @@ export const ALL_MODELS: BotState[] = [
     },
     {
         provider: 'spark',
-        model: '',
+        model: 'spark',
         avatar: spark,
         border: '#6fa2db',
         background: 'linear-gradient(180deg, rgba(72, 72, 207, 0.15) 0%, #7498be 100%)',

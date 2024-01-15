@@ -5,6 +5,7 @@ import { ALL_MODELS } from '@config/model-config.ts';
 import { useRef, useState } from 'react';
 import { getNeedEventCallback } from '@utils/utils.ts';
 import { message } from 'sea-lion-ui';
+import classNames from 'classnames';
 import styles from './model-list.module.less';
 import { BotState, useBotStore } from '@/store/bot.ts';
 import { useChatStore } from '@/store/chat.ts';
@@ -89,13 +90,6 @@ function ModelAvatar(props: {
             {...getNeedEventCallback(() => handleChangeModel(props.model.model))}
             onFocus={() => setShowName(true)}
         >
-            {/* {botStore.chosenBotNames.includes(props.model.name) && ( */}
-            {/*    <img */}
-            {/*        openaoe={`${BASE_IMG_URL}chosen.svg`} */}
-            {/*        className={styles.modelChosen} */}
-            {/*        alt="chosen" */}
-            {/*    /> */}
-            {/* )} */}
             <img
                 src={props.model.avatar}
                 className={styles.modelAvatarImg}

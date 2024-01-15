@@ -5,8 +5,8 @@ from fastapi import Request
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.AOEResponse import AOEResponse
-from openaoe.backend.model.Google import GooglePalmChatBody
+from openaoe.backend.model.aoe_response import AOEResponse
+from openaoe.backend.model.google import GooglePalmChatBody
 from openaoe.backend.util.log import log
 
 

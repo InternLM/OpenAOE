@@ -8,8 +8,8 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.Openai import OpenaiChatCompletionBody, OpenaiCompletionBody, OpenaiChatCompletionV2Body
-from openaoe.backend.model.AOEResponse import AOEResponse, AOEProxyResponse
+from openaoe.backend.model.openai import OpenaiChatCompletionBody, OpenaiCompletionBody, OpenaiChatCompletionV2Body
+from openaoe.backend.model.aoe_response import AOEResponse, AOEProxyResponse
 from openaoe.backend.util.log import log
 
 logger = log(__name__)

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 
-from openaoe.backend.model.Openai import OpenaiCompletionBody, OpenaiChatStreamBody, \
+from openaoe.backend.model.openai import OpenaiCompletionBody, OpenaiChatStreamBody, \
     OpenaiChatCompletionV2Body
 from openaoe.backend.service.service_openai import completions, chat_completion_stream, chat_completion_svc, \
     proxy_files, proxy_assistants, proxy_threads, proxy_messages, proxy_runs

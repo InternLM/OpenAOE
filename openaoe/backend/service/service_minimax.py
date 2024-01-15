@@ -6,8 +6,8 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.Minimax import MinimaxChatCompletionBody
-from openaoe.backend.model.AOEResponse import AOEResponse
+from openaoe.backend.model.minimax import MinimaxChatCompletionBody
+from openaoe.backend.model.aoe_response import AOEResponse
 from openaoe.backend.util.log import log
 
 logger = log(__name__)

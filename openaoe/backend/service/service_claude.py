@@ -10,8 +10,8 @@ from sse_starlette.sse import EventSourceResponse
 from openaoe.backend.config.biz_config import get_api_key
 from openaoe.backend.config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
 from openaoe.backend.config.constant import VENDOR_CLAUDE
-from openaoe.backend.model.Claude import ClaudeChatBody, ClaudeMessage
-from openaoe.backend.model.AOEResponse import AOEResponse
+from openaoe.backend.model.claude import ClaudeChatBody, ClaudeMessage
+from openaoe.backend.model.aoe_response import AOEResponse
 
 
 def send_message(client, channel, text):

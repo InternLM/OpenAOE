@@ -1,13 +1,11 @@
 import json
 
 import requests
-from fastapi import Request
 from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.minimax import MinimaxChatCompletionBody
-from openaoe.backend.model.aoe_response import AOEResponse
+from openaoe.backend.model.Minimax import MinimaxChatCompletionBody
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
@@ -16,7 +14,7 @@ logger = log(__name__)
 def get_req_param(request, req_dto):
     group_id = get_model_configuration(VENDOR_MINIMAX, "group_id")
     jwt = get_model_configuration(VENDOR_MINIMAX, "jwt")
-    api_url = get_base_url(VENDOR_MINIMAX)
+    api_base = get_base_url(VENDOR_MINIMAX)
     headers = {
         "Authorization": jwt,
         "Content-Type": "application/json"
@@ -26,7 +24,7 @@ def get_req_param(request, req_dto):
         "bot_name": req_dto.role_meta.bot_name
     }
     messages = [
-        { "sender_type": msg.sender_type, "text": msg.text }
+        {"sender_type": msg.sender_type, "text": msg.text}
         for msg in req_dto.messages or []
     ]
 
@@ -38,25 +36,8 @@ def get_req_param(request, req_dto):
         "stream": req_dto.stream,
         "tokens_to_generate": 4096
     }
-    url = f'{api_url}{group_id}'
+    url = f'{api_base}/v1/text/chatcompletion?GroupId={group_id}'
     return url, headers, payload
-
-
-def chat_completion(request: Request, req_dto: MinimaxChatCompletionBody):
-    url, headers, payload = get_req_param(request, req_dto)
-    try:
-        response = requests.post(url=url, headers=headers, json=payload)
-        base = AOEResponse(
-            data=response.json()
-        )
-    except Exception as e:
-        logger.error(f"{e}")
-        base = AOEResponse(
-            msg="error",
-            msgCode="-1",
-            data=str(e)
-        )
-    return base
 
 
 def parse_chunk_delta(chunk):
@@ -153,5 +134,3 @@ def minimax_chat_stream_svc(request, req_dto: MinimaxChatCompletionBody):
         return EventSourceResponse(event_generator_json())
 
 
-if __name__ == "__main__":
-    pass

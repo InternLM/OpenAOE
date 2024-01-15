@@ -7,6 +7,6 @@ router = APIRouter()
 
 
 @router.post("/v1/spark/chat", tags=["Spark"])
-async def spark_chat(request: Request, body: XunfeiSparkChatBody):
-    ret = spark_chat_svc(request, body)
+async def spark_chat(body: XunfeiSparkChatBody):
+    ret = spark_chat_svc(body)
     return ret

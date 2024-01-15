@@ -14,15 +14,7 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
     const payload = { ...API.get(provider) || API.get(DEFAULT_BOT) };
     delete payload.url;
     payload.model = model;
-    if (provider === 'openai') {
-        payload.prompt = prompt;
-        payload.messages = messages;
-    }
-    if (provider === 'internlm') {
-        payload.prompt = prompt;
-        payload.messages = messages;
-    }
-    if (provider === 'gpt-4') {
+    if (['openai', 'internlm', 'gpt-4'].includes(provider)) {
         payload.prompt = prompt;
         payload.messages = messages;
     }
@@ -82,6 +74,7 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
             role: 'user',
             content: prompt,
         });
+        delete payload.model;
         payload.payload.message.text = formatMessage;
     }
     return payload;

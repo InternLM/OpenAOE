@@ -12,7 +12,6 @@ import {
 import { Configs, ConfigState } from '@constants/configs.ts';
 import classNames from 'classnames';
 import send from '@assets/imgs/send.png';
-import { handleChangeModel } from '@pages/chat/components/model-list/model-list.tsx';
 import sanitizeHtml from 'sanitize-html';
 import { useChatStore } from '@/store/chat.ts';
 import { useBotStore } from '@/store/bot.ts';

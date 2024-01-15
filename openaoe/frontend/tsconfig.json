@@ -62,7 +62,11 @@
     "outDir": "./dist",
   },
   "include": [
-    "aoe"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

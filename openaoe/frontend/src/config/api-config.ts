@@ -138,6 +138,7 @@ const internlm = {
 const API_PREFIX = '';
 
 const API = new Map();
+// Set API configuration for each provider.
 API.set('minimax', {
     url: `${API_PREFIX}/v1/minimax/v1/text/chat-stream`,
     ...minimax

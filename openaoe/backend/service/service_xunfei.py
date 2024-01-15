@@ -8,8 +8,8 @@ from websocket import create_connection
 
 from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
 from openaoe.backend.config.constant import VENDOR_XUNFEI
-from openaoe.backend.model.AOEResponse import AOEResponse
-from openaoe.backend.model.Xunfei import XunfeiSparkChatBody
+from openaoe.backend.model.aoe_response import AOEResponse
+from openaoe.backend.model.xunfei import XunfeiSparkChatBody
 from openaoe.backend.util.log import log
 from openaoe.backend.util.time_util import get_current_date
 

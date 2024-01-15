@@ -1,4 +1,10 @@
 /**
+ *  Description: This file is used to define basic configuration of the model API
+ *  These configurations are used as default request payload for the model API.
+ *  TODO: Add more models' basic API configuration here.
+ */
+
+/**
  *   - role_meta：optional，若填，则 user_name=用户自定义, bot_name=用户自定义
  *   - model: optional
  *     - abab5-chat（default）
@@ -129,29 +135,32 @@ const internlm = {
     stream: true
 };
 
+const API_PREFIX = '';
+
 const API = new Map();
+// Set API configuration for each provider.
 API.set('minimax', {
-    url: '/v1/minimax/v1/text/chat-stream',
+    url: `${API_PREFIX}/v1/minimax/v1/text/chat-stream`,
     ...minimax
 });
 API.set('openai', {
-    url: '/v1/openai/v1/text/chat-stream',
+    url: `${API_PREFIX}/v1/openai/v1/text/chat-stream`,
     ...openai
 });
 API.set('google', {
-    url: '/v1/google/v1/palm/chat',
+    url: `${API_PREFIX}/v1/google/v1/palm/chat`,
     ...googlePalm
 });
 API.set('claude', {
-    url: '/v1/claude/v1/text/chat-stream',
+    url: `${API_PREFIX}/v1/claude/v1/text/chat-stream`,
     ...claude
 });
 API.set('spark', {
-    url: '/v1/xunfei/v1/spark/chat',
+    url: `${API_PREFIX}/v1/xunfei/v1/spark/chat`,
     ...spark
 });
 API.set('internlm', {
-    url: '/v1/internlm/v1/chat/completions',
+    url: `${API_PREFIX}/v1/internlm/v1/chat/completions`,
     ...internlm
 });
 

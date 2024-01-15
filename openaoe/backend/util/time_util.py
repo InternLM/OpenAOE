@@ -16,9 +16,7 @@ def get_current_date() -> str:
 
 
 def get_current_datetime() -> datetime:
-    # 设置时区
     tz = pytz.timezone('Asia/Shanghai')
-    # 获取当前时区的时间
     date = datetime.now(tz)
     return date
 
@@ -52,7 +50,7 @@ def get_offset_date(offset_day: int, date: datetime=None) -> datetime:
     return date + timedelta(days=offset_day)
 
 
-# 获取[start_date, end_date)之间的日期列表
+# [start_date, end_date)
 def get_between_dates(start_date: datetime, end_date: datetime=None):
     if not end_date:
         end_date = get_current_datetime()
@@ -80,7 +78,3 @@ def get_timestamp_after_openai_format_time(time_str):
     return None
 
 
-if __name__ == "__main__":
-    now = get_current_datetime()
-    time.sleep(5)
-    print(get_between_dates(now))

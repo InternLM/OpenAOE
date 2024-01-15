@@ -12,7 +12,8 @@
 
 # pip related
 *.pyc
-build
+/build
+/dist
 *.egg-info
 out
 gen

@@ -98,7 +98,7 @@ npm run build
 ```shell
 cd open-aoe/openaoe
 pip install -r backend/requirements.txt
-python -m main
+python -m main -f /path/to/your/config-template.yaml
 ```
 
 
@@ -130,3 +130,9 @@ The technology stack we use includes:
 - Frontend code in `openaoe/frontend`
 - Backend code in `openaoe/backend`
 - Project entry-point is `openaoe/main.py`
+
+## How to add a new model
+### Frontend
+- Add new model info like `name`, `avatar`, `provider`, etc in `openaoe/frontend/src/config/model-config.ts`
+- Add a new model basic API request payload configuration in `openaoe/frontend/src/config/api-config.ts`
+- Modify your new model's payload specifically in `openaoe/frontend/src/services/fetch.ts`, you may need to change the payload structure and handle corner cases according to your model's API definition.

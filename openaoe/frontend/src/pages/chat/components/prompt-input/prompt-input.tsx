@@ -1,6 +1,7 @@
 import {
-    ALL_MODELS, PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
+    PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
+import { ALL_MODELS } from '@config/model-config.ts';
 import { message } from 'sea-lion-ui';
 import React, {
     useEffect, useLayoutEffect, useState
@@ -11,7 +12,6 @@ import {
 import { Configs, ConfigState } from '@constants/configs.ts';
 import classNames from 'classnames';
 import send from '@assets/imgs/send.png';
-import { handleChangeModel } from '@pages/chat/components/model-list/model-list.tsx';
 import sanitizeHtml from 'sanitize-html';
 import { useChatStore } from '@/store/chat.ts';
 import { useBotStore } from '@/store/bot.ts';
@@ -51,7 +51,6 @@ const PromptInput = () => {
 
     /** 控制输入框的样式及内容 */
     const [placeholder, setPlaceholder] = useState(BOT_PLACEHOLDER.default);
-    const [templateName, setTemplateName] = useState('');
     const [editorContent, setEditorContent] = useState('');
     const [caretPosition, setCaretPosition] = useState(0);
     const [isComposing, setIsComposing] = useState(false);
@@ -78,7 +77,9 @@ const PromptInput = () => {
 
         const sanitizeConf = {
             allowedTags: ['b', 'i', 'a', 'p', 'text', 'br', 'div', 'span', 'img'],
-            allowedAttributes: { a: ['href'], span: ['class'], img: ['src'] }
+            allowedAttributes: {
+                a: ['href'], span: ['class', 'id'], img: ['src'], div: ['class', 'id']
+            }
         };
 
         if (updateCaretFlag) {
@@ -185,18 +186,12 @@ const PromptInput = () => {
      * editable div 输入事件, 内容变化时更新currPrompt
      * @param e
      */
-    const onKeyUp = (e) => {
-        if (isComposing) {
-            return;
-        }
+    const onInput = (e) => {
+        setIsEmpty(!e.target.textContent.length);
         const target = e.target as HTMLDivElement;
         setCurrPrompt(cleanInput(target.innerHTML));
         const content = target.innerHTML;
         handleContentChange(content);
-    };
-
-    const onInput = (e) => {
-        setIsEmpty(!e.target.textContent.length);
     };
 
     useEffect(() => {
@@ -224,7 +219,6 @@ const PromptInput = () => {
             setCurrModel(model);
             handleContentChange(newContent);
         }
-        // TODO 如果是parallel模式，通过点击模型头像删除某个model时，需要把对应的高亮删除
     }, [botStore.currentBot]);
 
     useEffect(() => {
@@ -236,15 +230,11 @@ const PromptInput = () => {
 
     useEffect(() => {
         if (currConfig) {
-            if (currConfig.name === 'Prompt') {
-                setPlaceholder(templateName ? promptConfig.PromptContent : promptConfig.PromptName);
-            } else {
-                setPlaceholder(currConfig.description);
-            }
+            setPlaceholder(currConfig.description);
         } else {
             setPlaceholder(BOT_PLACEHOLDER[botStore.currentBot] || BOT_PLACEHOLDER.default);
         }
-    }, [currConfig, templateName, botStore.currentBot]);
+    }, [currConfig, botStore.currentBot]);
 
     useLayoutEffect(() => {
         if (editorRef.current) {
@@ -292,7 +282,6 @@ const PromptInput = () => {
                     onCompositionStart={() => setIsComposing(true)}
                     onInput={onInput}
                     onCompositionEnd={() => setIsComposing(false)}
-                    onKeyUp={onKeyUp}
                     dangerouslySetInnerHTML={{ __html: editorContent }}
                 />
                 {/** config submit button when Config mode */}

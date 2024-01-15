@@ -1,9 +1,11 @@
 import {
-    ALL_MODELS, NON_BOT, PARALLEL_MODE, PARALLEL_MODEL_MAX, SERIAL_MODE
+    NON_BOT, PARALLEL_MODE, PARALLEL_MODEL_MAX, SERIAL_MODE
 } from '@constants/models.ts';
-import React from 'react';
+import { ALL_MODELS } from '@config/model-config.ts';
+import { useRef, useState } from 'react';
 import { getNeedEventCallback } from '@utils/utils.ts';
 import { message } from 'sea-lion-ui';
+import classNames from 'classnames';
 import styles from './model-list.module.less';
 import { BotState, useBotStore } from '@/store/bot.ts';
 import { useChatStore } from '@/store/chat.ts';
@@ -15,15 +17,14 @@ const resetScale = () => {
     });
 };
 
-
 function ModelAvatar(props: {
     model: BotState
 }) {
-    const ref = React.useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLDivElement>(null);
     const configStore = useConfigStore();
     const chatStore = useChatStore();
     const botStore = useBotStore();
-    const [showName, setShowName] = React.useState(false);
+    const [showName, setShowName] = useState(false);
     const showChosen = ((configStore.mode === PARALLEL_MODE && botStore.chosenBotNames.includes(props.model.model)) || (configStore.mode === SERIAL_MODE && botStore.currentBot === props.model.model));
 
     /**
@@ -89,13 +90,6 @@ function ModelAvatar(props: {
             {...getNeedEventCallback(() => handleChangeModel(props.model.model))}
             onFocus={() => setShowName(true)}
         >
-            {/* {botStore.chosenBotNames.includes(props.model.name) && ( */}
-            {/*    <img */}
-            {/*        openaoe={`${BASE_IMG_URL}chosen.svg`} */}
-            {/*        className={styles.modelChosen} */}
-            {/*        alt="chosen" */}
-            {/*    /> */}
-            {/* )} */}
             <img
                 src={props.model.avatar}
                 className={styles.modelAvatarImg}

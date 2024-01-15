@@ -88,8 +88,6 @@ def main():
         workers=1
     )
 
-    # os.system("gunicorn openaoe.main:app -w 3 -k uvicorn.workers.UvicornWorker --preload --bind 0.0.0.0:10099 -t 600")
-
 
 if __name__ == "__main__":
     main()

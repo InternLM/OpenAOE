@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 
-from openaoe.backend.model.Google import GooglePalmChatBody
+from openaoe.backend.model.google import GooglePalmChatBody
 from openaoe.backend.service.service_google import palm_chat_svc
 
 

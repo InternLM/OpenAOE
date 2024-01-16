@@ -9,10 +9,7 @@ export interface configStore {
     username: string;
     mode: string;
     prompts: PromptTemplate[],
-    updateToken: (token: string) => void;
     updateTheme: (theme: string) => void;
-    updateUsername: (username: string) => void;
-    addPrompts: (prompts: PromptTemplate) => void;
     updateMode: (mode: string) => void;
 }
 export const useConfigStore = create<configStore>()(
@@ -23,20 +20,11 @@ export const useConfigStore = create<configStore>()(
             username: 'user',
             mode: SERIAL_MODE, // 'parallel' | 'serial'
             prompts: PromptsTemplates,
-            updateToken: (token: string) => {
-                set({ token });
-            },
             updateTheme: (theme: string) => {
                 set({ theme });
             },
-            updateUsername: (username: string) => {
-                set({ username });
-            },
             updateMode: (mode: string) => {
                 set({ mode });
-            },
-            addPrompts: (prompts) => {
-                set({ prompts: [prompts, ...get().prompts] });
             },
         }),
         {

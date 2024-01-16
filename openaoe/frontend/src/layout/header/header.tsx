@@ -20,8 +20,7 @@ const Header = () => {
     };
 
     useEffect(() => {
-        // 判断系统是否开启了暗黑模式;
-        // FIXME 这个根据系统设置的暗黑模式来切换主题的逻辑有问题
+        // TODO use system theme
         // if (window.matchMedia('(prefers-color-scheme: dark)').matches && configStore.theme !== 'light') {
         //     handleThemeChange('dark');
         // } else {

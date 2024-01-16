@@ -5,7 +5,6 @@ import { ALL_MODELS } from '@config/model-config.ts';
 import { useRef, useState } from 'react';
 import { getNeedEventCallback } from '@utils/utils.ts';
 import { message } from 'sea-lion-ui';
-import classNames from 'classnames';
 import styles from './model-list.module.less';
 import { BotState, useBotStore } from '@/store/bot.ts';
 import { useChatStore } from '@/store/chat.ts';
@@ -28,11 +27,11 @@ function ModelAvatar(props: {
     const showChosen = ((configStore.mode === PARALLEL_MODE && botStore.chosenBotNames.includes(props.model.model)) || (configStore.mode === SERIAL_MODE && botStore.currentBot === props.model.model));
 
     /**
-     * 处理模型切换
+     * Change model, different mode has different behavior
      * @param model
      */
     function handleChangeModel(model) {
-        // 多模型情况
+        // PARALLEL_MODE
         if (configStore.mode === PARALLEL_MODE) {
             if (botStore.chosenBotNames.includes(model)) {
                 if (botStore.chosenBotNames.length === 1) {
@@ -48,7 +47,7 @@ function ModelAvatar(props: {
                 chatStore.newSession(model);
             }
         } else {
-            // 单模型情况
+            // SERIAL_MODE
             botStore.updateCurrentBot(model);
         }
     }

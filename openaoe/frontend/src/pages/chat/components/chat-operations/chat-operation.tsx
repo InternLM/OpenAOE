@@ -126,7 +126,9 @@ const ChatOperation = (props: ChatOperationProps) => {
     const currSession = sessions.find((session) => session.name === modelName);
     const botStore = useBotStore();
 
-    // 清空session上下文
+    /**
+     * clear context for current session, then scroll to bottom automatically
+     */
     const handleClearContext = () => {
         const sessionIdx = chatStore.sessions.findIndex((session) => session.name === modelName);
         const newSession = chatStore.sessions[sessionIdx];
@@ -145,7 +147,9 @@ const ChatOperation = (props: ChatOperationProps) => {
         scrollToBottom(`chat-wrapper-${newSession.id}`);
     };
 
-    // 清空session历史记录
+    /**
+     * clear history for current session
+     */
     const handleClearHistory = () => {
         const sessionIdx = sessions.findIndex((session) => session.name === modelName);
 
@@ -158,7 +162,7 @@ const ChatOperation = (props: ChatOperationProps) => {
 
     useEffect(() => {
         return () => {
-            // 组件卸载时关闭stream
+            // when component unmount, stop non-stop stream request
             handleStopStream();
         };
     }, []);

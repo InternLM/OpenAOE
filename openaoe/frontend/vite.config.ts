@@ -7,7 +7,7 @@ import { resolvePath } from './scripts/utils';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        // vite-plugin-cdn-import只会在build介入，不影响dev，dev还是依赖npm安装的包
+        // vite-plugin-cdn-import only works in build, not in dev, dev still depends on the package installed by npm
         PluginImportToCDN({
             modules: ImportToCDNList
         }),

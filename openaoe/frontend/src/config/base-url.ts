@@ -1,11 +1,11 @@
-// 各个环境的接口请求域名
+// api base url for each environment
 export const ApiBaseUrlMap = {
     development: '',
     staging: '',
     production: ''
 };
 
-// 各个环境的接口前缀
+// api prefix for each environment
 export const ApiPrefixMap = {
     mock: '',
     development: '',

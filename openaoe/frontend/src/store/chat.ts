@@ -6,7 +6,7 @@ import { getHeaders, getPayload, getUrl } from '@services/fetch.ts';
 import { fetchBotAnswer } from '@services/home.ts';
 import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT } from '@constants/models.ts';
 import { ALL_MODELS } from '@config/model-config.ts';
-// TODO
+
 export interface ChatMessage {
     text: string;
     sender_type: string;
@@ -75,7 +75,7 @@ interface ChatStore {
 }
 
 export const useChatStore = create<ChatStore>()(
-    // TODO 将chat数据使用persist中间件持久化到localStorage
+    // save chat data to localStorage by persist middleware
     persist(
         (set, get) => ({
             hasStreaming: false,
@@ -132,8 +132,8 @@ export const useChatStore = create<ChatStore>()(
                 const provider = ALL_MODELS.find((bot) => bot.model === modelName).provider;
                 const text = get().lastUserMessage(bot).text;
                 if ((get().lastMessage(bot).id === get().lastBotMessage(bot).id) && get().getSession(bot).clearContextIndex !== get().getSession(bot).messages.length) {
-                    // 如果最后一条消息是bot的回复且当前没有清空上下文
-                    // 那么替换最后两条消息，否则重新发送最后一次对话
+                    // If the last message is a reply from the bot and the context is not cleared yet, replace the last two messages,
+                    // Otherwise resend the last conversation
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                 }
@@ -145,8 +145,9 @@ export const useChatStore = create<ChatStore>()(
                 if (!currSession) {
                     return;
                 }
-                // 获取当前会话的历史上下文消息，注意用户有可能清除过上下文
-                // 标识为Error的消息不会被发送到后端
+                // Get the historical context messages of the current session.
+                // Note that the user may have cleared the context, so you need to filter out the messages that have been cleared.
+                // Messages tagged with isError are also filtered out.
                 const clearContextIndex = currSession.clearContextIndex || 0;
                 const messages = currSession.messages.slice(clearContextIndex)
                     .filter((message) => message.isError !== true)
@@ -193,7 +194,7 @@ export const useChatStore = create<ChatStore>()(
                         const rsp = await fetchBotAnswer(url, getPayload(provider, model, text, messages), abortController.signal);
                         if (rsp.msgCode === '10000' && rsp.data) {
                             if (provider === 'google') {
-                                // google 返回结构体不一致，需要特殊处理
+                                // Google: The data format returned by the chat-stream interface is different and requires special processing
                                 if (!rsp.data.candidates && rsp.data.filters) {
                                     botMessage.stream = false;
                                     get().updateMessage(sessionIndex, messageIndex, (message) => {
@@ -214,7 +215,7 @@ export const useChatStore = create<ChatStore>()(
                                 message.text = botMessage.text;
                                 message.stream = botMessage.stream;
                             });
-                            // 机器人回复后，滚动到底部
+                            // scroll to bottom after bot answer
                             scrollToBottom(`chat-wrapper-${currSession.id}`);
                         } else {
                             botMessage.stream = false;
@@ -254,7 +255,7 @@ export const useChatStore = create<ChatStore>()(
                             if (isStream && typeof event.data === 'string' && event.data.charAt(0) === '{') {
                                 const data = JSON.parse(event.data);
                                 if (data && data.success === 'true') {
-                                    if (data.stop_reason === 'max_token') { // 如果是max_token，说明是异常中断
+                                    if (data.stop_reason === 'max_token') { // max_token means abnormal interruption
                                         botMessage.stream = false;
                                         get().updateMessage(sessionIndex, messageIndex, (message) => {
                                             message.stream = false;

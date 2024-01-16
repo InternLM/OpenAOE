@@ -1,8 +1,10 @@
+import argparse
+import os
 import sys
+
 import yaml
 
 from openaoe.backend.util.log import log
-import os
 
 logger = log(__name__)
 biz_config = None
@@ -16,6 +18,16 @@ class BizConfig:
         if field in self.__dict__:
             return self.__dict__[field]
         return None
+
+
+def init_config():
+    parser = argparse.ArgumentParser(description="Example app using a YAML config file.")
+    parser.add_argument('-f', '--file', type=str, required=True, help='Path to the YAML config file.')
+
+    config_path = parser.parse_args()
+
+    logger.info(f"your config file is: {config_path.file}")
+    load_config(config_path.file)
 
 
 def load_config(config_path):

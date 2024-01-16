@@ -1,6 +1,6 @@
-import argparse
 import os
 
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -13,13 +13,11 @@ from openaoe.backend.api.route_internlm import router as internlm
 from openaoe.backend.api.route_minimax import router as minimax
 from openaoe.backend.api.route_openai import router as openai
 from openaoe.backend.api.route_xunfei import router as xunfei
-from openaoe.backend.config.biz_config import app_abs_path, img_out_path
-from openaoe.backend.config.biz_config import load_config
+from openaoe.backend.config.biz_config import app_abs_path, img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
 
 logger = log(__name__)
-
 # define global variable
 API_VER = 'v1'
 base_dir = app_abs_path()
@@ -30,6 +28,7 @@ JS_PATH_LIB = f"{STATIC_RESOURCE_DIR}/js"
 path = img_out_path()
 OUT_IMG_PATH_LIB = f"{path}"
 
+init_config()
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=STATIC_RESOURCE_DIR), name="static")
 
@@ -71,21 +70,12 @@ app.include_router(internlm, prefix=f"/{API_VER}/internlm")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Example app using a YAML config file.")
-    parser.add_argument('-f', '--file', type=str, required=True, help='Path to the YAML config file.')
-
-    config_path = parser.parse_args()
-
-    logger.info(f"your config file is: {config_path.file}")
-    load_config(config_path.file)
-
-    import uvicorn
     uvicorn.run(
-        app,
+        "openaoe.main:app",
         host='0.0.0.0',
         port=10099,
         timeout_keep_alive=600,
-        workers=1
+        workers=3
     )
 
 

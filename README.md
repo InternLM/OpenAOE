@@ -13,41 +13,41 @@ English | [简体中文](docs/README_zh-CN.md)
 
 ## Latest Progress 🎉
 
-- \[January 2024\] Released version v0.0.1, officially open-sourced！
+- \[January 2024\] Released version v0.0.1, officially open source！
 ______________________________________________________________________
 
 # Introduction
 ## What is OpenAOE?
-AOE, an acronym from DOTA2 for Area of Effect, denotes an ability that can affect a group of targets within a certain area.
-Here, AOE in AI implies that user can obtain parallel outputs from multiple LLMs with one single prompt.
+AOE, an acronym from DOTA2 for Area Of Effect, denotes an ability that can affect a group of targets within a certain area.
+Here, AOE in AI implies that user can obtain parallel outputs from multiple LLMs with one single prompt at the same time.
 
 ![](docs/_static/gif/aoe-en.gif)
 
 
 ## What problem does OpenAOE want to solve?
-Currently, there are many open-source frameworks based on the ChatGPT for chat, but the open-sourced  
-single-prompt-multiple-LLM-responses framework is still not coming yet.
+Currently, there are many open-source frameworks based on the ChatGPT for chat, but the single-prompt-multiple-LLM-responses framework is still not coming yet.
 
-The emergence of AOE fills this gap:
-AOE can help large model algorithm researchers, evaluators, engineering developers, and even non-professionals to quickly access the market's well-known commercial and open-source large models, providing both single model serial response and multi-model parallel response modes.
+The emergence of OpenAOE fills this gap:
+OpenAOE can help LLM researchers, evaluators, engineering developers, and even non-professionals to quickly access the market's well-known commercial and open-source LLMs, providing both single model serial response mode and multi-models parallel response mode.
 
 
 
 ## What can you get from OpenAOE?
-1. Send a prompt once to one or more large language models and get their return.
-2. Provides access to commercial large model APIs, with default support for gpt3.5, gpt4, Google Palm, Minimax, Claude, Spark, etc., and also supports user-defined access to other large model APIs.
-3. Provides access to open-source large model APIs; users can use [LMDeploy](https://github.com/InternLM/lmdeploy) to deploy open-source large models with one click.
-4. We also provide backend APIs and a WEB side to meet the needs of different users.
+OpenAOE can:
+1. return one or more LLMs' answers **at the same** time by a single prompt.
+2. provide access to commercial LLM APIs, with default support for gpt3.5, gpt4, Google Palm, Minimax, Claude, Spark, etc., and also support user-defined access to other large model APIs. (API keys need to be prepared in advanced)
+3. provide access to open-source LLM APIs. ( We recommend to use [LMDeploy](https://github.com/InternLM/lmdeploy) to deploy with one click)
+4. provide backend APIs and a WEB-UI to meet the needs of different requirements.
 
 
 
 # Quick Run
-We will provide three different ways to run OpenAOE: run by pip， run by docker and run by source code as well.
-
-
-## Run by pip 
 > [!TIP]
 > Require python >= 3.9
+
+We provide three different ways to run OpenAOE: `run by pip`， `run by docker` and `run by source code` as well.
+
+## Run by pip 
 ### **Install**
 ```shell
 pip install -U openaoe 
@@ -101,10 +101,10 @@ python -m main -f /path/to/your/config-template.yaml
 
 
 > [!TIP]
-> `/path/to/your/config.yaml` is the configuration file read by OpenAOE at startup, 
-> containing the relevant configuration information for the large model, 
-> including: API URLs, AKSKs, Tokens, etc., which are required for the startup of OpenAOE. 
-> A template file can be found in `openaoe/backend/config/config.yaml`.
+> `/path/to/your/config.yaml` is the configuration file loaded by OpenAOE at startup, 
+> which contains the relevant configuration information for the LLMs,
+> including: API URLs, AKSKs, Tokens, etc.
+> A template configuration yaml file can be found in `openaoe/backend/config/config.yaml`.
 
 
 #  Tech Introduction
@@ -123,11 +123,11 @@ The technology stack we use includes:
    2. npm: build the frontend project
 
 > [!TIP]
-> The build tools can be installed by [sealion-cli](https://github.com/opensealion/sealion-cli) by `pip install -U sealion-cli`
+> The build tools can be installed quickly by `pip install -U sealion-cli`
 
 ## Organization of the Repo
-- Frontend code in `openaoe/frontend`
-- Backend code in `openaoe/backend`
+- Frontend codes are in `openaoe/frontend`
+- Backend codes are in `openaoe/backend`
 - Project entry-point is `openaoe/main.py`
 
 ## How to add a new model

@@ -233,7 +233,7 @@ const PromptInput = () => {
                     </div>
                 )}
                 {/** prompt input box */}
-                {/* FIXME input should be disabled when there are generating answers */}
+                {/* TODO input should be disabled when there are generating answers */}
                 <div
                     contentEditable
                     spellCheck

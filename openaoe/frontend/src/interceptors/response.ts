@@ -73,7 +73,7 @@ const handleErrorData = (error) => {
             }
         }
     }
-    // TODO 可能是取消接口请求
+    // request may be cancelled
     return Promise.reject(error);
 };
 

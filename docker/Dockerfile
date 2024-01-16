@@ -6,12 +6,13 @@ COPY openaoe/frontend .
 
 FROM python:3.9
 WORKDIR /app
-COPY --from=frontend-builder /app/dist /app/frontend/dist
-COPY openaoe/backend ./backend
-COPY openaoe/main.py .
-RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r backend/requirements.txt
+COPY --from=frontend-builder /app/dist /app/openaoe/frontend/dist
+COPY openaoe/backend ./openaoe/backend
+COPY openaoe/main.py ./openaoe
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r openaoe/backend/requirements.txt
 ENV CONFIG_PATH=/app/config.yaml
 EXPOSE 10099
 CMD ["python", "-u", "-m", "openaoe.main", "-f", "/app/config.yaml"]
+#CMD ["tail", "-f", "/dev/null"]
 
 # docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config-template.yaml --name open-aoe open-aoe:latest

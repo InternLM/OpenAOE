@@ -1,8 +1,8 @@
 <div align="center">
   <img src="_static/image/aoe-logo.svg" width="250"/>
 
-[![PyPI](https://img.shields.io/pypi/v/Open-AOE)](https://pypi.org/project/Open-AOE)
-[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/open-aoe?label=docker)](https://hub.docker.com/r/opensealion/open-aoe?label=docker)
+[![PyPI](https://img.shields.io/pypi/v/Open-AOE)](https://pypi.org/project/OpenAOE)
+[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/openaoe?label=docker)](https://hub.docker.com/r/opensealion/openaoe?label=docker)
 
 
 [English](../README.md) | 简体中文
@@ -17,7 +17,7 @@
 ______________________________________________________________________
 
 # 简介
-## 什么是 AOE？
+## 什么是 OpenAOE？
 AOE，取自 DOTA2 的技能范围伤害的简写：释放一个技能，可以对群体产生效果。
 在这里，AOE 表示用户的一个 prompt 可以同时获得多个大模型的并行输出。
 ![](docs/_static/gif/aoe-zh_hans.gif)
@@ -49,38 +49,38 @@ AOE 可以帮助大模型算法研究、评测、工程开发人员甚至非专�
 > 需要 python >= 3.9
 ### **安装**
 ```shell
-pip install -U open-aoe 
+pip install -U openaoe 
 ```
 ### **运行**
 ```shell
-open-aoe -f /path/to/your/config-template.yaml
+openaoe -f /path/to/your/config-template.yaml
 ```
 
 ## 基于 docker
 ### **安装**
-有两种方式获取 Open-AOE 的 docker 镜像：
+有两种方式获取 OpenAOE 的 docker 镜像：
 1. 官方拉取
 ```shell
-docker pull open-aoe:latest
+docker pull openaoe:latest
 ```
 
 2. 本地构建
 ```shell
-git clone https://github.com/internlm/Open-AOE
+git clone https://github.com/internlm/OpenAOE
 cd open-aoe
-docker build . -f docker/Dockerfile -t open-aoe:latest
+docker build . -f docker/Dockerfile -t openaoe:latest
 ```
 
 ### **运行**
 ```shell
-docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config-template.yaml --name Open-AOE open-aoe:latest
+docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config-template.yaml --name OpenAOE openaoe:latest
 ```
 
 ## 基于源代码
 ### **安装**
 1. 克隆项目
 ```shell
-git clone https://github.com/internlm/Open-AOE
+git clone https://github.com/internlm/OpenAOE
 ```
 2. [_可选_] （如果前端代码发生变动）重新构建前端项目 
 ```shell
@@ -93,13 +93,13 @@ npm run build
 ### **运行**
 ```shell
 cd open-aoe/openaoe
-pip install -r backend/requirements.txt
+pip install -r backend/requirements.txtopen-aoe
 python -m main
 ``````
 
 > [!TIP]
-> `/path/to/your/config.yaml` 是 open-aoe 启动时读取的配置文件，里面包含了大模型的相关配置信息，
-> 包括：调用API地址、AKSK、Token等信息，是 open-aoe 启动的必备文件。文件模板可以在 `openaoe/backend/config/config.yaml` 中找到。
+> `/path/to/your/config.yaml` 是 OpenAOE 启动时读取的配置文件，里面包含了大模型的相关配置信息，
+> 包括：调用API地址、AKSK、Token等信息，是 OpenAOE 启动的必备文件。文件模板可以在 `openaoe/backend/config/config.yaml` 中找到。
 
 # 二次开发
 > **欢迎 fork，一起共建 ~**

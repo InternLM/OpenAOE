@@ -13,5 +13,5 @@ then
 fi
 
 
-docker build . -f docker/Dockerfile -t opensealion/open-aoe:$crt_version
-docker push opensealion/open-aoe:$crt_version
+docker build . -f docker/Dockerfile -t opensealion/openaoe:$crt_version
+docker push opensealion/openaoe:$crt_version

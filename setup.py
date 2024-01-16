@@ -12,15 +12,15 @@ def recursive_files(base_dir):
     return file_list
 
 setup(
-    name='open-aoe',
-    version='0.0.1-post64',
+    name='openaoe',
+    version='0.0.1',
     description='LLM Group Chat Framework: chat with multiple LLMs at the same time',
     long_description=utils.get_file_content("README.md"),
     long_description_content_type='text/markdown',
     author='arkmon',
     author_email='',
     keywords=['openaoe','open-aoe'],
-    url='https://github.com/internlm/open-aoe',
+    url='https://github.com/internlm/openaoe',
     packages=find_packages(),
     include_package_data=True,
     package_data={
@@ -34,7 +34,7 @@ setup(
     install_requires=utils.parse_requirements('openaoe/backend/requirements.txt'),
     entry_points={
         'console_scripts': [
-              'open-aoe=openaoe.main:main'
+              'openaoe=openaoe.main:main'
         ]
     },
     ext_modules=[],

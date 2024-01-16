@@ -13,12 +13,12 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def chat_completion_v1(request, req_dto: InternlmChatCompletionBody):
-    messages = req_dto.messages
+def chat_completion_v1(request, body: InternlmChatCompletionBody):
+    messages = body.messages
     msgs = []
     for msg in messages:
         if msg.sender_type == "bot":
-            msg.sender_type = req_dto.role_meta.bot_name
+            msg.sender_type = body.role_meta.bot_name
         msg_item = {
             "role": msg.sender_type,
             "content": jsonable_encoder(msg.text),
@@ -26,7 +26,7 @@ def chat_completion_v1(request, req_dto: InternlmChatCompletionBody):
         msgs.append(msg_item)
     msg_item = {
         "role": "user",
-        "content": req_dto.prompt
+        "content": body.prompt
     }
     msgs.append(msg_item)
     # restful api
@@ -36,30 +36,29 @@ def chat_completion_v1(request, req_dto: InternlmChatCompletionBody):
         'Content-Type': 'application/json'
     }
     data = {
-        "model": req_dto.model,
+        "model": body.model,
         "messages": msgs,
-        "temperature": req_dto.temperature,
-        "top_p": req_dto.top_p,
-        "n": req_dto.n,
-        "max_tokens": req_dto.max_tokens,
+        "temperature": body.temperature,
+        "top_p": body.top_p,
+        "n": body.n,
+        "max_tokens": body.max_tokens,
         "stop": False,
-        "stream": req_dto.stream,
-        "presence_penalty": req_dto.presence_penalty,
-        "frequency_penalty": req_dto.frequency_penalty,
+        "stream": body.stream,
+        "presence_penalty": body.presence_penalty,
+        "frequency_penalty": body.frequency_penalty,
         "user": "string",
         "repetition_penalty": 1,
         "session_id": -1,
         "ignore_eos": False
     }
-    if req_dto.stream:
+    if body.stream:
         return chat_completion_stream_v1(request, url, headers, data)
     else:
         res = requests.post(url, headers=headers, json=data)
         if res and res.status_code == 200:
-            base = AOEResponse(
+            return AOEResponse(
                 data=res.json()
             )
-            return base
         else:
             return AOEResponse(
                 data="request failed"
@@ -77,7 +76,6 @@ def chat_completion_stream_v1(request, url, headers, data):
                 res = requests.post(url, headers=headers, json=data)
                 res_data = res.text.replace("data: ", "")
                 json_strings = res_data.split("\n\n")
-                # 解析 JSON 数据
                 for chunk in json_strings:
                     try:
                         json_data = json.loads(chunk)

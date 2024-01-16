@@ -11,9 +11,9 @@ from openaoe.backend.model.aoe_response import AOEResponse
 from openaoe.backend.model.claude import ClaudeChatBody, ClaudeMessage
 
 
-def claude_chat_stream_svc(request, req_dto: ClaudeChatBody):
+def claude_chat_stream_svc(request, body: ClaudeChatBody):
     api_key = get_api_key(VENDOR_CLAUDE)
-    prompt = gen_prompt(req_dto.prompt, req_dto.messages)
+    prompt = gen_prompt(body.prompt, body.messages)
     if not prompt or len(prompt) == 0:
         return AOEResponse(
             msg="error",
@@ -27,8 +27,8 @@ def claude_chat_stream_svc(request, req_dto: ClaudeChatBody):
         try:
             conn = anthropic.completions.create(
                 prompt=prompt,
-                max_tokens_to_sample=req_dto.max_tokens,
-                model=req_dto.model,
+                max_tokens_to_sample=body.max_tokens,
+                model=body.model,
                 stream=True,
             )
             stop_flag = False
@@ -68,6 +68,7 @@ def claude_chat_stream_svc(request, req_dto: ClaudeChatBody):
 
 
 def gen_prompt(prompt: str, messages: List[ClaudeMessage]):
+    #todo
     if not messages or len(messages) == 0:
         if not prompt or len(prompt) == 0:
             return ""

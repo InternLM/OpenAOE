@@ -4,24 +4,25 @@ from os.path import exists
 
 
 def get_file_content(file_name):
+    """
+    get the file content by file_name
+    :param file_name: local path of file_name
+    :return: content: in str
+    """
+    # todo try catch
     with open(file_name, encoding='utf-8') as f:
         content = f.read()
     return content
 
 
 def parse_requirements(fname='requirements.txt', with_version=True):
-    """Parse the package dependencies listed in a requirements file but strips
+    # todo add resource?
+    """
+    Parse the package dependencies listed in a requirements file but strips
     specific versioning information.
-
-    Args:
-        fname (str): path to requirements file
-        with_version (bool, default=False): if True include version specs
-
-    Returns:
-        List[str]: list of requirements items
-
-    CommandLine:
-        python -c "import setup; print(setup.parse_requirements())"
+    :param fname: path to requirements file
+    :param with_version: if True include version specs
+    :return: List[str]: list of requirements items
     """
 
     require_fpath = fname
@@ -69,11 +70,12 @@ def parse_requirements(fname='requirements.txt', with_version=True):
 
     def gen_packages_items():
         if exists(require_fpath):
+            startswith = sys.version.startswith('3.9')
             for info in parse_require_file(require_fpath):
                 parts = [info['package']]
                 if with_version and 'version' in info:
                     parts.extend(info['version'])
-                if not sys.version.startswith('3.4'):
+                if not startswith:
                     # apparently package_deps are broken in 3.4
                     platform_deps = info.get('platform_deps')
                     if platform_deps is not None:

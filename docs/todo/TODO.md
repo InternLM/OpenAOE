@@ -1,4 +1,4 @@
-| TODO                 | Status |
-|----------------------|--------|
-| set the workers to 3 | todo   |
-| add Gemini model     | todo   |
+| TODO                 | Status   |
+|----------------------|----------|
+| set the workers to 3 | finished |
+| add Gemini model     | todo     |

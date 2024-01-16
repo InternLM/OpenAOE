@@ -120,6 +120,7 @@ def chat_completion_stream(request, body):
         return EventSourceResponse(event_generator())
     elif body.type == 'json':
         return EventSourceResponse(event_generator_json())
+    # todo return?
 
 
 if __name__ == "__main__":

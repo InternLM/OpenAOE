@@ -6,8 +6,13 @@ import string
 
 
 def safe_join(directory: str, path: str) -> str:
-    """Safely path to a base directory to avoid escaping the base directory.
-    Borrowed from: werkzeug.security.safe_join"""
+    """
+    Safely path to a base directory to avoid escaping the base directory.
+    Borrowed from: werkzeug.security.safe_join
+    :param directory:
+    :param path:
+    :return:
+    """
     _os_alt_seps: List[str] = [
         sep for sep in [os.path.sep, os.path.altsep] if sep is not None and sep != "/"
     ]
@@ -28,8 +33,6 @@ def safe_join(directory: str, path: str) -> str:
 
     if not os.path.exists(full_path):
         raise HTTPException(status_code=404, detail="path is not existed")
-
-
     return full_path
 
 
@@ -40,6 +43,4 @@ def generate_random_string(length: int):
 
 
 if __name__ == '__main__':
-    print(generate_random_string(7))
-
-    # safe_join()
+    pass

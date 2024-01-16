@@ -31,11 +31,11 @@ def get_current_ts_ms() -> int:
     return int(round(time.time() * 1000))
 
 
-def get_current_ts_s():
+def get_current_ts_s() -> int:
     return int(round(time.time()))
 
 
-def parse_date(date: str, pattern: str):
+def parse_date(date: str, pattern: str) -> [datetime, None]:
     try:
         d = datetime.strptime(date, pattern)
         return d
@@ -44,14 +44,19 @@ def parse_date(date: str, pattern: str):
         return None
 
 
-def get_offset_date(offset_day: int, date: datetime=None) -> datetime:
+def get_offset_date(offset_day: int, date: datetime = None) -> datetime:
     if not date:
         date = get_current_datetime()
     return date + timedelta(days=offset_day)
 
 
-# [start_date, end_date)
-def get_between_dates(start_date: datetime, end_date: datetime=None):
+def get_between_dates(start_date: datetime, end_date: datetime = None) -> [list, None]:
+    """
+    [start_date, end_date)
+    :param start_date:
+    :param end_date:
+    :return:
+    """
     if not end_date:
         end_date = get_current_datetime()
 
@@ -63,18 +68,3 @@ def get_between_dates(start_date: datetime, end_date: datetime=None):
         ret.append(start_date)
         start_date = get_offset_date(1, start_date)
     return ret
-
-
-def get_timestamp_after_openai_format_time(time_str):
-    if not time_str:
-        return None
-    r = re.search("(\\d+)h(\\d+)m(\\d+)s", time_str)
-    if r:
-        hour = r.group(1)
-        min = r.group(2)
-        second = r.group(3)
-        offset = 3600 * hour + 60 * min + second
-        return get_current_ts_s() + offset
-    return None
-
-

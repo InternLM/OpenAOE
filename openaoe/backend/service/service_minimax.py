@@ -74,6 +74,7 @@ def _should_stop(chunk) -> bool:
 def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
     """
     chat stream logic for Minimax
+    return format determines by body.type
     """
 
     async def event_generator():

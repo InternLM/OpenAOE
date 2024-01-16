@@ -36,6 +36,10 @@ def _messages_process(req_dto):
 
 
 def chat_completion_stream(request, body):
+    """
+    stream logic for OpenAI model
+    return format determines by body.type
+    """
     async def event_generator():
         while True:
             client = OpenAI(

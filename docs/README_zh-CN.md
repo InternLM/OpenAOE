@@ -93,8 +93,8 @@ npm run build
 ### **运行**
 ```shell
 cd open-aoe/openaoe
-pip install -r backend/requirements.txtopen-aoe
-python -m main
+pip install -r backend/requirements.txt
+python -m main -f /path/to/your/config-template.yaml
 ``````
 
 > [!TIP]

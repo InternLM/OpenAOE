@@ -13,21 +13,21 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def palm_chat_svc(req_dto: GooglePalmChatBody):
+def palm_chat_svc(body: GooglePalmChatBody):
     api_key = get_api_key(VENDOR_GOOGLE)
     url = get_base_url(VENDOR_GOOGLE)
-    url = f"{url}/google/v1beta2/models/{req_dto.model}:generateMessage?key={api_key}"
+    url = f"{url}/google/v1beta2/models/{body.model}:generateMessage?key={api_key}"
     messages = [
         {"content": msg.content, "author": msg.author}
-        for msg in req_dto.prompt.messages or []
+        for msg in body.prompt.messages or []
     ]
     body = {
         "prompt": {
             "messages": messages
         },
-        "temperature": req_dto.temperature,
-        "candidate_count": req_dto.candidate_count,
-        "model": req_dto.model
+        "temperature": body.temperature,
+        "candidate_count": body.candidate_count,
+        "model": body.model
     }
     try:
         response_json = requests.post(
@@ -36,12 +36,11 @@ def palm_chat_svc(req_dto: GooglePalmChatBody):
         ).json()
         if response_json.get('error') is not None:
             err_msg = response_json.get('error').get("message")
-            base = AOEResponse(
+            return AOEResponse(
                 msg="error",
                 msgCode="-1",
                 data=err_msg
             )
-            return base
 
         # remove messages
         if response_json and response_json.get("messages"):

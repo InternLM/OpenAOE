@@ -11,7 +11,7 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def get_req_param(request, req_dto):
+def get_req_param(body):
     group_id = get_model_configuration(VENDOR_MINIMAX, "group_id")
     jwt = get_model_configuration(VENDOR_MINIMAX, "jwt")
     api_base = get_base_url(VENDOR_MINIMAX)
@@ -20,20 +20,20 @@ def get_req_param(request, req_dto):
         "Content-Type": "application/json"
     }
     role_meta = {
-        "user_name": req_dto.role_meta.user_name,
-        "bot_name": req_dto.role_meta.bot_name
+        "user_name": body.role_meta.user_name,
+        "bot_name": body.role_meta.bot_name
     }
     messages = [
         {"sender_type": msg.sender_type, "text": msg.text}
-        for msg in req_dto.messages or []
+        for msg in body.messages or []
     ]
 
     payload = {
-        "model": req_dto.model,
-        "prompt": req_dto.prompt,
+        "model": body.model,
+        "prompt": body.prompt,
         "role_meta": role_meta,
         "messages": messages,
-        "stream": req_dto.stream,
+        "stream": body.stream,
         "tokens_to_generate": 4096
     }
     url = f'{api_base}/v1/text/chatcompletion?GroupId={group_id}'
@@ -73,9 +73,9 @@ def should_stop(chunk) -> bool:
     return True
 
 
-def minimax_chat_stream_svc(request, req_dto: MinimaxChatCompletionBody):
+def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
     async def event_generator():
-        url, headers, payload = get_req_param(request, req_dto)
+        url, headers, payload = get_req_param(body)
 
         while True:
             stop_flag = False
@@ -98,7 +98,7 @@ def minimax_chat_stream_svc(request, req_dto: MinimaxChatCompletionBody):
                 break
 
     async def event_generator_json():
-        url, headers, payload = get_req_param(request, req_dto)
+        url, headers, payload = get_req_param(body)
         while True:
             stop_flag = False
             if await request.is_disconnected():
@@ -128,9 +128,9 @@ def minimax_chat_stream_svc(request, req_dto: MinimaxChatCompletionBody):
                 yield json.dumps(dict_item)
                 break
 
-    if req_dto.type == "text":
+    if body.type == "text":
         return EventSourceResponse(event_generator())
-    elif req_dto.type == "json":
+    elif body.type == "json":
         return EventSourceResponse(event_generator_json())
 
 

@@ -23,15 +23,14 @@ class BizConfig:
 def init_config():
     parser = argparse.ArgumentParser(description="Example app using a YAML config file.")
     parser.add_argument('-f', '--file', type=str, required=True, help='Path to the YAML config file.')
-
     config_path = parser.parse_args()
-
     logger.info(f"your config file is: {config_path.file}")
     load_config(config_path.file)
 
 
 def load_config(config_path):
     logger.info(f"start to init configuration from {config_path}.")
+    # todo try catch
     with open(config_path) as fin:
         m = yaml.safe_load(fin)
         if not m or len(m) == 0:
@@ -44,9 +43,7 @@ def load_config(config_path):
 
 
 def get_configuration(field):
-    if biz_config.get(field):
-        return biz_config.get(field)
-    return None
+    return biz_config.get(field)
 
 
 def get_model_configuration(vendor: str, field):

@@ -16,19 +16,19 @@ from openaoe.backend.util.time_util import get_current_date
 logger = log(__name__)
 
 
-def calc_authorization(ak: str, sk: str, date: str, host: str) -> str:
-    tmp = "host: " + host + "\n"
-    tmp += "date: " + date + "\n"
-    tmp += "GET " + "/v2.1/chat" + " HTTP/1.1"
-    tmp_sha = hmac.new(sk.encode('utf-8'), tmp.encode('utf-8'), digestmod=hashlib.sha256).digest()
+def _calc_authorization(ak: str, sk: str, date: str, host: str) -> str:
+    msg = "host: " + host + "\n"
+    msg += "date: " + date + "\n"
+    msg += "GET " + "/v2.1/chat" + " HTTP/1.1"
+    msg_sha = hmac.new(sk.encode('utf-8'), msg.encode('utf-8'), digestmod=hashlib.sha256).digest()
     import base64
-    signature = base64.b64encode(tmp_sha).decode(encoding='utf-8')
+    signature = base64.b64encode(msg_sha).decode(encoding='utf-8')
     authorization_origin = f'api_key="{ak}", algorithm="hmac-sha256", headers="host date request-line", signature="{signature}"'
     authorization = base64.b64encode(authorization_origin.encode('utf-8')).decode(encoding='utf-8')
     return authorization
 
 
-def websocket_process(url: str, body: dict):
+def _websocket_process(url: str, body: dict):
     ws = create_connection(url)
     try:
         ws.send(json.dumps(body))
@@ -42,24 +42,20 @@ def websocket_process(url: str, body: dict):
         header = content.get("header")
         if header.get("code") != 0:
             res = "error"
-
             # spark failed
             logger.error(f"spark failed: {content}")
-
             break
-
         payload = content.get("payload")
         text = payload.get("choices").get("text")
         for item in text:
             res += item.get("content")
         if header.get("status") == 2:
             break
-
     ws.close()
     return res
 
 
-def spark_chat_svc(req_dto: XunfeiSparkChatBody):
+def spark_chat_svc(body: XunfeiSparkChatBody):
     api_base = get_base_url(VENDOR_XUNFEI)
     app_id = get_model_configuration(VENDOR_XUNFEI, "app_id")
     ak = get_model_configuration(VENDOR_XUNFEI, "ak")
@@ -69,7 +65,7 @@ def spark_chat_svc(req_dto: XunfeiSparkChatBody):
     host = url_parse.hostname
 
     date = get_current_date()
-    authorization = calc_authorization(ak=ak, sk=sk, date=date, host=host)
+    authorization = _calc_authorization(ak=ak, sk=sk, date=date, host=host)
     v = {
         "authorization": authorization,
         "date": date,
@@ -79,11 +75,11 @@ def spark_chat_svc(req_dto: XunfeiSparkChatBody):
     url = f"{api_base}/v2.1/chat?{v_urlencode}"
     texts = [
         {"role": item.role, "content": item.content}
-        for item in req_dto.payload.message.text or []
+        for item in body.payload.message.text or []
     ]
     uid = None
-    if req_dto.header is not None:
-        uid = None if req_dto.header.uid is None else req_dto.header.uid
+    if body.header is not None:
+        uid = None if body.header.uid is None else body.header.uid
     body = {
         "header": {
             "app_id": app_id,
@@ -91,9 +87,9 @@ def spark_chat_svc(req_dto: XunfeiSparkChatBody):
         },
         "parameter": {
             "chat": {
-                "domain": req_dto.parameter.chat.domain,
-                "temperature": req_dto.parameter.chat.temperature,
-                "max_tokens": req_dto.parameter.chat.max_tokens
+                "domain": body.parameter.chat.domain,
+                "temperature": body.parameter.chat.temperature,
+                "max_tokens": body.parameter.chat.max_tokens
             }
         },
         "payload": {
@@ -103,7 +99,7 @@ def spark_chat_svc(req_dto: XunfeiSparkChatBody):
         }
     }
     try:
-        r = websocket_process(url, body)
+        r = _websocket_process(url, body)
         return AOEResponse(data=r)
     except Exception as e:
         logger.error(e)

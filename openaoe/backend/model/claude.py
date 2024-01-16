@@ -9,10 +9,8 @@ class ClaudeMessage(BaseModel):
 
 class ClaudeChatBody(BaseModel):
     """
-        see
-        - https://github.com/anthropics/anthropic-sdk-python
-        model see
-        - https://docs.anthropic.com/claude/reference/complete_post
+    parameter follows: https://github.com/anthropics/anthropic-sdk-python
+    model choose: https://docs.anthropic.com/claude/reference/selecting-a-model
     """
     prompt: Optional[str] = None
     model: Optional[str] = "claude-instant-1"

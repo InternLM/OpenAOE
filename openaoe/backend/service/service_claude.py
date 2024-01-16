@@ -12,8 +12,12 @@ from openaoe.backend.model.claude import ClaudeChatBody, ClaudeMessage
 
 
 def claude_chat_stream_svc(request, body: ClaudeChatBody):
+    """
+    stream api logic for Claude model
+    use anthropic SDK: https://github.com/anthropics/anthropic-sdk-python
+    """
     api_key = get_api_key(VENDOR_CLAUDE)
-    prompt = gen_prompt(body.prompt, body.messages)
+    prompt = _gen_prompt(body.prompt, body.messages)
     if not prompt or len(prompt) == 0:
         return AOEResponse(
             msg="error",
@@ -67,10 +71,9 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
     return EventSourceResponse(stream())
 
 
-def gen_prompt(prompt: str, messages: List[ClaudeMessage]):
-    #todo
-    if not messages or len(messages) == 0:
-        if not prompt or len(prompt) == 0:
+def _gen_prompt(prompt: str, messages: List[ClaudeMessage]):
+    if not messages:
+        if not prompt:
             return ""
         return f"{HUMAN_PROMPT} {prompt}{AI_PROMPT}"
 
@@ -84,6 +87,3 @@ def gen_prompt(prompt: str, messages: List[ClaudeMessage]):
             ret = item.content + ret
     ret += f"{AI_PROMPT}"
     return ret
-
-
-

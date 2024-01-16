@@ -7,11 +7,12 @@ router = APIRouter()
 
 
 @router.post("/v1/text/chat-stream", tags=["OpenAI"])
-async def openai_chat_stream(request: Request, req_dto: OpenaiChatStreamBody):
+async def openai_chat_stream(request: Request, body: OpenaiChatStreamBody):
     """
-    OpenAI ChatCompletion with Stream
+    stream api for OpenAI ChatCompletion
+    @param request: fastapi request
+    @param body: request body
+    @return: response
     """
-    ret = chat_completion_stream(request, req_dto)
+    ret = chat_completion_stream(request, body)
     return ret
-
-

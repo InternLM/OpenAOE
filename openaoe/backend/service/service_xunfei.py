@@ -1,3 +1,4 @@
+import base64
 import hashlib
 import hmac
 import json
@@ -21,7 +22,6 @@ def _calc_authorization(ak: str, sk: str, date: str, host: str) -> str:
     msg += "date: " + date + "\n"
     msg += "GET " + "/v2.1/chat" + " HTTP/1.1"
     msg_sha = hmac.new(sk.encode('utf-8'), msg.encode('utf-8'), digestmod=hashlib.sha256).digest()
-    import base64
     signature = base64.b64encode(msg_sha).decode(encoding='utf-8')
     authorization_origin = f'api_key="{ak}", algorithm="hmac-sha256", headers="host date request-line", signature="{signature}"'
     authorization = base64.b64encode(authorization_origin.encode('utf-8')).decode(encoding='utf-8')
@@ -108,7 +108,3 @@ def spark_chat_svc(body: XunfeiSparkChatBody):
             msgCode="-1",
             data=str(e)
         )
-
-
-if __name__ == "__main__":
-    pass

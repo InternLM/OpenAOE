@@ -11,7 +11,7 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def get_req_param(body):
+def _get_req_param(body):
     group_id = get_model_configuration(VENDOR_MINIMAX, "group_id")
     jwt = get_model_configuration(VENDOR_MINIMAX, "jwt")
     api_base = get_base_url(VENDOR_MINIMAX)
@@ -40,7 +40,7 @@ def get_req_param(body):
     return url, headers, payload
 
 
-def parse_chunk_delta(chunk):
+def _parse_chunk_delta(chunk):
     if not chunk:
         return "empty received"
     decoded_data = chunk.decode('utf-8')
@@ -57,25 +57,27 @@ def parse_chunk_delta(chunk):
     return delta_content
 
 
-def should_stop(chunk) -> bool:
+def _should_stop(chunk) -> bool:
     if not chunk:
         return True
     decoded_data = chunk.decode('utf-8')
-    # logger.info(f"decoded_data={decoded_data}")
     parsed_data = json.loads(decoded_data.replace("data:", ""))
     choices = parsed_data['choices']
     if choices is None:
         return True
     finish_reason = choices[0].get("finish_reason")
-    # logger.info(f"finish_reason={finish_reason}")
     if finish_reason is None or finish_reason == "":
         return False
     return True
 
 
 def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
+    """
+    chat stream logic for Minimax
+    """
+
     async def event_generator():
-        url, headers, payload = get_req_param(body)
+        url, headers, payload = _get_req_param(body)
 
         while True:
             stop_flag = False
@@ -84,12 +86,12 @@ def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
             try:
                 response = requests.post(url=url, headers=headers, json=payload)
                 for chunk in response.iter_lines():
-                    if should_stop(chunk):
+                    if _should_stop(chunk):
                         stop_flag = True
-                        yield parse_chunk_delta(chunk)
+                        yield _parse_chunk_delta(chunk)
                         break
                     if chunk:
-                        yield parse_chunk_delta(chunk)
+                        yield _parse_chunk_delta(chunk)
             except Exception as e:
                 logger.error(f"{e}")
                 stop_flag = True
@@ -98,29 +100,26 @@ def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
                 break
 
     async def event_generator_json():
-        url, headers, payload = get_req_param(body)
+        url, headers, payload = _get_req_param(body)
         while True:
             stop_flag = False
             if await request.is_disconnected():
-                logger.info("connection closed by request")
                 break
             try:
                 response = requests.post(url=url, headers=headers, json=payload)
                 for chunk in response.iter_lines():
                     dict_item = {
                         "success": "true",
-                        "msg": parse_chunk_delta(chunk)
+                        "msg": _parse_chunk_delta(chunk)
                     }
                     yield json.dumps(dict_item, ensure_ascii=False)
-                    if should_stop(chunk):
+                    if _should_stop(chunk):
                         stop_flag = True
-                        logger.info("connection closed by should_stop")
                         break
                 if stop_flag:
                     break
             except Exception as e:
                 logger.error(f"{e}")
-                logger.info("connection closed by exception")
                 dict_item = {
                     "success": "false",
                     "msg": str(e)
@@ -132,5 +131,3 @@ def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
         return EventSourceResponse(event_generator())
     elif body.type == "json":
         return EventSourceResponse(event_generator_json())
-
-

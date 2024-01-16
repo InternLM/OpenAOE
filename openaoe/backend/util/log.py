@@ -3,9 +3,8 @@ import logging
 
 def log(name):
     """
-    
-    :param name: python file name
-    :return: Logger
+    @param name: python file name
+    @return: Logger
     """
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)

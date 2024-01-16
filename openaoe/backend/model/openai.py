@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from typing import Optional, List
+
+from pydantic import BaseModel
 
 
 class Context(BaseModel):
@@ -14,11 +15,13 @@ class RoleMeta(BaseModel):
 
 
 class OpenaiChatStreamBody(BaseModel):
+    """
+    parameter follows: https://platform.openai.com/docs/api-reference/chat/create
+    """
     model: Optional[str] = 'gpt-3.5-turbo'
     prompt: str
     temperature: Optional[float] = 1
     messages: Optional[List[Context]] = None
     role_meta: Optional[RoleMeta] = None
-    # return type: text or json
     type: Optional[str] = 'text'
     timeout: Optional[int] = 600

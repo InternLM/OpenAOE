@@ -56,6 +56,9 @@ def _websocket_process(url: str, body: dict):
 
 
 def spark_chat_svc(body: XunfeiSparkChatBody):
+    """
+    chat logic for spark model
+    """
     api_base = get_base_url(VENDOR_XUNFEI)
     app_id = get_model_configuration(VENDOR_XUNFEI, "app_id")
     ak = get_model_configuration(VENDOR_XUNFEI, "ak")

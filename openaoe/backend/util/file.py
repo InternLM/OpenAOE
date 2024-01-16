@@ -1,3 +1,4 @@
+import os.path
 import re
 import sys
 from os.path import exists
@@ -6,10 +7,11 @@ from os.path import exists
 def get_file_content(file_name):
     """
     get the file content by file_name
-    :param file_name: local path of file_name
-    :return: content: in str
     """
-    # todo try catch
+    if not os.path.isfile(file_name):
+        print(f"ERROR: invalid file: {file_name}, not exist or not file")
+        sys.exit(-1)
+
     with open(file_name, encoding='utf-8') as f:
         content = f.read()
     return content
@@ -20,9 +22,9 @@ def parse_requirements(fname='requirements.txt', with_version=True):
     """
     Parse the package dependencies listed in a requirements file but strips
     specific versioning information.
-    :param fname: path to requirements file
-    :param with_version: if True include version specs
-    :return: List[str]: list of requirements items
+    @param fname: path to requirements file
+    @param with_version: if True include version specs
+    @return: List[str]: list of requirements items
     """
 
     require_fpath = fname

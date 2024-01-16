@@ -28,7 +28,9 @@ JS_PATH_LIB = f"{STATIC_RESOURCE_DIR}/js"
 path = img_out_path()
 OUT_IMG_PATH_LIB = f"{path}"
 
+# init configuration content
 init_config()
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=STATIC_RESOURCE_DIR), name="static")
 
@@ -70,6 +72,10 @@ app.include_router(internlm, prefix=f"/{API_VER}/internlm")
 
 
 def main():
+    """
+    main function
+    start server use uvicorn, default workers: 3
+    """
     uvicorn.run(
         "openaoe.main:app",
         host='0.0.0.0',

@@ -9,9 +9,8 @@ def safe_join(directory: str, path: str) -> str:
     """
     Safely path to a base directory to avoid escaping the base directory.
     Borrowed from: werkzeug.security.safe_join
-    :param directory:
-    :param path:
-    :return:
+    @param directory:
+    @param path:
     """
     _os_alt_seps: List[str] = [
         sep for sep in [os.path.sep, os.path.altsep] if sep is not None and sep != "/"
@@ -41,6 +40,3 @@ def generate_random_string(length: int):
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
 
-
-if __name__ == '__main__':
-    pass

@@ -6,8 +6,8 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_base_url
 from openaoe.backend.config.constant import *
-from openaoe.backend.model.internlm import InternlmChatCompletionBody
 from openaoe.backend.model.aoe_response import AOEResponse
+from openaoe.backend.model.internlm import InternlmChatCompletionBody
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
@@ -107,7 +107,3 @@ def chat_completion_stream_v1(request, url, headers, data):
                 break
 
     return EventSourceResponse(event_generator_json())
-
-
-if __name__ == "__main__":
-    pass

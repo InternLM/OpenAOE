@@ -1,7 +1,6 @@
 import json
 
 import requests
-from fastapi import Request
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import *
@@ -9,11 +8,13 @@ from openaoe.backend.model.aoe_response import AOEResponse
 from openaoe.backend.model.google import GooglePalmChatBody
 from openaoe.backend.util.log import log
 
-
 logger = log(__name__)
 
 
 def palm_chat_svc(body: GooglePalmChatBody):
+    """
+    chat logic for google PaLM model
+    """
     api_key = get_api_key(VENDOR_GOOGLE)
     url = get_base_url(VENDOR_GOOGLE)
     url = f"{url}/google/v1beta2/models/{body.model}:generateMessage?key={api_key}"

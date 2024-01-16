@@ -5,12 +5,13 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import *
+from openaoe.backend.model.aoe_response import AOEResponse
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
 
 
-def messages_process(req_dto):
+def _messages_process(req_dto):
     prompt = req_dto.prompt
     contexts = req_dto.messages
     role_meta = req_dto.role_meta
@@ -50,7 +51,7 @@ def chat_completion_stream(request, body):
             try:
                 res = client.chat.completions.with_raw_response.create(
                     model=body.model,
-                    messages=messages_process(body),
+                    messages=_messages_process(body),
                     temperature=body.temperature,
                     stream=True,
                     timeout=body.timeout
@@ -87,7 +88,7 @@ def chat_completion_stream(request, body):
             try:
                 res = client.chat.completions.with_raw_response.create(
                     model=body.model,
-                    messages=messages_process(body),
+                    messages=_messages_process(body),
                     temperature=body.temperature,
                     stream=True,
                     timeout=body.timeout
@@ -120,8 +121,8 @@ def chat_completion_stream(request, body):
         return EventSourceResponse(event_generator())
     elif body.type == 'json':
         return EventSourceResponse(event_generator_json())
-    # todo return?
-
-
-if __name__ == "__main__":
-    pass
+    else:
+        return AOEResponse(
+            msg=f"invalid type: {body.type}",
+            msgCode="-1"
+        )

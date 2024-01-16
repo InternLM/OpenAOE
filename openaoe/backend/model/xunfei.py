@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from typing import Optional, List
+
+from pydantic import BaseModel
 
 
 class Header(BaseModel):
@@ -33,6 +34,9 @@ class Payload(BaseModel):
 
 
 class XunfeiSparkChatBody(BaseModel):
+    """
+    parameter follows: https://www.xfyun.cn/doc/spark/Web.html#_1-%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E
+    """
     header: Optional[Header] = None
     parameter: Parameter
     payload: Payload

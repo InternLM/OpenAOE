@@ -12,6 +12,9 @@ class Prompt(BaseModel):
 
 
 class GooglePalmChatBody(BaseModel):
+    """
+    parameter follows: https://ai.google.dev/api/rest/v1beta/models/generateMessage
+    """
     model: Optional[str] = "chat-bison-001"
     prompt: Prompt
     temperature: Optional[float] = 0.1

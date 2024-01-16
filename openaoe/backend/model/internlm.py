@@ -1,6 +1,7 @@
-from pydantic import BaseModel
 from typing import Optional, List, Union
+
 from openai._types import NOT_GIVEN
+from pydantic import BaseModel
 
 
 class Context(BaseModel):
@@ -30,4 +31,3 @@ class InternlmChatCompletionBody(BaseModel):
     session_id: Optional[int] = -1
     ignore_eos: Optional[bool] = False
     max_tokens: Optional[int] = 1024
-

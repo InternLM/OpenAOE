@@ -30,7 +30,10 @@ def init_config():
 
 def load_config(config_path):
     logger.info(f"start to init configuration from {config_path}.")
-    # todo try catch
+    if not os.path.isfile(config_path):
+        logger.error(f"invalid path: {config_path}, not exist or not file")
+        sys.exit(-1)
+
     with open(config_path) as fin:
         m = yaml.safe_load(fin)
         if not m or len(m) == 0:
@@ -54,7 +57,6 @@ def get_model_configuration(vendor: str, field):
 
     if models.get(vendor) and models.get(vendor).get(field):
         conf = models.get(vendor).get(field)
-        logger.info(f"biz_config={conf}")
         return conf
 
     logger.error(f"vendor: {vendor} has no field: {field} configuration")

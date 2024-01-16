@@ -1,4 +1,5 @@
 #!/bin/bash
+# This is a shell script to build and push the python package to https://pypi.org
 
 old_version=$(grep -Po "(?<=version=')[^']+(?=')" setup.py)
 echo "Current version is $old_version. New version?(enter to use the current version)"

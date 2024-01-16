@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-# Copyright (c) didigo. All rights reserved.
+# This is a python script to build and push the python package to https://pypi.org.
+
 from setuptools import find_packages, setup
 import openaoe.backend.util.file as utils
 import os
+
 
 def recursive_files(base_dir):
     file_list = []
@@ -10,6 +12,7 @@ def recursive_files(base_dir):
         for filename in filenames:
             file_list.append(os.path.join(dirpath, filename))
     return file_list
+
 
 setup(
     name='openaoe',

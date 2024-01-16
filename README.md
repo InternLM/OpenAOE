@@ -34,7 +34,7 @@ OpenAOE can help LLM researchers, evaluators, engineering developers, and even n
 
 ## What can you get from OpenAOE?
 OpenAOE can:
-1. return one or more LLMs' answers **at the same** time by a single prompt.
+1. return one or more LLMs' answers **at the same time** by a single prompt.
 2. provide access to commercial LLM APIs, with default support for gpt3.5, gpt4, Google Palm, Minimax, Claude, Spark, etc., and also support user-defined access to other large model APIs. (API keys need to be prepared in advanced)
 3. provide access to open-source LLM APIs. ( We recommend to use [LMDeploy](https://github.com/InternLM/lmdeploy) to deploy with one click)
 4. provide backend APIs and a WEB-UI to meet the needs of different requirements.

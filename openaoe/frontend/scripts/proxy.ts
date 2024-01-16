@@ -1,4 +1,4 @@
-// https://github.com/http-party/node-http-proxy#options
+// docs: https://github.com/http-party/node-http-proxy#options
 const ProxyConfig = {
     '/gw/openaoe-be': {
         target: 'http://localhost:5173',

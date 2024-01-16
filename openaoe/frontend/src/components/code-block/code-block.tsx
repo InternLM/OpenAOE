@@ -44,7 +44,6 @@ const CodeBlock: React.FC<any> = ({
     const match = /language-(\w+)/.exec(className || '') || [];
     const configStore = useConfigStore();
 
-    // 注册要高亮的语法
     SyntaxHighlighter.registerLanguage('assembly', assembly);
     SyntaxHighlighter.registerLanguage('python', python);
     SyntaxHighlighter.registerLanguage('c', c);
@@ -87,7 +86,7 @@ const CodeBlock: React.FC<any> = ({
 
     return !inline && match ? (
         <SyntaxHighlighter
-            language={(match[1] || 'Python').toLowerCase()} // 默认语言Python
+            language={(match[1] || 'Python').toLowerCase()} // Change the default language here
             style={configStore.theme === 'light' ? codeStyle : darkCodeStyle}
             customStyle={{
                 borderRadius: '10px',

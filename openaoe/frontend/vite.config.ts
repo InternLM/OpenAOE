@@ -4,7 +4,7 @@ import { Plugin as PluginImportToCDN } from 'vite-plugin-cdn-import';
 import { ProxyConfig, ImportToCDNList, alias } from './scripts';
 import { resolvePath } from './scripts/utils';
 
-// https://vitejs.dev/config/
+// docs: https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
         // vite-plugin-cdn-import only works in build, not in dev, dev still depends on the package installed by npm

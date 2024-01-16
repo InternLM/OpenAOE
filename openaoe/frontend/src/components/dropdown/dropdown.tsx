@@ -92,7 +92,7 @@ const Dropdown: FC<DropdownProps> = (props) => {
     });
 
     useEffect(() => {
-        // 监听滚动，重新计算位置
+        // re-calculate the position when the scroll event triggered
         const handleScroll = () => {
             if (open) {
                 handleOpen();

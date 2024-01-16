@@ -1,7 +1,7 @@
 /**
  *  Description: This file is used to define basic configuration of the model API
  *  These configurations are used as default request payload for the model API.
- *  TODO: Add more models' basic API configuration here.
+ *  Add more models' basic API configuration here.
  */
 
 const minimax = {

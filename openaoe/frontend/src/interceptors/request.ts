@@ -1,10 +1,11 @@
 import { noAuthorizationUrl } from '@config/auth';
 import { getLang, Token } from '@utils/utils';
 
-// *Interceptor函数：主要用来在请求发出前处理config，config由axios的请求拦截器提供
-// *Interceptor函数运行规则：函数会依次从左到右执行，每个*Interceptor函数必须返回config，供下一个*Interceptor函数处理
-// 好处：代码结构更清晰，每个函数专注做自己的事情，拿到config处理后return，达到逻辑解耦的目的
-
+/**
+ * {Interceptor}: mainly used to process config before the request is issued. `config` is provided by the request interceptor of `axios`
+ * Operation rules: The function will be executed from left to right in sequence. Each *Interceptor function must return config for the next *Interceptor function to process.
+ * Benefits: The code structure is clearer, each function focuses on doing its own thing, and returns after processing the config, achieving the purpose of logical decoupling.
+*/
 interface IAuth {
     Authorization?: string;
 }
@@ -12,7 +13,7 @@ interface IAuth {
 const validateAuthInterceptor = config => {
     const auth: IAuth = {};
     const noAuthApi = noAuthorizationUrl.find(url => config.url.endsWith(url));
-    // 没找到就是需要token的api
+    // need authorization if not in the whitelist
     if (!noAuthApi) {
         const token = Token.get();
         if (token) {

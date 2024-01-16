@@ -37,7 +37,7 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
         });
     }
     if (provider === 'google') {
-        // FIXME: Messages must alternate between authors.
+        // TODO: Messages must alternate between authors.
         const defaultMessage = {
             content: 'Hi! How can I help you today?',
             author: '1'

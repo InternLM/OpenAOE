@@ -1,6 +1,5 @@
 import { persist } from 'zustand/middleware';
 import { create } from 'zustand';
-import PromptsTemplates, { PromptTemplate } from '@constants/prompts.ts';
 import { SERIAL_MODE } from '@constants/models.ts';
 
 export interface configStore {
@@ -8,7 +7,6 @@ export interface configStore {
     theme: string;
     username: string;
     mode: string;
-    prompts: PromptTemplate[],
     updateTheme: (theme: string) => void;
     updateMode: (mode: string) => void;
 }
@@ -19,7 +17,6 @@ export const useConfigStore = create<configStore>()(
             theme: 'light',
             username: 'user',
             mode: SERIAL_MODE, // 'parallel' | 'serial'
-            prompts: PromptsTemplates,
             updateTheme: (theme: string) => {
                 set({ theme });
             },
@@ -39,7 +36,6 @@ export const useConfigStore = create<configStore>()(
                     newState.theme = 'light';
                     newState.username = 'user';
                     newState.mode = SERIAL_MODE;
-                    newState.prompts = PromptsTemplates;
                 }
 
                 return newState;

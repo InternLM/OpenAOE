@@ -13,5 +13,6 @@ RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r openaoe/backend/r
 ENV CONFIG_PATH=/app/config.yaml
 EXPOSE 10099
 CMD ["python", "-u", "-m", "openaoe.main", "-f", "/app/config.yaml"]
+#CMD ["tail", "-f", "/dev/null"]
 
 # docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config-template.yaml --name open-aoe open-aoe:latest

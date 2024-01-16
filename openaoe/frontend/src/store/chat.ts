@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import { scrollToBottom } from '@utils/utils.ts';
 import { getHeaders, getPayload, getUrl } from '@services/fetch.ts';
 import { fetchBotAnswer } from '@services/home.ts';
-import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT} from '@constants/models.ts';
+import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT } from '@constants/models.ts';
 import { ALL_MODELS } from '@config/model-config.ts';
 
 export interface ChatMessage {
@@ -30,7 +30,7 @@ export function createMessage(override: Partial<ChatMessage>): ChatMessage {
 
 export interface ChatSession {
     id: number;
-    name: string; // model name, 用来标识session，唯一
+    name: string; // session name, 用来标识session，唯一
     bot: string; // bot name
     messages: ChatMessage[];
     isShow?: boolean;
@@ -52,7 +52,7 @@ interface ChatStore {
     sessions: ChatSession[];
     currentSessionIndex: number;
     globalId: number;
-    controller: AbortController | null;
+    controller: Record<string, AbortController> | null;
     newSession: (sessionName: string) => void;
     removeSession: (sessionName: string) => void;
     getSession: (sessionName: string) => ChatSession;
@@ -82,7 +82,7 @@ export const useChatStore = create<ChatStore>()(
             sessions: [createSession({ name: SERIAL_SESSION }), createSession({ name: DEFAULT_BOT })],
             currentSessionIndex: 0,
             globalId: 0,
-            controller: null,
+            controller: {},
             newSession(sessionName) {
                 const sessions = get().sessions;
                 const targetIdx = sessions.findIndex((session) => session.name === sessionName);
@@ -163,8 +163,8 @@ export const useChatStore = create<ChatStore>()(
                     sender_type: 'user'
                 });
                 const botMessage = createMessage({
-                    provider: provider,
-                    model: model,
+                    provider,
+                    model,
                     text: '...',
                     sender_type: 'bot',
                     id: userMessage.id + 1,
@@ -175,7 +175,9 @@ export const useChatStore = create<ChatStore>()(
                 scrollToBottom(`chat-wrapper-${currSession.id}`);
 
                 const abortController = new AbortController();
-                set(() => ({ controller: abortController }));
+                const controller = get().controller;
+                controller[sessionName] = abortController;
+                set(() => ({ controller: { ...controller } }));
                 const chatPayload = {
                     method: 'POST',
                     headers: getHeaders(),
@@ -229,7 +231,9 @@ export const useChatStore = create<ChatStore>()(
                             message.isError = true;
                         });
                     } finally {
-                        set(() => ({ controller: null }));
+                        const oldController = get().controller;
+                        delete oldController[sessionName];
+                        set(() => ({ controller: { ...oldController } }));
                     }
                 } else {
                     fetchEventSource(url, {
@@ -283,7 +287,9 @@ export const useChatStore = create<ChatStore>()(
                                     : `${botMessage.text}\n > Oops... Something went wrong (°⌓°)`;
                                 message.isError = true;
                             });
-                            set(() => ({ controller: null }));
+                            const oldController = get().controller;
+                            delete oldController[sessionName];
+                            set(() => ({ controller: { ...oldController } }));
                             throw e;
                         },
                         onclose() {
@@ -291,7 +297,9 @@ export const useChatStore = create<ChatStore>()(
                             get().updateMessage(sessionIndex, messageIndex, (message) => {
                                 message.stream = botMessage.stream;
                             });
-                            set(() => ({ controller: null }));
+                            const oldController = get().controller;
+                            delete oldController[sessionName];
+                            set(() => ({ controller: { ...oldController } }));
                             console.log('[BOT] answering closed. ');
                         }
                     });
@@ -340,11 +348,13 @@ export const useChatStore = create<ChatStore>()(
             },
             closeController(sessionName: string) {
                 const controller = get().controller;
-                if (controller) {
-                    if (controller.abort) {
-                        controller.abort();
+                const sessionController = controller?.[sessionName];
+                if (sessionController) {
+                    if (sessionController.abort) {
+                        sessionController.abort();
                     }
-                    set(() => ({ controller: null }));
+                    delete controller[sessionName];
+                    set(() => ({ controller: { ...controller } }));
                     const sessionIndex = get().sessions.findIndex((session) => session.name === sessionName);
                     const currSession = get().sessions[sessionIndex];
                     get().updateMessage(sessionIndex, currSession.messages.length - 1, (message) => {

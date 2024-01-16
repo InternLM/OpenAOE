@@ -4,14 +4,14 @@ import {
 } from '@utils/utils';
 
 export const handleUnauth = () => {
-    // 处理一些用户权限验证
+    // Remove token when not authorized
     Token.removeAll();
 };
 
 const formatResponseData = response => {
     const resp = response.data;
     const meta = response.__meta;
-    const isAllResponseBody = meta.isAllResponseBody; // isAllResponseBody是否需要返回完整数组结构
+    const isAllResponseBody = meta.isAllResponseBody;
     if (isAllResponseBody) {
         return resp;
     }
@@ -30,7 +30,6 @@ const handleErrorAlert = response => {
 
 const validateAuth = response => {
     const resp = response.data;
-    // 应用拦截到鉴权错误
     if (resp && resp.msgCode === 'A0202') {
         handleUnauth();
     }
@@ -39,7 +38,6 @@ const validateAuth = response => {
 
 const validateInvitation = response => {
     const resp = response.data;
-    // 应用拦截到鉴权错误
     if (resp && resp.msgCode === 'C1600') {
         window.location.href = jumpLogin();
     }
@@ -53,7 +51,6 @@ const showErrorMessage = (text, ignore = false) => {
 };
 
 const handleErrorData = (error) => {
-    // 如果没有用户则不显示弹窗
     if (error.response) {
         const meta = error.__meta;
         const ignore = meta.isIgnoreGatewayError;

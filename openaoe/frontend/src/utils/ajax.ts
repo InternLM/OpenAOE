@@ -66,8 +66,8 @@ instance.interceptors.response.use(handleResponsetInterceptors, handleResponsetE
 
 export const ajax = (api, {
     method = 'GET',
-    params = {}, // url query参数
-    data = {}, // http body 参数
+    params = {}, // url query parameters
+    data = {}, // http body parameters
     ...rest
 }): Promise<any> => {
     const url = `${BaseURL}${api}`;

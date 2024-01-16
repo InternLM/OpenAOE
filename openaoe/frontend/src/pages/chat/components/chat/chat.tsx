@@ -19,7 +19,6 @@ import ChatOperation from '@pages/chat/components/chat-operations/chat-operation
 import { useChatStore, ChatMessage as ChatMessageProps, ChatSession as ChatSessionProps } from '@/store/chat.ts';
 import styles from './chat.module.less';
 import { useConfigStore } from '@/store/config.ts';
-import { useShareStore } from '@/store/share.ts';
 
 export async function copyToClipboard(text: string) {
     try {
@@ -76,29 +75,15 @@ const RunningMario = () => {
 };
 function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: number, name: string, bot: string} }) {
     const [showDate, setShowDate] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
-    const { message, sessionInfo } = props;
+    const { message } = props;
     const isUser = message.sender_type === 'user' || message.provider === 'user';
-    const isSystem = message.provider === 'admin' && message.sender_type !== CLEAR_CONTEXT;
     const className = classNames(
         styles.messageWrapper,
         isUser ? styles.chatUser : styles.chatBot,
     );
     const configStore = useConfigStore();
-    const shareStore = useShareStore();
 
     const model = ALL_MODELS.find((m) => m.model === (message.model || 'user'));
-
-    const handleChecked = () => {
-        setIsChecked(!isChecked);
-        shareStore.updateChosenChats(sessionInfo.id, message, !isChecked, sessionInfo);
-    };
-
-    useEffect(() => {
-        if (!shareStore.isSharing) {
-            setIsChecked(false);
-        }
-    }, [shareStore.isSharing]);
 
     if (!model) {
         return null;
@@ -111,25 +96,12 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
             onMouseEnter={() => setShowDate(true)}
             onMouseLeave={() => setShowDate(false)}
         >
-            {/* 分享模式下显示多选框 */}
-            {(shareStore.isSharing && !shareStore.isPreview) && (
-                <input
-                    type="radio"
-                    className={styles.chatCheckbox}
-                    style={{ marginRight: isUser ? 'auto' : 'unset' }}
-                    defaultChecked={false}
-                    checked={isChecked}
-                    disabled={isSystem}
-                    onClick={handleChecked}
-                />
-            )}
             {(message.sender_type === CLEAR_CONTEXT) ? (
                 <div className={styles.clearLine}>
                     Context cleared
                 </div>
             ) : (
                 <>
-                    {/* 移动端不显示头像 */}
                     {!isMobile && !isUser && (
                         <div style={{ background: model.background }} className={styles.modelAvatar}>
                             <img
@@ -139,14 +111,13 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
                             />
                         </div>
                     )}
-                    {/* 消息主体 */}
                     <div
                         title={message.model || configStore.username}
                         className={className}
                         style={{ borderRadius: !isUser ? '1px 10px 10px 10px' : '10px 1px 10px 10px' }}
                     >
                         {message.stream && <RunningMario />}
-                        {showDate && !shareStore.isSharing && (
+                        {showDate && (
                             <div className={styles.chatOperations}>
                                 <div>
                                     {`${model.provider} - ${model.model}`}
@@ -164,7 +135,7 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
                         >
                             {message.text}
                         </ReactMarkdown>
-                        {showDate && !shareStore.isSharing && (
+                        {showDate && (
                             <div
                                 className={styles.chatDate}
                                 style={{ right: isUser ? '0' : 'auto', left: isUser ? 'auto' : '0' }}
@@ -173,7 +144,6 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
                             </div>
                         )}
                     </div>
-                    {/* 移动端不显示头像 */}
                     {!isMobile && isUser && (
                         <div style={{ color: model.background, marginRight: 2 }} className={styles.modelAvatar}>
                             ME
@@ -230,41 +200,25 @@ function ChatSession(props: { session: ChatSessionProps }) {
 const ChatPage: React.FC = () => {
     const chatStore = useChatStore();
     const configStore = useConfigStore();
-    const shareStore = useShareStore();
     const { sessions } = chatStore;
-    const { chosenChats, isPreview } = shareStore;
 
     return (
-        <>
-            <div className={styles.sessions}>
-                {Array.isArray(sessions) && sessions.map((session) => {
-                    if (configStore.mode === SERIAL_MODE && session.name !== SERIAL_SESSION) {
-                        return null;
-                    }
-                    if ((configStore.mode === PARALLEL_MODE && session.name === SERIAL_SESSION) || !session.isShow) {
-                        return null;
-                    }
-                    return (
-                        <ChatSession
-                            key={session.id}
-                            session={session}
-                        />
-                    );
-                })}
-            </div>
-            {isPreview && (
-                <div className={styles.previewSessions}>
-                    {Array.isArray(chosenChats) && chosenChats.map((share) => {
-                        return (
-                            <ChatSession
-                                key={share.id}
-                                session={share}
-                            />
-                        );
-                    })}
-                </div>
-            )}
-        </>
+        <div className={styles.sessions}>
+            {Array.isArray(sessions) && sessions.map((session) => {
+                if (configStore.mode === SERIAL_MODE && session.name !== SERIAL_SESSION) {
+                    return null;
+                }
+                if ((configStore.mode === PARALLEL_MODE && session.name === SERIAL_SESSION) || !session.isShow) {
+                    return null;
+                }
+                return (
+                    <ChatSession
+                        key={session.id}
+                        session={session}
+                    />
+                );
+            })}
+        </div>
     );
 };
 

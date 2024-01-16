@@ -109,21 +109,8 @@ export const Token = {
     }
 };
 
-// 这是应用中心clientId，每个新应用都需要自己的clientId
-const getClientId = () => {
-    switch (process.env.NODE_ENV) {
-    case 'development':
-        return 'modjkaa3v93xnjop2weq';
-    case 'staging':
-        return 'g6rlyoqq3kxgzdzoe84q';
-    default:
-        return 'nvnoqg6maqjaq3ldzrqb';
-    }
-};
-export const clientId = getClientId();
-
 export const jumpLogin = () => {
-    return `${process.env.LOG_URL}/authentication?redirect=${window.location.href}&clientId=${clientId}&lang=${getLang()}`;
+    return '/login';
 };
 
 export function debounce(func, delay = 50) {
@@ -185,13 +172,13 @@ export const getCaretPosition = (element) => {
 };
 
 /**
- * 设置div光标位置
- * @param {Element} editableDiv 可编辑div元素
- * @param {number} position 文本偏移位置
+ * Set caret position in contenteditable element
+ * @param {Element} editableDiv editable div element
+ * @param {number} position caret position
  */
 export function setCaretPos(editableDiv, position) {
     let charIndex = 0;
-    const range = document.createRange(); // 创建一个选区范围
+    const range = document.createRange(); // create new range object
     range.setStart(editableDiv, 0); // 选择适当的节点（根据position值）
 
     // 遍历所有的子节点，有文本节点就直接设置，有其他元素节点就再进一步遍历其子节点
@@ -223,34 +210,3 @@ export function setCaretPos(editableDiv, position) {
     sel.removeAllRanges();
     sel.addRange(range);
 }
-
-export const replaceLastMatch = (str: string, target: string, replace: string) => {
-    const lastIndex = str.lastIndexOf(target);
-    if (lastIndex === -1) return str;
-    return str.slice(0, lastIndex) + replace + str.slice(lastIndex + target.length);
-};
-
-export const formatTime = (time: number) => {
-    const oldTime = time;
-
-    if (!oldTime) return ''; // 如果为空或时间格式错误， 直接返回
-
-    const nowTime = new Date().getTime();
-    const timeGap = nowTime - oldTime;
-
-    const minutes = Math.floor(timeGap / (1000 * 60));
-    if (timeGap <= 0 || minutes <= 0) return 'Just now';
-    if (minutes < 60) return `${minutes} minutes ago`;
-
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} hours ago`;
-
-    const days = Math.floor(hours / 24);
-    if (days <= 30) return `${days} days ago`;
-
-    const ymd = new Date(oldTime).toLocaleDateString();
-    const year = ymd.split('/')[2];
-    const month = ymd.split('/')[0];
-    const day = ymd.split('/')[1];
-    return `${month}-${day}-${year}`;
-};

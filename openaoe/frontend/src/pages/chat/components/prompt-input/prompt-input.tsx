@@ -7,7 +7,7 @@ import React, {
     useEffect, useLayoutEffect, useState
 } from 'react';
 import {
-    getCaretElement, getCaretPosition, getNeedEventCallback, setCaretPos
+    getCaretPosition, getNeedEventCallback, setCaretPos
 } from '@utils/utils.ts';
 import { Configs, ConfigState } from '@constants/configs.ts';
 import classNames from 'classnames';
@@ -23,11 +23,6 @@ const BOT_PLACEHOLDER = {
     google: 'Google does not support Chinese',
 };
 
-const promptConfig = {
-    PromptName: 'Enter prompt\'s name firstly and submit it.',
-    PromptContent: 'Enter prompt\'s content and submit it.',
-};
-
 const PromptInput = () => {
     const chatStore = useChatStore();
     const botStore = useBotStore();
@@ -36,29 +31,23 @@ const PromptInput = () => {
     const hiddenRef = React.useRef<HTMLDivElement>(null);
     const [configs, setConfigs] = useState(Configs);
 
-    /** 控制命令和筛选项 */
-    // 用于控制config窗口的显示
+    /** commands and input filters */
     const [showConfig, setShowConfig] = useState(false);
-    // 用于控制输入的prompt
     const [currPrompt, setCurrPrompt] = useState('');
-    // 用于控制当前选中的model
-    const [currModel, setCurrModel] = useState('');
-    // 用于控制当前选中的model
     const [currConfig, setCurrConfig] = useState<ConfigState>(null);
-    // 用于控制当前高亮的config
     const [chosenConfig, setChosenConfig] = useState(0);
     const [configFilter, setConfigFilter] = useState('');
 
-    /** 控制输入框的样式及内容 */
+    /** editor's style and content */
     const [placeholder, setPlaceholder] = useState(BOT_PLACEHOLDER.default);
     const [editorContent, setEditorContent] = useState('');
     const [caretPosition, setCaretPosition] = useState(0);
     const [isComposing, setIsComposing] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
 
-    /** 清洗输入的内容, 高亮内容不需要输入
-     * @param html html文本内容
-     * 使用hiddenRef作为中介，解决换行符缺失的bug
+    /** clean input
+     * @param html innerHTML
+     * Use hiddenRef as an intermediary to solve the bug of missing line breaks
      */
     const cleanInput = (html: string) => {
         html = html.replace(/<span class="modelName">.*?<\/span>/g, '');
@@ -66,9 +55,9 @@ const PromptInput = () => {
         return hiddenRef.current.innerText || '';
     };
 
-    /** 无害化处理, 防止xss攻击
+    /** filter html tags to prevent XSS attacks
      * @param content innerHTML
-     * @param updateCaretFlag 是否更新光标位置
+     * @param updateCaretFlag whether to update caret position
      */
     const handleContentChange = (content: string, updateCaretFlag = true) => {
         if (content === editorContent) {
@@ -83,7 +72,7 @@ const PromptInput = () => {
         };
 
         if (updateCaretFlag) {
-            // 保存光标位置， 用于后续更正光标位置
+            // save caret position for later updation
             const position = getCaretPosition(editorRef.current);
             setCaretPosition(position);
         }
@@ -91,7 +80,7 @@ const PromptInput = () => {
         setEditorContent(sanitizeHtml(content, sanitizeConf));
     };
 
-    /** 选择某个config */
+    /** Chose config */
     const handleClickConfig = (config) => {
         if (config.name === 'Serial Mode') {
             configStore.updateMode(SERIAL_MODE);
@@ -110,12 +99,11 @@ const PromptInput = () => {
         setConfigFilter('');
     };
 
-    /** chat 模式下，给bot发送消息 */
+    /** Send message to model */
     const handleSendMessage = () => {
         if (currPrompt.trim()) {
             setCurrPrompt('');
             handleContentChange('');
-            // 发送消息
             if (configStore.mode === SERIAL_MODE) {
                 const provider = ALL_MODELS.find((model) => model.model === botStore.currentBot).provider;
                 chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION);
@@ -129,7 +117,8 @@ const PromptInput = () => {
     };
 
     /**
-     * 处理键盘事件, 包括上下键选择prompt, model, config, 偶尔需要拦截输入
+     * handle event when press key, triggered when press key down(before input changed)
+     * sometime need to prevent default
      * @param e
      */
     const onKeyDown = (e) => {
@@ -141,7 +130,6 @@ const PromptInput = () => {
             e.preventDefault();
             if (currPrompt.trim()) {
                 if (showConfig) {
-                    // 选中了某个config
                     handleClickConfig(configs[chosenConfig]);
                     return;
                 }
@@ -152,7 +140,7 @@ const PromptInput = () => {
         if (keyValue === '#' && !showConfig) {
             setShowConfig(true);
         }
-        // 如果config窗口打开的话, 处理上下键选择config
+        // Allow to select config when press up/down arrow
         if (showConfig) {
             const configLength = configs.length - 1;
             if (keyValue === 'ArrowUp') {
@@ -166,24 +154,14 @@ const PromptInput = () => {
                 setConfigFilter('');
             }
         }
-        // 如果prompt窗口或者model窗口打开的话, 处理esc键关闭窗口
+        // Close config window when press ESC
         if (showConfig && keyValue === 'Escape') {
             setShowConfig(false);
-        }
-        //  删除光标前面高亮的内容
-        if (keyValue === 'Backspace') {
-            const caretPrevElement = getCaretElement() as HTMLSpanElement;
-            if (caretPrevElement && caretPrevElement.nodeName === 'SPAN' && caretPrevElement.className === 'modelName') {
-                const content = editorContent;
-                const target = `<span class="modelName">${ caretPrevElement.textContent }</span>`;
-                setCaretPosition(caretPosition - caretPrevElement.textContent.length + 1);
-                handleContentChange(content.replace(target, ''), false);
-            }
         }
     };
 
     /**
-     * editable div 输入事件, 内容变化时更新currPrompt
+     * editable div, update currPrompt when input content changed
      * @param e
      */
     const onInput = (e) => {
@@ -207,23 +185,8 @@ const PromptInput = () => {
     }, [configFilter]);
 
     useEffect(() => {
-        if (currModel && configStore.mode === SERIAL_MODE) {
-            // 如果是serial模式，更新当前高亮的model
-            // 响应点击选择模型的变化
-            const model = botStore.currentBot;
-            let newContent = editorContent;
-            newContent = newContent.replace(
-                `<span class="modelName">@${ currModel }</span>`,
-                `<span class="modelName">@${ model }</span>`
-            );
-            setCurrModel(model);
-            handleContentChange(newContent);
-        }
-    }, [botStore.currentBot]);
-
-    useEffect(() => {
         if (showConfig) {
-            // 如果 # 后面继续输入 ，就更新configFilter
+            // update configFilter when more input content following #
             setConfigFilter(currPrompt.split('#').slice(-1)[0]);
         }
     }, [currPrompt]);
@@ -270,7 +233,7 @@ const PromptInput = () => {
                     </div>
                 )}
                 {/** prompt input box */}
-                {/* FIXME 上一个问题没有结束时，应该禁言输入框 */}
+                {/* FIXME input should be disabled when there are generating answers */}
                 <div
                     contentEditable
                     spellCheck
@@ -293,7 +256,7 @@ const PromptInput = () => {
                     {...getNeedEventCallback(handleSendMessage)}
                 />
             </div>
-            {/* 用于解决cleanInput的空格符消失bug， 实际上在页面上不显示 */}
+            {/* Set for fixing bug caused by function cleanInput, invisible for users */}
             <div
                 ref={hiddenRef}
                 style={{

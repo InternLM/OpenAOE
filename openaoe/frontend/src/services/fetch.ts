@@ -9,7 +9,12 @@ export const getHeaders = () => {
 export const getUrl = (provider) => {
     return API.get(provider)?.url || API.get(DEFAULT_BOT).url;
 };
-// TODO: build your own api payload here
+/** Build your own api payload here
+ * @param provider service provider, each provider has its own payload format and may have more than one model
+ * @param model model name
+ * @param prompt
+ * @param messages
+ */
 export const getPayload = (provider: string, model: string, prompt: string, messages: { text: string; sender_type: string; }[]) => {
     const payload = { ...API.get(provider) || API.get(DEFAULT_BOT) };
     delete payload.url;

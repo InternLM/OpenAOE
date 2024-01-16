@@ -7,10 +7,12 @@ import spark from '@assets/imgs/spark.svg';
 import admin from '@assets/imgs/A.svg';
 import { BotState } from '@/store/bot.ts';
 
-// TODO: Add more models here.
-// Models used to be showed in the model selection part.
-// provider is required
-// model is required and must be unique
+/**
+ * You can add more models here.
+ * Models used to be showed in the model selection part.
+ * provider is required
+ * model is required and must be unique
+ * */
 export const ALL_MODELS: BotState[] = [
     {
         provider: 'internlm',

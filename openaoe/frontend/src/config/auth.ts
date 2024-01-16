@@ -1,3 +1,3 @@
-// 不需要登陆鉴权的接口名单
+// the whitelist of the urls for no-need-login authorization
 export const noAuthorizationUrl = [
 ];

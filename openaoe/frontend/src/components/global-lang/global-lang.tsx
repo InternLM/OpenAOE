@@ -14,7 +14,6 @@ const GlobalLang: React.FC<any> = ({ children }) => {
         setLang(lang);
     }, []);
 
-    // 子孙组件通过context获取setLocale可以更改中英文
     const value = useMemo(() => ({ locale, setLocale: setCurrentLocale }), [locale, setCurrentLocale]);
 
     return (

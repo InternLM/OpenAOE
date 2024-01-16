@@ -6,7 +6,7 @@ import { getHeaders, getPayload, getUrl } from '@services/fetch.ts';
 import { fetchBotAnswer } from '@services/home.ts';
 import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT } from '@constants/models.ts';
 import { ALL_MODELS } from '@config/model-config.ts';
-
+// TODO
 export interface ChatMessage {
     text: string;
     sender_type: string;
@@ -30,11 +30,11 @@ export function createMessage(override: Partial<ChatMessage>): ChatMessage {
 
 export interface ChatSession {
     id: number;
-    name: string; // session name, 用来标识session，唯一
-    bot: string; // bot name
+    name: string;
+    bot: string;
     messages: ChatMessage[];
     isShow?: boolean;
-    clearContextIndex?: number; // clear context after this index
+    clearContextIndex?: number;
 }
 export function createSession(override: Partial<ChatSession>): ChatSession {
     return {
@@ -75,7 +75,7 @@ interface ChatStore {
 }
 
 export const useChatStore = create<ChatStore>()(
-    //  将chat数据使用persist中间件持久化到localStorage
+    // TODO 将chat数据使用persist中间件持久化到localStorage
     persist(
         (set, get) => ({
             hasStreaming: false,

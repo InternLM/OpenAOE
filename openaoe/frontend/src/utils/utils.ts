@@ -1,6 +1,8 @@
 import jsCookie from 'js-cookie';
 import { isMobile } from 'sea-lion-ui';
 
+// TODO
+
 export const compose = (...args: any[]) => {
     const fns = args.map(arg => {
         return typeof arg === 'function' ? arg : () => arg;

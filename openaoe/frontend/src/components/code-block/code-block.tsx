@@ -44,7 +44,6 @@ const CodeBlock: React.FC<any> = ({
     const match = /language-(\w+)/.exec(className || '') || [];
     const configStore = useConfigStore();
 
-    // 注册要高亮的语法
     SyntaxHighlighter.registerLanguage('assembly', assembly);
     SyntaxHighlighter.registerLanguage('python', python);
     SyntaxHighlighter.registerLanguage('c', c);

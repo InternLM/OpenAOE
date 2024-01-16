@@ -1,3 +1,4 @@
+// TODO change oss -> cdn
 export default [
     {
         name: 'react',

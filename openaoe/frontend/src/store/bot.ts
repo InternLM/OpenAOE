@@ -3,8 +3,7 @@ import { persist } from 'zustand/middleware';
 import { DEFAULT_BOT } from '@constants/models.ts';
 
 export interface BotState {
-    // id: number;
-    provider: string; // 模型供应商名字
+    provider: string;
     avatar: string;
     model: string;
     background: string;

@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/v1/text/chat-stream", tags=["claude"])
-async def claude_chat_stream(request: Request, body: ClaudeChatBody) -> object:
+async def claude_chat_stream(request: Request, body: ClaudeChatBody):
     """
     chat stream api for Claude
     @param request: fastapi request

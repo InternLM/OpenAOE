@@ -160,12 +160,26 @@ const PromptInput = () => {
         }
     };
 
+    const onKeyUp = (e) => {
+        if (isComposing) {
+            return;
+        }
+        const target = e.target as HTMLDivElement;
+        console.log(cleanInput(target.innerHTML), target.innerHTML);
+        setCurrPrompt(cleanInput(target.innerHTML));
+        const content = target.innerHTML;
+        handleContentChange(content);
+    };
+
     /**
      * editable div, update currPrompt when input content changed
      * @param e
      */
     const onInput = (e) => {
         setIsEmpty(!e.target.textContent.length);
+        if (isComposing) {
+            return;
+        }
         const target = e.target as HTMLDivElement;
         setCurrPrompt(cleanInput(target.innerHTML));
         const content = target.innerHTML;
@@ -242,6 +256,7 @@ const PromptInput = () => {
                     className={classNames(styles.promptEditor, { [styles.emptyEditor]: isEmpty })}
                     data-text={placeholder}
                     onKeyDown={onKeyDown}
+                    onKeyUp={onKeyUp}
                     onCompositionStart={() => setIsComposing(true)}
                     onInput={onInput}
                     onCompositionEnd={() => setIsComposing(false)}

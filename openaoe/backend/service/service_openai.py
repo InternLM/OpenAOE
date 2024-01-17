@@ -11,10 +11,10 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-def _messages_process(req_dto):
-    prompt = req_dto.prompt
-    contexts = req_dto.messages
-    role_meta = req_dto.role_meta
+def _messages_process(body):
+    prompt = body.prompt
+    contexts = body.messages
+    role_meta = body.role_meta
     if role_meta is not None:
         user_name = role_meta.user_name
         bot_name = role_meta.bot_name

@@ -1,7 +1,7 @@
 <div align="center">
   <img src="_static/image/aoe-logo.svg" width="250"/>
 
-[![PyPI](https://img.shields.io/pypi/v/Open-AOE)](https://pypi.org/project/OpenAOE)
+[![PyPI](https://img.shields.io/pypi/v/OpenAOE)](https://pypi.org/project/OpenAOE)
 [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/openaoe?label=docker)](https://hub.docker.com/r/opensealion/openaoe?label=docker)
 
 
@@ -92,14 +92,14 @@ npm run build
 
 ### **运行**
 ```shell
-cd openaoe/openaoe
-pip install -r backend/requirements.txt
-python -m main -f /path/to/your/config-template.yaml
+cd openaoe
+pip install -r openaoe/backend/requirements.txt
+python -m openaoe.main -f /path/to/your/config-template.yaml
 ``````
 
 > [!TIP]
-> `/path/to/your/config.yaml` 是 OpenAOE 启动时读取的配置文件，里面包含了大模型的相关配置信息，
-> 包括：调用API地址、AKSK、Token等信息，是 OpenAOE 启动的必备文件。文件模板可以在 `openaoe/backend/config/config.yaml` 中找到。
+> `/path/to/your/config-template.yaml` 是 OpenAOE 启动时读取的配置文件，里面包含了大模型的相关配置信息，
+> 包括：调用API地址、AKSK、Token等信息，是 OpenAOE 启动的必备文件。文件模板可以在 `openaoe/backend/config/config-template.yaml` 中找到。
 
 # 二次开发
 > **欢迎 fork，一起共建 ~**

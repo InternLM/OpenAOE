@@ -94,17 +94,17 @@ npm run build
 
 ### **Start**
 ```shell
-cd openaoe/openaoe
-pip install -r backend/requirements.txt
-python -m main -f /path/to/your/config-template.yaml
+cd openaoe # this openaoe is the clone directory
+pip install -r openaoe/backend/requirements.txt
+python -m openaoe.main -f /path/to/your/config-template.yaml
 ```
 
 
 > [!TIP]
-> `/path/to/your/config.yaml` is the configuration file loaded by OpenAOE at startup, 
+> `/path/to/your/config-template.yaml` is the configuration file loaded by OpenAOE at startup, 
 > which contains the relevant configuration information for the LLMs,
 > including: API URLs, AKSKs, Tokens, etc.
-> A template configuration yaml file can be found in `openaoe/backend/config/config.yaml`.
+> A template configuration yaml file can be found in `openaoe/backend/config/config-template.yaml`.
 
 
 #  Tech Introduction

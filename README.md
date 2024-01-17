@@ -70,7 +70,7 @@ docker pull openaoe:latest
 2. or build a docker image
 ```shell
 git clone https://github.com/internlm/OpenAOE
-cd open-aoe
+cd openaoe
 docker build . -f docker/Dockerfile -t openaoe:latest
 ```
 
@@ -87,7 +87,7 @@ git clone https://github.com/internlm/OpenAOE
 ```
 2. [_optional_] build the frontend project when the frontend codes are changed
 ```shell
-cd open-aoe/openaoe/frontend
+cd openaoe/openaoe/frontend
 npm install
 npm run build
 ```
@@ -95,7 +95,7 @@ npm run build
 
 ### **Start**
 ```shell
-cd open-aoe/openaoe
+cd openaoe/openaoe
 pip install -r backend/requirements.txt
 python -m main -f /path/to/your/config-template.yaml
 ```

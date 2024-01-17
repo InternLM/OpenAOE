@@ -25,7 +25,7 @@ Here, AOE in AI implies that user can obtain parallel outputs from multiple LLMs
 
 
 ## What problem does OpenAOE want to solve?
-Currently, there are many open-source frameworks based on the ChatGPT for chat, but the single-prompt-multiple-LLM-responses framework is still not coming yet.
+Currently, there are many open-source frameworks based on the ChatGPT for chat, but the LGC(LLM Group Chat) framework is still not coming yet.
 
 The emergence of OpenAOE fills this gap:
 OpenAOE can help LLM researchers, evaluators, engineering developers, and even non-professionals to quickly access the market's well-known commercial and open-source LLMs, providing both single model serial response mode and multi-models parallel response mode.

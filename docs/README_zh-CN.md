@@ -61,19 +61,19 @@ openaoe -f /path/to/your/config-template.yaml
 有两种方式获取 OpenAOE 的 docker 镜像：
 1. 官方拉取
 ```shell
-docker pull openaoe:latest
+docker pull opensealion/openaoe:latest
 ```
 
 2. 本地构建
 ```shell
 git clone https://github.com/internlm/OpenAOE
 cd OpenAOE
-docker build . -f docker/Dockerfile -t openaoe:latest
+docker build . -f docker/Dockerfile -t opensealion/openaoe:latest
 ```
 
 ### **运行**
 ```shell
-docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config.yaml --name OpenAOE openaoe:latest
+docker run -p 10099:10099 -v /path/to/your/config-template.yaml:/app/config.yaml --name OpenAOE opensealion/openaoe:latest
 ```
 
 ## 基于源代码

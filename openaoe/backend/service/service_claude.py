@@ -17,7 +17,7 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
     use anthropic SDK: https://github.com/anthropics/anthropic-sdk-python
     """
     api_key = get_api_key(VENDOR_CLAUDE)
-    prompt = _gen_prompt(body.prompt, body.messages)
+    prompt = _gen_prompt(body.messages)
     if not prompt or len(prompt) == 0:
         return AOEResponse(
             msg="error",
@@ -71,13 +71,11 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
     return EventSourceResponse(stream())
 
 
-def _gen_prompt(prompt: str, messages: List[ClaudeMessage]):
-    if not messages:
-        if not prompt:
-            return ""
-        return f"{HUMAN_PROMPT} {prompt}{AI_PROMPT}"
-
+def _gen_prompt(messages: List[ClaudeMessage]):
     ret = ""
+    if not messages:
+        return ret
+
     for item in messages:
         if item.role == TYPE_BOT:
             ret += f"{AI_PROMPT} {item.content} "

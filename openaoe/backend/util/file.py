@@ -18,7 +18,6 @@ def get_file_content(file_name):
 
 
 def parse_requirements(fname='requirements.txt', with_version=True):
-    # todo add resource?
     """
     Parse the package dependencies listed in a requirements file but strips
     specific versioning information.

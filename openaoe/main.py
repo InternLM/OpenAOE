@@ -4,7 +4,6 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from starlette.responses import HTMLResponse
 
 from openaoe.backend.api.route_claude import router as claude
@@ -48,9 +47,7 @@ async def build_resource(path: str):
 
 @app.get("/{path:path}")
 async def build_resource(path: str):
-    print(STATIC_RESOURCE_DIR, path)
     static_file = safe_join(STATIC_RESOURCE_DIR, path)
-    print(static_file)
     return FileResponse(static_file)
 
 

@@ -16,3 +16,5 @@ fi
 
 docker build . -f docker/Dockerfile -t opensealion/openaoe:$crt_version
 docker push opensealion/openaoe:$crt_version
+docker tag opensealion/openaoe:$crt_version opensealion/openaoe:latest
+docker push opensealion/openaoe:latest

@@ -17,7 +17,6 @@ from openaoe.backend.config.biz_config import img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
 
-
 logger = log(__name__)
 # define global variable
 API_VER = 'v1'
@@ -31,6 +30,7 @@ path = img_out_path()
 init_config()
 
 app = FastAPI()
+
 
 @app.get("/", response_class=HTMLResponse)
 @app.get("/home", response_class=HTMLResponse)

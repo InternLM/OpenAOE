@@ -44,6 +44,7 @@ OpenAOE can:
 # Quick Run
 > [!TIP]
 > Require python >= 3.9
+> 
 > Supported OS: Linux and MacOS
 
 We provide three different ways to run OpenAOE: `run by pip`， `run by docker` and `run by source code` as well.

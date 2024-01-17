@@ -21,6 +21,7 @@ def safe_join(directory: str, path: str) -> str:
 
     filename = os.path.normpath(path)
     full_path = os.path.join(directory, filename)
+    print(f"full_path={full_path}")
     if (
             any(sep in filename for sep in _os_alt_seps)
             or os.path.isabs(filename)

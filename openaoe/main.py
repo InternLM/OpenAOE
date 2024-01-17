@@ -17,23 +17,20 @@ from openaoe.backend.config.biz_config import img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
 
+
 logger = log(__name__)
 # define global variable
 API_VER = 'v1'
 base_dir = os.path.dirname(os.path.abspath(__file__))
 STATIC_RESOURCE_DIR = os.path.join(base_dir, "frontend", "dist")
-CSS_PATH_LIB = os.path.join(STATIC_RESOURCE_DIR, "assets")
-IMG_PATH_LIB = os.path.join(STATIC_RESOURCE_DIR, "assets")
-JS_PATH_LIB = os.path.join(STATIC_RESOURCE_DIR, "js")
+ASSETS_RESOURCE_DIR = os.path.join(STATIC_RESOURCE_DIR, "assets")
+
 path = img_out_path()
-OUT_IMG_PATH_LIB = f"{path}"
 
 # init configuration content
 init_config()
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory=STATIC_RESOURCE_DIR), name="static")
-
 
 @app.get("/", response_class=HTMLResponse)
 @app.get("/home", response_class=HTMLResponse)
@@ -41,8 +38,17 @@ async def server():
     return FileResponse(f"{STATIC_RESOURCE_DIR}/index.html")
 
 
+@app.get("/assets/{path:path}")
+async def build_resource(path: str):
+    print(ASSETS_RESOURCE_DIR, path)
+    static_file = safe_join(ASSETS_RESOURCE_DIR, path)
+    print(static_file)
+    return FileResponse(static_file)
+
+
 @app.get("/{path:path}")
 async def build_resource(path: str):
+    print(STATIC_RESOURCE_DIR, path)
     static_file = safe_join(STATIC_RESOURCE_DIR, path)
     print(static_file)
     return FileResponse(static_file)

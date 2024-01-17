@@ -1,7 +1,7 @@
 <div align="center">
   <img src="_static/image/aoe-logo.svg" width="250"/>
 
-[![PyPI](https://img.shields.io/pypi/v/Open-AOE)](https://pypi.org/project/OpenAOE)
+[![PyPI](https://img.shields.io/pypi/v/OpenAOE)](https://pypi.org/project/OpenAOE)
 [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/openaoe?label=docker)](https://hub.docker.com/r/opensealion/openaoe?label=docker)
 
 

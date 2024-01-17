@@ -21,10 +21,10 @@ logger = log(__name__)
 # define global variable
 API_VER = 'v1'
 base_dir = app_abs_path()
-STATIC_RESOURCE_DIR = os.path.join(base_dir, "frontend/dist")
-CSS_PATH_LIB = f"{STATIC_RESOURCE_DIR}/assets"
-IMG_PATH_LIB = f"{STATIC_RESOURCE_DIR}/assets"
-JS_PATH_LIB = f"{STATIC_RESOURCE_DIR}/js"
+STATIC_RESOURCE_DIR = os.path.join(base_dir, "frontend", "dist")
+CSS_PATH_LIB = os.path.join(STATIC_RESOURCE_DIR, "assets")
+IMG_PATH_LIB = os.path.join(STATIC_RESOURCE_DIR, "assets")
+JS_PATH_LIB = os.path.join(STATIC_RESOURCE_DIR, "js")
 path = img_out_path()
 OUT_IMG_PATH_LIB = f"{path}"
 

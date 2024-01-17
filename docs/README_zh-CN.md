@@ -67,7 +67,7 @@ docker pull openaoe:latest
 2. 本地构建
 ```shell
 git clone https://github.com/internlm/OpenAOE
-cd openaoe
+cd OpenAOE
 docker build . -f docker/Dockerfile -t openaoe:latest
 ```
 
@@ -84,7 +84,7 @@ git clone https://github.com/internlm/OpenAOE
 ```
 2. [_可选_] （如果前端代码发生变动）重新构建前端项目 
 ```shell
-cd openaoe/openaoe/frontend
+cd OpenAOE/openaoe/frontend
 npm install
 npm run build
 ```
@@ -92,7 +92,7 @@ npm run build
 
 ### **运行**
 ```shell
-cd openaoe
+cd OpenAOE
 pip install -r openaoe/backend/requirements.txt
 python -m openaoe.main -f /path/to/your/config-template.yaml
 ``````

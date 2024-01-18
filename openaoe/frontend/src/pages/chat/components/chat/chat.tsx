@@ -117,9 +117,11 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
                         style={{ borderRadius: !isUser ? '1px 10px 10px 10px' : '10px 1px 10px 10px' }}
                     >
                         {message.stream && <RunningMario />}
-                        <div className={styles.chatOperations}>
-                            {`${model.provider} - ${model.model}`}
-                        </div>
+                        {!isUser && (
+                            <div className={styles.chatOperations}>
+                                {`${model.provider} - ${model.model}`}
+                            </div>
+                        )}
                         <ReactMarkdown
                             className={styles.markdownBlock}
                             remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}

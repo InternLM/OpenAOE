@@ -209,6 +209,11 @@ const ChatPage: React.FC = () => {
                 if ((configStore.mode === PARALLEL_MODE && session.name === SERIAL_SESSION) || !session.isShow) {
                     return null;
                 }
+                // If this session belongs to a non-exist model, remove this session
+                if (configStore.mode === PARALLEL_MODE && !ALL_MODELS.find((model) => model.model === session.name)) {
+                    chatStore.removeSession(session.name);
+                    return null;
+                }
                 return (
                     <ChatSession
                         key={session.id}

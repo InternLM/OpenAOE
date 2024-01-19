@@ -22,13 +22,6 @@ export const ALL_MODELS: BotState[] = [
         background: 'linear-gradient(rgb(3 26 108 / 85%) 0%, rgb(29 60 161 / 85%) 100%)',
     },
     {
-        provider: 'internlm',
-        model: 'internlm2-chat-7b',
-        avatar: internlm,
-        border: 'rgba(1,52,220,0.85)',
-        background: 'linear-gradient(rgb(146 164 228 / 85%) 0%, rgb(7 65 255 / 85%) 100%)',
-    },
-    {
         provider: 'openai',
         model: 'gpt-3.5-turbo',
         avatar: openai,

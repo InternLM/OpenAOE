@@ -85,3 +85,70 @@ export const ALL_MODELS: BotState[] = [
         background: '#71e875',
     },
 ];
+
+export const USER_INFO = {
+    provider: 'user',
+    model: 'user',
+    avatar: 'user.png',
+    border: '#71e875',
+    background: '#71e875',
+};
+
+export const ADMIN_INFO = {
+    provider: 'admin',
+    model: 'admin',
+    avatar: admin,
+    border: '#4e6ef2',
+    background: 'linear-gradient(rgb(255 255 255 / 80%) 0%, rgb(168 245 179) 100%)',
+};
+
+export const models = {
+    'internlm-chat-7b': {
+        provider: 'internlm',
+        avatar: internlm,
+        border: 'rgba(1,52,220,0.85)',
+        background: 'linear-gradient(rgb(3 26 108 / 85%) 0%, rgb(29 60 161 / 85%) 100%)',
+    },
+    'gpt-3.5-turbo': {
+        provider: 'openai',
+        avatar: openai,
+        border: '#1a8d15',
+        background: 'linear-gradient(180deg, rgba(156, 206, 116, 0.15) 0%, #1a8d15 100%)',
+    },
+    'gpt-4': {
+        provider: 'openai',
+        avatar: openai,
+        border: '#4dd547',
+        background: 'linear-gradient(180deg, rgba(156, 206, 116, 0.15) 0%, #08be00 100%)',
+    },
+    'claude-1': {
+        provider: 'claude',
+        avatar: claude,
+        border: '#8550ca',
+        background: 'linear-gradient(180deg, rgba(141, 90, 181, 0.15) 0%, rgba(106, 39, 123, 0.7) 53.12%, #663E9A 100%)',
+    },
+    'claude-1-100k': {
+        provider: 'claude',
+        avatar: claude,
+        border: '#8550ca',
+        background: 'linear-gradient(180deg, rgba(141, 90, 181, 0.15) 0%, rgba(106, 39, 123, 0.7) 53.12%, #663E9A 100%)',
+    },
+    'chat-bison-001': {
+        provider: 'google',
+        avatar: google,
+        border: '#ff85c7',
+        background: 'linear-gradient(180deg, rgba(181, 90, 90, 0.15) 0%, #fa5ab1 100%)',
+    },
+    'abab5-chat': {
+        provider: 'minimax',
+        avatar: minimax,
+        border: '#be1313',
+        background: 'linear-gradient(180deg, rgba(207, 72, 72, 0.15) 0%, rgba(151, 43, 43, 0.7) 53.12%, #742828 100%)',
+    },
+    spark: {
+        provider: 'spark',
+        avatar: spark,
+        border: '#6fa2db',
+        background: 'linear-gradient(180deg, rgba(72, 72, 207, 0.15) 0%, #7498be 100%)',
+    },
+};

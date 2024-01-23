@@ -1,7 +1,7 @@
 import {
     PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
-import { ALL_MODELS } from '@config/model-config.ts';
+import { models } from '@config/model-config.ts';
 import { message } from 'sea-lion-ui';
 import React, {
     useEffect, useLayoutEffect, useState
@@ -105,11 +105,11 @@ const PromptInput = () => {
             setCurrPrompt('');
             handleContentChange('');
             if (configStore.mode === SERIAL_MODE) {
-                const provider = ALL_MODELS.find((model) => model.model === botStore.currentBot).provider;
+                const provider = models[botStore.currentBot]?.provider;
                 chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION);
             } else {
                 botStore.chosenBotNames.forEach((botName) => {
-                    const provider = ALL_MODELS.find((model) => model.model === botName).provider;
+                    const provider = models[botName]?.provider;
                     chatStore.onUserInput(currPrompt, provider, botName, botName);
                 });
             }

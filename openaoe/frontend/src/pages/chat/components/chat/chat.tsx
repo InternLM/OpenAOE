@@ -14,7 +14,7 @@ import { autoScroll, getNeedEventCallback } from '@utils/utils.ts';
 import {
     CLEAR_CONTEXT, PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
-import { ALL_MODELS } from '@config/model-config.ts';
+import { ADMIN_INFO, models, USER_INFO } from '@config/model-config.ts';
 import ChatOperation from '@pages/chat/components/chat-operations/chat-operation.tsx';
 import { useChatStore, ChatMessage as ChatMessageProps, ChatSession as ChatSessionProps } from '@/store/chat.ts';
 import styles from './chat.module.less';
@@ -77,15 +77,27 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
     const [showDate, setShowDate] = useState(false);
     const { message } = props;
     const isUser = message.sender_type === 'user' || message.provider === 'user';
+    const isAdmin = message.sender_type === 'admin' || message.provider === 'admin';
+    const isClear = message.sender_type === CLEAR_CONTEXT;
     const className = classNames(
         styles.messageWrapper,
         isUser ? styles.chatUser : styles.chatBot,
     );
     const configStore = useConfigStore();
 
-    const model = ALL_MODELS.find((m) => m.model === (message.model || 'user'));
+    const getModel = () => {
+        if (isUser) {
+            return USER_INFO;
+        }
+        if (isAdmin) {
+            return ADMIN_INFO;
+        }
+        return models[message.model];
+    };
 
-    if (!model) {
+    const model = getModel();
+
+    if (!isClear && !model) {
         return null;
     }
 
@@ -96,7 +108,7 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
             onMouseEnter={() => setShowDate(true)}
             onMouseLeave={() => setShowDate(false)}
         >
-            {(message.sender_type === CLEAR_CONTEXT) ? (
+            {(isClear) ? (
                 <div className={styles.clearLine}>
                     Context cleared
                 </div>
@@ -119,7 +131,7 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
                         {message.stream && <RunningMario />}
                         {!isUser && (
                             <div className={styles.chatOperations}>
-                                {`${model.provider} - ${model.model}`}
+                                {`${model.provider} - ${message.model}`}
                             </div>
                         )}
                         <ReactMarkdown
@@ -143,7 +155,7 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
                         )}
                     </div>
                     {!isMobile && isUser && (
-                        <div style={{ color: model.background, marginRight: 2 }} className={styles.modelAvatar}>
+                        <div style={{ color: USER_INFO.background, marginRight: 2 }} className={styles.modelAvatar}>
                             ME
                         </div>
                     )}
@@ -210,7 +222,7 @@ const ChatPage: React.FC = () => {
                     return null;
                 }
                 // If this session belongs to a non-exist model, remove this session
-                if (configStore.mode === PARALLEL_MODE && !ALL_MODELS.find((model) => model.model === session.name)) {
+                if (configStore.mode === PARALLEL_MODE && !models[session.name]) {
                     chatStore.removeSession(session.name);
                     return null;
                 }

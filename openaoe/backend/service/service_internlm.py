@@ -66,8 +66,12 @@ def chat_completion_v1(request, body: InternlmChatCompletionBody):
 
 
 def chat_completion_stream_v1(request, url, headers, data):
-    async def event_generator_json():
-        while True:
+    # retry times
+    count = 3
+
+    async def event_generator_json(count: int):
+        while count > 0:
+            count -= 1
             stop_flag = False
             response = ""
             if await request.is_disconnected():
@@ -106,4 +110,4 @@ def chat_completion_stream_v1(request, url, headers, data):
                 })
                 break
 
-    return EventSourceResponse(event_generator_json())
+    return EventSourceResponse(event_generator_json(count))

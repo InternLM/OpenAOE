@@ -15,8 +15,8 @@ def palm_chat_svc(body: GooglePalmChatBody):
     """
     chat logic for google PaLM model
     """
-    api_key = get_api_key(VENDOR_GOOGLE, body.model)
-    url = get_base_url(VENDOR_GOOGLE, body.model)
+    api_key = get_api_key(PROVIDER_GOOGLE, body.model)
+    url = get_base_url(PROVIDER_GOOGLE, body.model)
     url = f"{url}/google/v1beta2/models/{body.model}:generateMessage?key={api_key}"
     messages = [
         {"content": msg.content, "author": msg.author}

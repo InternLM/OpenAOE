@@ -1,8 +1,7 @@
 import React from 'react';
-import { models } from '@config/model-config.ts';
 
 export const DefaultConfigInfo = {
-    models,
+    models: null,
 };
 
 export const GlobalConfigContext = React.createContext(DefaultConfigInfo);

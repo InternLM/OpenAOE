@@ -1,5 +1,5 @@
 import API from '@config/api-config';
-import { DEFAULT_BOT } from '@constants/models';
+import { DEFAULT_PROVIDER } from '@constants/models';
 
 export const getHeaders = () => {
     return {
@@ -7,7 +7,7 @@ export const getHeaders = () => {
     };
 };
 export const getUrl = (provider) => {
-    return API.get(provider)?.url || API.get(DEFAULT_BOT).url;
+    return API.get(provider)?.url || API.get(DEFAULT_PROVIDER).url;
 };
 /** Build your own api payload here
  * @param provider service provider, each provider has its own payload format and may have more than one model
@@ -16,7 +16,7 @@ export const getUrl = (provider) => {
  * @param messages
  */
 export const getPayload = (provider: string, model: string, prompt: string, messages: { text: string; sender_type: string; }[]) => {
-    const payload = { ...API.get(provider) || API.get(DEFAULT_BOT) };
+    const payload = { ...API.get(provider) || API.get(DEFAULT_PROVIDER) };
     delete payload.url;
     payload.model = model;
     if (['openai', 'internlm', 'gpt-4'].includes(provider)) {

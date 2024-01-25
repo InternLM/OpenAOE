@@ -126,12 +126,12 @@ def get_model_configuration(provider: str, field, model_name: str = None):
     return ""
 
 
-def get_base_url(vendor: str, model_name: str = None) -> str:
-    return get_model_configuration(vendor, "api_base", model_name)
+def get_base_url(provider: str, model_name: str = None) -> str:
+    return get_model_configuration(provider, "api_base", model_name)
 
 
-def get_api_key(vendor: str, model_name: str = None) -> str:
-    return get_model_configuration(vendor, "api_key", model_name)
+def get_api_key(provider: str, model_name: str = None) -> str:
+    return get_model_configuration(provider, "api_key", model_name)
 
 
 def app_abs_path():

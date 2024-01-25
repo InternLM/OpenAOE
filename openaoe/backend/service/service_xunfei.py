@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 from websocket import create_connection
 
 from openaoe.backend.config.biz_config import get_model_configuration, get_base_url
-from openaoe.backend.config.constant import VENDOR_XUNFEI
+from openaoe.backend.config.constant import PROVIDER_XUNFEI
 from openaoe.backend.model.aoe_response import AOEResponse
 from openaoe.backend.model.xunfei import XunfeiSparkChatBody
 from openaoe.backend.util.log import log
@@ -59,10 +59,10 @@ def spark_chat_svc(body: XunfeiSparkChatBody):
     """
     chat logic for spark model
     """
-    api_base = get_base_url(VENDOR_XUNFEI)
-    app_id = get_model_configuration(VENDOR_XUNFEI, "app_id")
-    ak = get_model_configuration(VENDOR_XUNFEI, "ak")
-    sk = get_model_configuration(VENDOR_XUNFEI, "sk")
+    api_base = get_base_url(PROVIDER_XUNFEI)
+    app_id = get_model_configuration(PROVIDER_XUNFEI, "app_id")
+    ak = get_model_configuration(PROVIDER_XUNFEI, "ak")
+    sk = get_model_configuration(PROVIDER_XUNFEI, "sk")
 
     url_parse = urllib.parse.urlparse(api_base)
     host = url_parse.hostname

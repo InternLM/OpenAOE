@@ -6,7 +6,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
-from openaoe.backend.config.constant import VENDOR_CLAUDE
+from openaoe.backend.config.constant import PROVIDER_CLAUDE
 from openaoe.backend.model.aoe_response import AOEResponse
 from openaoe.backend.model.claude import ClaudeChatBody, ClaudeMessage
 
@@ -16,8 +16,8 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
     stream api logic for Claude model
     use anthropic SDK: https://github.com/anthropics/anthropic-sdk-python
     """
-    api_key = get_api_key(VENDOR_CLAUDE, body.model)
-    api_base = get_base_url(VENDOR_CLAUDE, body.model)
+    api_key = get_api_key(PROVIDER_CLAUDE, body.model)
+    api_base = get_base_url(PROVIDER_CLAUDE, body.model)
     prompt = _gen_prompt(body.messages)
     if not prompt or len(prompt) == 0:
         return AOEResponse(

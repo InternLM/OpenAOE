@@ -1,5 +1,4 @@
 import argparse
-import json
 import os
 import sys
 from copy import deepcopy
@@ -52,16 +51,15 @@ class ModelConfig:
         self.api_config = api_config
 
 
-def init_config() -> str:
+def init_config() -> BizConfig:
     parser = argparse.ArgumentParser(description="LLM group chat framework")
     parser.add_argument('-f', '--file', type=str, required=True, help='Path to the YAML config file.')
     config_path = parser.parse_args()
     logger.info(f"your config file is: {config_path.file}")
-    load_config(config_path.file)
-    return config_path.file
+    return load_config(config_path.file)
 
 
-def load_config(config_path):
+def load_config(config_path) -> BizConfig:
     logger.info(f"start to init configuration from {config_path}.")
     if not os.path.isfile(config_path):
         logger.error(f"invalid path: {config_path}, not exist or not file")
@@ -76,6 +74,7 @@ def load_config(config_path):
         global biz_config
         biz_config = BizConfig(**m)
     logger.info("init configuration successfully.")
+    return biz_config
 
 
 def get_model_configuration(provider: str, field, model_name: str = None):

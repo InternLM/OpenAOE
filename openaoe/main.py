@@ -16,8 +16,6 @@ from openaoe.backend.config.biz_config import img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
 
-from openaoe.backend.config.biz_config import biz_config
-
 
 logger = log(__name__)
 # define global variable
@@ -29,7 +27,7 @@ ASSETS_RESOURCE_DIR = os.path.join(STATIC_RESOURCE_DIR, "assets")
 path = img_out_path()
 
 # init configuration content
-config_file_path = init_config()
+biz_config = init_config()
 
 app = FastAPI()
 

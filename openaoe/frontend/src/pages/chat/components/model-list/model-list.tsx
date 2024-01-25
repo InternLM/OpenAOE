@@ -1,10 +1,10 @@
 import {
-    NON_BOT, PARALLEL_MODE, PARALLEL_MODEL_MAX, SERIAL_MODE
+    PARALLEL_MODE, PARALLEL_MODEL_MAX, SERIAL_MODE
 } from '@constants/models.ts';
-import { ALL_MODELS } from '@config/model-config.ts';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { getNeedEventCallback } from '@utils/utils.ts';
 import { message } from 'sea-lion-ui';
+import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import styles from './model-list.module.less';
 import { BotState, useBotStore } from '@/store/bot.ts';
 import { useChatStore } from '@/store/chat.ts';
@@ -90,7 +90,7 @@ function ModelAvatar(props: {
             onFocus={() => setShowName(true)}
         >
             <img
-                src={props.model.avatar}
+                src={props.model.webui.avatar}
                 className={styles.modelAvatarImg}
                 alt={props.model.provider}
             />
@@ -105,15 +105,17 @@ function ModelAvatar(props: {
 }
 
 const ModelList = () => {
+    const { models } = useContext(GlobalConfigContext);
     return (
         <div className={styles.homeModels} onMouseLeave={resetScale}>
-            {ALL_MODELS
-                .filter((model) => (!NON_BOT.includes(model.provider)))
-                .map((model) => {
-                    return (
-                        <ModelAvatar key={model.model} model={model} />
-                    );
-                })}
+            {models && Object.keys(models).map((modelName) => {
+                return (
+                    <ModelAvatar
+                        key={modelName}
+                        model={{ model: modelName, ...models[modelName] }}
+                    />
+                );
+            })}
         </div>
     );
 };

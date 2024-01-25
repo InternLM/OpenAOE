@@ -5,5 +5,6 @@ export const PARALLEL_MODE = 'parallel';
 export const SERIAL_SESSION = 'serial_session';
 export const PARALLEL_MODEL_MAX = 3;
 export const DEFAULT_BOT = 'gpt-3.5-turbo';
+export const DEFAULT_PROVIDER = 'openai';
 export const BASE_IMG_URL = 'https://oss.openmmlab.com/alles-bot/';
 export const STREAM_BOT = ['openai', 'minimax', 'claude', 'gpt-4', 'internlm'];

@@ -1,6 +1,7 @@
 import os
 
 import uvicorn
+import yaml
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -26,9 +27,16 @@ ASSETS_RESOURCE_DIR = os.path.join(STATIC_RESOURCE_DIR, "assets")
 path = img_out_path()
 
 # init configuration content
-init_config()
+config_file_path = init_config()
 
 app = FastAPI()
+
+
+@app.get("/config/json")
+async def get_config_json():
+    with open(config_file_path, 'r') as file:
+        config_data = yaml.safe_load(file)
+    return config_data.get("webui")
 
 
 @app.get("/", response_class=HTMLResponse)

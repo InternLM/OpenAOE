@@ -20,12 +20,13 @@ class BizConfig:
         return None
 
 
-def init_config():
+def init_config() -> str:
     parser = argparse.ArgumentParser(description="Example app using a YAML config file.")
     parser.add_argument('-f', '--file', type=str, required=True, help='Path to the YAML config file.')
     config_path = parser.parse_args()
     logger.info(f"your config file is: {config_path.file}")
     load_config(config_path.file)
+    return config_path.file
 
 
 def load_config(config_path):

@@ -30,7 +30,7 @@ def chat_completion_v1(request, body: InternlmChatCompletionBody):
     }
     msgs.append(msg_item)
     # restful api
-    url = get_base_url(VENDOR_INTERNLM) + "/v1/chat/completions"
+    url = get_base_url(VENDOR_INTERNLM, body.model) + "/v1/chat/completions"
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/json'

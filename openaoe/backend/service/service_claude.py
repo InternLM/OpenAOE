@@ -16,7 +16,7 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
     stream api logic for Claude model
     use anthropic SDK: https://github.com/anthropics/anthropic-sdk-python
     """
-    api_key = get_api_key(VENDOR_CLAUDE)
+    api_key = get_api_key(VENDOR_CLAUDE, body.model)
     prompt = _gen_prompt(body.messages)
     if not prompt or len(prompt) == 0:
         return AOEResponse(

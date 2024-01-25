@@ -46,7 +46,7 @@ models:
             isStream: false
             background: 'linear-gradient(180deg, rgba(181, 90, 90, 0.15) 0%, #fa5ab1 100%)'
         api:
-            api_base: http://us.alles-apin.openxlab.org.cn/google/v1beta2/models
+            api_base: https://generativelanguage.googleapis.com
             api_key:
     abab5-chat:
         provider: minimax
@@ -54,8 +54,8 @@ models:
             avatar: 'https://oss.openmmlab.com/frontend/OpenAOE/minimax.png'
             background: 'linear-gradient(180deg, rgba(207, 72, 72, 0.15) 0%, rgba(151, 43, 43, 0.7) 53.12%, #742828 100%)'
         api:
-            api_base: https://api.minimax.chat/v1/text/chatcompletion?GroupId=xxx
-            group_id: xxx
+            api_base: https://api.minimax.chat
+            group_id:
             jwt:
     spark:
         provider: spark

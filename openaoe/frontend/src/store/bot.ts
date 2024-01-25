@@ -4,10 +4,12 @@ import { DEFAULT_BOT } from '@constants/models.ts';
 
 export interface BotState {
     provider: string;
-    avatar: string;
     model: string;
-    background: string;
-    border?: string;
+    webui: {
+        avatar: string;
+        background: string;
+        border?: string;
+    },
     description?: string;
     url?: string;
 }

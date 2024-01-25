@@ -45,28 +45,11 @@ class BizConfig:
             ret["models"][model_name] = config
         return ret
 
-    def __repr__(self):
-        ret = deepcopy(self.__dict__)
-        if "models" in ret:
-            models_config = ret["models"]
-        for model_name, config in models_config.items():
-            for field, value in config.items():
-                if field == "api":
-                    continue
-                ret["models"][model_name][field] = value
-        return json.dumps(ret)
-
 
 class ModelConfig:
     def __init__(self, webui_config, api_config):
         self.webui_config = webui_config
         self.api_config = api_config
-
-    def get_api_base_url(self):
-        return self.api_config["api_base"]
-
-    def get_api_key(self):
-        return self.api_config["api_key"]
 
 
 def init_config() -> str:

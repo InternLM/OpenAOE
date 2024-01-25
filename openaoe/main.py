@@ -1,7 +1,6 @@
 import os
 
 import uvicorn
-import yaml
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -16,6 +15,9 @@ from openaoe.backend.api.route_xunfei import router as xunfei
 from openaoe.backend.config.biz_config import img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
+
+from openaoe.backend.config.biz_config import biz_config
+
 
 logger = log(__name__)
 # define global variable
@@ -34,9 +36,7 @@ app = FastAPI()
 
 @app.get("/config/json")
 async def get_config_json():
-    with open(config_file_path, 'r') as file:
-        config_data = yaml.safe_load(file)
-    return config_data.get("webui")
+    return biz_config.json
 
 
 @app.get("/", response_class=HTMLResponse)

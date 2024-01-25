@@ -5,9 +5,9 @@ TYPE_SYSTEM = "system"
 DATE_PATTERN = "%Y%m%d"
 TIMEOUT_SECONDS = 30
 
-VENDOR_OPENAI = "gpt"
+VENDOR_OPENAI = "openai"
 VENDOR_MINIMAX = "minimax"
-VENDOR_GOOGLE = "bard"
+VENDOR_GOOGLE = "google"
 VENDOR_XUNFEI = "spark"
 VENDOR_CLAUDE = "claude"
 VENDOR_INTERNLM = "internlm"

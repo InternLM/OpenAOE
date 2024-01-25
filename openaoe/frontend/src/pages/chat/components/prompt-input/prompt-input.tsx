@@ -1,9 +1,9 @@
 import {
     PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
-import { models } from '@config/model-config.ts';
 import { message } from 'sea-lion-ui';
 import React, {
+    useContext,
     useEffect, useLayoutEffect, useState
 } from 'react';
 import {
@@ -13,6 +13,7 @@ import { Configs, ConfigState } from '@constants/configs.ts';
 import classNames from 'classnames';
 import send from '@assets/imgs/send.png';
 import sanitizeHtml from 'sanitize-html';
+import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import { useChatStore } from '@/store/chat.ts';
 import { useBotStore } from '@/store/bot.ts';
 import { useConfigStore } from '@/store/config.ts';
@@ -24,6 +25,7 @@ const BOT_PLACEHOLDER = {
 };
 
 const PromptInput = () => {
+    const { models } = useContext(GlobalConfigContext);
     const chatStore = useChatStore();
     const botStore = useBotStore();
     const configStore = useConfigStore();

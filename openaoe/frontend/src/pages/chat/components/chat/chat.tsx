@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+    useContext, useEffect, useRef, useState
+} from 'react';
 import classNames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import 'katex/dist/katex.min.css';
@@ -14,8 +16,9 @@ import { autoScroll, getNeedEventCallback } from '@utils/utils.ts';
 import {
     CLEAR_CONTEXT, PARALLEL_MODE, SERIAL_MODE, SERIAL_SESSION
 } from '@constants/models.ts';
-import { ADMIN_INFO, models, USER_INFO } from '@config/model-config.ts';
+import { ADMIN_INFO, USER_INFO } from '@config/model-config.ts';
 import ChatOperation from '@pages/chat/components/chat-operations/chat-operation.tsx';
+import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import { useChatStore, ChatMessage as ChatMessageProps, ChatSession as ChatSessionProps } from '@/store/chat.ts';
 import styles from './chat.module.less';
 import { useConfigStore } from '@/store/config.ts';
@@ -74,6 +77,7 @@ const RunningMario = () => {
     return <div id={styles.mario} />;
 };
 function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: number, name: string, bot: string} }) {
+    const { models } = useContext(GlobalConfigContext);
     const [showDate, setShowDate] = useState(false);
     const { message } = props;
     const isUser = message.sender_type === 'user' || message.provider === 'user';
@@ -208,6 +212,7 @@ function ChatSession(props: { session: ChatSessionProps }) {
 }
 
 const ChatPage: React.FC = () => {
+    const { models } = useContext(GlobalConfigContext);
     const chatStore = useChatStore();
     const configStore = useConfigStore();
     const { sessions } = chatStore;

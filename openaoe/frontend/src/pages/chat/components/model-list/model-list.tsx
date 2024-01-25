@@ -1,10 +1,10 @@
 import {
     PARALLEL_MODE, PARALLEL_MODEL_MAX, SERIAL_MODE
 } from '@constants/models.ts';
-import { models } from '@config/model-config.ts';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { getNeedEventCallback } from '@utils/utils.ts';
 import { message } from 'sea-lion-ui';
+import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import styles from './model-list.module.less';
 import { BotState, useBotStore } from '@/store/bot.ts';
 import { useChatStore } from '@/store/chat.ts';
@@ -105,6 +105,7 @@ function ModelAvatar(props: {
 }
 
 const ModelList = () => {
+    const { models } = useContext(GlobalConfigContext);
     return (
         <div className={styles.homeModels} onMouseLeave={resetScale}>
             {models && Object.keys(models).map((modelName) => {

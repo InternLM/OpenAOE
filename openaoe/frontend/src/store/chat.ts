@@ -5,7 +5,6 @@ import { scrollToBottom } from '@utils/utils.ts';
 import { getHeaders, getPayload, getUrl } from '@services/fetch.ts';
 import { fetchBotAnswer } from '@services/home.ts';
 import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT } from '@constants/models.ts';
-import { models } from '@config/model-config.ts';
 
 export interface ChatMessage {
     text: string;
@@ -69,7 +68,7 @@ interface ChatStore {
     lastBotMessage: (sessionName: string) => ChatMessage;
     lastUserMessage: (sessionName: string) => ChatMessage;
     closeController: (sessionName: string) => void;
-    retry: (sessionName: string, model?: string) => void;
+    retry: (sessionName: string, provider: string, model?: string,) => void;
 
     clearAllData: () => void;
 }
@@ -127,9 +126,8 @@ export const useChatStore = create<ChatStore>()(
                     set(() => ({ sessions: get().sessions }));
                 }
             },
-            retry(bot: '', model: '') {
+            retry(bot: '', provider: '', model: '') {
                 const modelName = model || get().lastBotMessage(bot).model || '';
-                const provider = models[modelName]?.provider;
                 const text = get().lastUserMessage(bot).text;
                 if ((get().lastMessage(bot).id === get().lastBotMessage(bot).id) && get().getSession(bot).clearContextIndex !== get().getSession(bot).messages.length) {
                     // If the last message is a reply from the bot and the context is not cleared yet, replace the last two messages,

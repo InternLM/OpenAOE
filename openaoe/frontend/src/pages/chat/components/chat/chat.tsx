@@ -119,9 +119,9 @@ function ChatMessage(props: { message: ChatMessageProps, sessionInfo: {id: numbe
             ) : (
                 <>
                     {!isMobile && !isUser && (
-                        <div style={{ background: model.background }} className={styles.modelAvatar}>
+                        <div style={{ background: model.webui.background }} className={styles.modelAvatar}>
                             <img
-                                src={model.avatar}
+                                src={model.webui.avatar}
                                 className={styles.modelAvatarImg}
                                 alt={model.model}
                             />

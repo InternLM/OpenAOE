@@ -277,7 +277,7 @@ export const useChatStore = create<ChatStore>()(
                             }
                         },
                         onerror(e) {
-                            console.log('[BOT] request error: ', e);
+                            console.log(`[BOT] request error from ${model}: \n`, e);
                             botMessage.stream = false;
                             get().updateMessage(sessionIndex, messageIndex, (message) => {
                                 message.stream = botMessage.stream;

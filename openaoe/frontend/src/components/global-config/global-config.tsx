@@ -17,8 +17,8 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
         fetch('/config/json')
             .then(res => res.json())
             .then(res => {
-                if (res) {
-                    setModels(res);
+                if (res && res.models) {
+                    setModels(res.models);
                 }
             })
             .catch(err => {

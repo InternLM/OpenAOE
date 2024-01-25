@@ -90,7 +90,7 @@ function ModelAvatar(props: {
             onFocus={() => setShowName(true)}
         >
             <img
-                src={props.model.avatar}
+                src={props.model.webui.avatar}
                 className={styles.modelAvatarImg}
                 alt={props.model.provider}
             />

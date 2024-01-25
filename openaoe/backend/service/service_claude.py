@@ -4,7 +4,7 @@ from typing import List
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 from sse_starlette.sse import EventSourceResponse
 
-from openaoe.backend.config.biz_config import get_api_key
+from openaoe.backend.config.biz_config import get_api_key, get_base_url
 from openaoe.backend.config.constant import TYPE_BOT, TYPE_USER, TYPE_SYSTEM
 from openaoe.backend.config.constant import VENDOR_CLAUDE
 from openaoe.backend.model.aoe_response import AOEResponse
@@ -17,6 +17,7 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
     use anthropic SDK: https://github.com/anthropics/anthropic-sdk-python
     """
     api_key = get_api_key(VENDOR_CLAUDE, body.model)
+    api_base = get_base_url(VENDOR_CLAUDE, body.model)
     prompt = _gen_prompt(body.messages)
     if not prompt or len(prompt) == 0:
         return AOEResponse(
@@ -25,7 +26,7 @@ def claude_chat_stream_svc(request, body: ClaudeChatBody):
             data="prompt or messages must be set"
         )
 
-    anthropic = Anthropic(api_key=api_key)
+    anthropic = Anthropic(api_key=api_key, base_url=api_base)
 
     async def stream():
         try:

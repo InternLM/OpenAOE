@@ -29,6 +29,7 @@ models:
             avatar: 'https://oss.openmmlab.com/frontend/OpenAOE/claude.svg'
             background: 'linear-gradient(180deg, rgba(141, 90, 181, 0.15) 0%, rgba(106, 39, 123, 0.7) 53.12%, #663E9A 100%)'
         api:
+            api_base: https://api.anthropic.com
             api_key:
     claude-1-100k:
         provider: claude
@@ -36,6 +37,7 @@ models:
             avatar: 'https://oss.openmmlab.com/frontend/OpenAOE/claude.svg'
             background: 'linear-gradient(180deg, rgba(141, 90, 181, 0.15) 0%, rgba(106, 39, 123, 0.7) 53.12%, #663E9A 100%)'
         api:
+            api_base: https://api.anthropic.com
             api_key:
     chat-bison-001:
         provider: google

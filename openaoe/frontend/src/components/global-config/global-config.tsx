@@ -10,7 +10,7 @@ export interface GlobalInfoProps {
 
 const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     const [models, setModels] = useState(defaultModels);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);

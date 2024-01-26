@@ -20,11 +20,11 @@ class InternlmChatCompletionBody(BaseModel):
     prompt: Optional[str]
     messages: List[Context]
     temperature: Optional[float] = 0.7
-    top_p: Optional[float] = 1
+    top_p: Optional[float] = 0.8
     n: Optional[int] = 1
     stop: Optional[Union[str, List]] = "false"
     presence_penalty: Optional[float] = 0
-    frequency_penalty: Optional[float] = 0
+    frequency_penalty: Optional[float] = 0.5
     user: Optional[str] = NOT_GIVEN
     stream: Optional[bool] = False
     timeout: Optional[int] = 600

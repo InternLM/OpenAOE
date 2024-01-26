@@ -163,8 +163,9 @@ const ChatOperation = (props: ChatOperationProps) => {
     };
 
     const handleRetry = () => {
-        const provider = models[modelName]?.provider;
-        chatStore.retry(currSession.name, provider, currSession.name === SERIAL_SESSION && botStore.currentBot);
+        const model = currSession.name === SERIAL_SESSION ? botStore.currentBot : chatStore.lastBotMessage(currSession.name).model;
+        const provider = models[model]?.provider || '';
+        chatStore.retry(currSession.name, provider, model);
     };
 
     useEffect(() => {

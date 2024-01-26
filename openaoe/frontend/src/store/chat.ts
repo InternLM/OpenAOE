@@ -68,7 +68,7 @@ interface ChatStore {
     lastBotMessage: (sessionName: string) => ChatMessage;
     lastUserMessage: (sessionName: string) => ChatMessage;
     closeController: (sessionName: string) => void;
-    retry: (sessionName: string, provider: string, model?: string,) => void;
+    retry: (sessionName: string, provider: string, model: string,) => void;
 
     clearAllData: () => void;
 }
@@ -127,7 +127,6 @@ export const useChatStore = create<ChatStore>()(
                 }
             },
             retry(bot: '', provider: '', model: '') {
-                const modelName = model || get().lastBotMessage(bot).model || '';
                 const text = get().lastUserMessage(bot).text;
                 if ((get().lastMessage(bot).id === get().lastBotMessage(bot).id) && get().getSession(bot).clearContextIndex !== get().getSession(bot).messages.length) {
                     // If the last message is a reply from the bot and the context is not cleared yet, replace the last two messages,
@@ -135,7 +134,7 @@ export const useChatStore = create<ChatStore>()(
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                 }
-                get().onUserInput(text, provider, modelName, bot);
+                get().onUserInput(text, provider, model, bot);
             },
             async onUserInput(text, provider, model, sessionName) {
                 const sessionIndex = get().sessions.findIndex((session) => session.name === sessionName);

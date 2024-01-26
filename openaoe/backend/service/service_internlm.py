@@ -42,7 +42,7 @@ def chat_completion_v1(request, body: InternlmChatCompletionBody):
         "top_p": body.top_p,
         "n": body.n,
         "max_tokens": body.max_tokens,
-        "stop": False,
+        "stop": "false",
         "stream": body.stream,
         "presence_penalty": body.presence_penalty,
         "frequency_penalty": body.frequency_penalty,

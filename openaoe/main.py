@@ -16,6 +16,7 @@ from openaoe.backend.config.biz_config import img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
 
+
 logger = log(__name__)
 # define global variable
 API_VER = 'v1'
@@ -26,9 +27,14 @@ ASSETS_RESOURCE_DIR = os.path.join(STATIC_RESOURCE_DIR, "assets")
 path = img_out_path()
 
 # init configuration content
-init_config()
+biz_config = init_config()
 
 app = FastAPI()
+
+
+@app.get("/config/json")
+async def get_config_json():
+    return biz_config.json
 
 
 @app.get("/", response_class=HTMLResponse)

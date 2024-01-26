@@ -1,7 +1,8 @@
 import { Tooltip } from 'sea-lion-ui';
 import { getNeedEventCallback, scrollToBottom } from '@utils/utils.ts';
 import { BASE_IMG_URL, CLEAR_CONTEXT, SERIAL_SESSION } from '@constants/models.ts';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import styles from './chat-operation.module.less';
 import { useConfigStore } from '@/store/config.ts';
 import { createMessage, useChatStore } from '@/store/chat.ts';
@@ -120,6 +121,7 @@ const RetryIcon = () => {
     );
 };
 const ChatOperation = (props: ChatOperationProps) => {
+    const { models } = useContext(GlobalConfigContext);
     const { modelName } = props;
     const chatStore = useChatStore();
     const { sessions } = chatStore;
@@ -160,6 +162,12 @@ const ChatOperation = (props: ChatOperationProps) => {
         chatStore.closeController(modelName);
     };
 
+    const handleRetry = () => {
+        const model = currSession.name === SERIAL_SESSION ? botStore.currentBot : chatStore.lastBotMessage(currSession.name).model;
+        const provider = models[model]?.provider || '';
+        chatStore.retry(currSession.name, provider, model);
+    };
+
     useEffect(() => {
         return () => {
             // when component unmount, stop non-stop stream request
@@ -196,7 +204,7 @@ const ChatOperation = (props: ChatOperationProps) => {
                     </Tooltip>
                     <Tooltip title="Regenerate" className={styles.opBtn}>
                         <div
-                            {...getNeedEventCallback(() => chatStore.retry(currSession.name, currSession.name === SERIAL_SESSION && botStore.currentBot))}
+                            {...getNeedEventCallback(handleRetry)}
                         >
                             <RetryIcon />
                         </div>

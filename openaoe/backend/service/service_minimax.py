@@ -12,9 +12,9 @@ logger = log(__name__)
 
 
 def _get_req_param(body):
-    group_id = get_model_configuration(VENDOR_MINIMAX, "group_id")
-    jwt = get_model_configuration(VENDOR_MINIMAX, "jwt")
-    api_base = get_base_url(VENDOR_MINIMAX)
+    group_id = get_model_configuration(PROVIDER_MINIMAX, "group_id", body.model)
+    jwt = get_model_configuration(PROVIDER_MINIMAX, "jwt", body.model)
+    api_base = get_base_url(PROVIDER_MINIMAX, body.model)
     headers = {
         "Authorization": jwt,
         "Content-Type": "application/json"

@@ -43,9 +43,9 @@ def chat_completion_stream(request, body):
     async def event_generator():
         while True:
             client = OpenAI(
-                api_key=get_api_key(VENDOR_OPENAI),
+                api_key=get_api_key(PROVIDER_OPENAI, body.model),
                 timeout=body.timeout,
-                base_url=get_base_url(VENDOR_OPENAI)
+                base_url=get_base_url(PROVIDER_OPENAI, body.model)
             )
 
             stop_flag = False
@@ -80,9 +80,9 @@ def chat_completion_stream(request, body):
     async def event_generator_json():
         while True:
             client = OpenAI(
-                api_key=get_api_key(VENDOR_OPENAI),
+                api_key=get_api_key(PROVIDER_OPENAI, body.model),
                 timeout=body.timeout,
-                base_url=get_base_url(VENDOR_OPENAI)
+                base_url=get_base_url(PROVIDER_OPENAI, body.model)
             )
             stop_flag = False
             response = ""

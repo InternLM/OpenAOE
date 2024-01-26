@@ -107,7 +107,7 @@ python -m openaoe.main -f /path/to/your/config-template.yaml
 > A template configuration yaml file can be found in `openaoe/backend/config/config-template.yaml`.
 
 
-#  Tech Introduction
+#  Tech Report
 > **You are always welcome to fork this project to contribute your work**
 > **and find the [TODOs in furture](docs/todo/TODO.md).**
 

@@ -3,6 +3,8 @@
 
 [![PyPI](https://img.shields.io/pypi/v/OpenAOE)](https://pypi.org/project/OpenAOE)
 [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/openaoe?label=docker)](https://hub.docker.com/r/opensealion/openaoe?label=docker)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/internlm/openaoe?label=commits)
+![PyPI - Downloads](https://img.shields.io/pypi/dw/openaoe?label=pip%20downloads)
 
 
 [English](../README.md) | 简体中文

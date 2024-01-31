@@ -3,6 +3,7 @@ import {
 } from 'react';
 import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import { models as defaultModels } from '@config/model-config.ts';
+import { STREAM_BOT } from '@constants/models.ts';
 
 export interface GlobalInfoProps {
     children?: ReactNode;
@@ -10,7 +11,7 @@ export interface GlobalInfoProps {
 
 const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     const [models, setModels] = useState(defaultModels);
-    const [streamProviders, setStreamProviders] = useState([]);
+    const [streamProviders, setStreamProviders] = useState(STREAM_BOT);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,7 +27,9 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
                             streamArray.push(models[model].provider);
                         }
                     });
-                    setStreamProviders(streamArray);
+                    if (Array.isArray(streamArray) && streamArray.length > 0) {
+                        setStreamProviders(streamArray);
+                    }
                 }
             })
             .catch(err => {

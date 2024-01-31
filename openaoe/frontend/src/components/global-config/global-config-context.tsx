@@ -2,12 +2,7 @@ import React from 'react';
 
 export const DefaultConfigInfo = {
     models: null,
-    streamProviders: [
-        'internlm',
-        'openai',
-        'claude',
-        'minimax'
-    ]
+    streamProviders: []
 };
 
 export const GlobalConfigContext = React.createContext(DefaultConfigInfo);

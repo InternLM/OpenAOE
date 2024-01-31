@@ -10,6 +10,7 @@ export interface GlobalInfoProps {
 
 const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     const [models, setModels] = useState(defaultModels);
+    const [streamProviders, setStreamProviders] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,6 +20,13 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
             .then(res => {
                 if (res && res.models) {
                     setModels(res.models);
+                    const streamArray = [];
+                    Object.keys(models).forEach((model) => {
+                        if (models[model].webui.isStream !== false && !streamArray.includes(models[model].provider)) {
+                            streamArray.push(models[model].provider);
+                        }
+                    });
+                    setStreamProviders(streamArray);
                 }
             })
             .catch(err => {
@@ -30,7 +38,8 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     }, []);
 
     const values = useMemo(() => ({
-        models
+        models,
+        streamProviders,
     }), [models]);
 
     return (

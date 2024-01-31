@@ -121,7 +121,7 @@ const RetryIcon = () => {
     );
 };
 const ChatOperation = (props: ChatOperationProps) => {
-    const { models } = useContext(GlobalConfigContext);
+    const { models, streamProviders } = useContext(GlobalConfigContext);
     const { modelName } = props;
     const chatStore = useChatStore();
     const { sessions } = chatStore;
@@ -165,7 +165,8 @@ const ChatOperation = (props: ChatOperationProps) => {
     const handleRetry = () => {
         const model = currSession.name === SERIAL_SESSION ? botStore.currentBot : chatStore.lastBotMessage(currSession.name).model;
         const provider = models[model]?.provider || '';
-        chatStore.retry(currSession.name, provider, model);
+        const isStream = streamProviders.includes(provider);
+        chatStore.retry(currSession.name, provider, model, isStream);
     };
 
     useEffect(() => {

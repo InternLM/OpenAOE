@@ -25,7 +25,7 @@ const BOT_PLACEHOLDER = {
 };
 
 const PromptInput = () => {
-    const { models } = useContext(GlobalConfigContext);
+    const { models, streamProviders } = useContext(GlobalConfigContext);
     const chatStore = useChatStore();
     const botStore = useBotStore();
     const configStore = useConfigStore();
@@ -108,11 +108,13 @@ const PromptInput = () => {
             handleContentChange('');
             if (configStore.mode === SERIAL_MODE) {
                 const provider = models[botStore.currentBot]?.provider;
-                chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION);
+                const isStream = streamProviders.includes(provider);
+                chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION, isStream);
             } else {
                 botStore.chosenBotNames.forEach((botName) => {
                     const provider = models[botName]?.provider;
-                    chatStore.onUserInput(currPrompt, provider, botName, botName);
+                    const isStream = streamProviders.includes(provider);
+                    chatStore.onUserInput(currPrompt, provider, botName, botName, isStream);
                 });
             }
         }
@@ -167,7 +169,6 @@ const PromptInput = () => {
             return;
         }
         const target = e.target as HTMLDivElement;
-        console.log(cleanInput(target.innerHTML), target.innerHTML);
         setCurrPrompt(cleanInput(target.innerHTML));
         const content = target.innerHTML;
         handleContentChange(content);

@@ -58,7 +58,7 @@ interface ChatStore {
     updateSession: (sessionIndex: number, override: Partial<ChatSession>) => void;
     onNewMessage: (message: ChatMessage, sessionIndex?: number) => void;
     deleteMessage: (sessionName: string, messageIndex: number) => void;
-    onUserInput: (content: string, provider: string, model: string, sessionId: string) => Promise<void>;
+    onUserInput: (content: string, provider: string, model: string, sessionId: string, isStreamApi: boolean) => Promise<void>;
     updateMessage: (
         sessionIndex: number,
         messageIndex: number,
@@ -68,7 +68,7 @@ interface ChatStore {
     lastBotMessage: (sessionName: string) => ChatMessage;
     lastUserMessage: (sessionName: string) => ChatMessage;
     closeController: (sessionName: string) => void;
-    retry: (sessionName: string, provider: string, model: string,) => void;
+    retry: (sessionName: string, provider: string, model: string, isStreamApi: boolean) => void;
 
     clearAllData: () => void;
 }
@@ -126,7 +126,7 @@ export const useChatStore = create<ChatStore>()(
                     set(() => ({ sessions: get().sessions }));
                 }
             },
-            retry(bot: '', provider: '', model: '') {
+            retry(bot: '', provider: '', model: '', isStreamApi = true) {
                 const text = get().lastUserMessage(bot).text;
                 if ((get().lastMessage(bot).id === get().lastBotMessage(bot).id) && get().getSession(bot).clearContextIndex !== get().getSession(bot).messages.length) {
                     // If the last message is a reply from the bot and the context is not cleared yet, replace the last two messages,
@@ -134,9 +134,9 @@ export const useChatStore = create<ChatStore>()(
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                 }
-                get().onUserInput(text, provider, model, bot);
+                get().onUserInput(text, provider, model, bot, isStreamApi);
             },
-            async onUserInput(text, provider, model, sessionName) {
+            async onUserInput(text, provider, model, sessionName, isStreamApi = true) {
                 const sessionIndex = get().sessions.findIndex((session) => session.name === sessionName);
                 const currSession = get().sessions[sessionIndex];
                 if (!currSession) {
@@ -186,7 +186,7 @@ export const useChatStore = create<ChatStore>()(
 
                 const url = getUrl(provider);
                 let isStream = true;
-                if (!STREAM_BOT.includes(provider)) {
+                if (!isStreamApi) {
                     try {
                         const rsp = await fetchBotAnswer(url, getPayload(provider, model, text, messages), abortController.signal);
                         if (rsp.msgCode === '10000' && rsp.data) {

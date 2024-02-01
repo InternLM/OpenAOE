@@ -3,6 +3,7 @@ import {
 } from 'react';
 import { GlobalConfigContext } from '@components/global-config/global-config-context.tsx';
 import { models as defaultModels } from '@config/model-config.ts';
+import { STREAM_BOT } from '@constants/models.ts';
 
 export interface GlobalInfoProps {
     children?: ReactNode;
@@ -10,6 +11,7 @@ export interface GlobalInfoProps {
 
 const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     const [models, setModels] = useState(defaultModels);
+    const [streamProviders, setStreamProviders] = useState(STREAM_BOT);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -17,8 +19,17 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
         fetch('/config/json')
             .then(res => res.json())
             .then(res => {
-                if (res && res.models) {
+                if (res && typeof res.models === 'object') {
                     setModels(res.models);
+                    const streamArray = [];
+                    Object.keys(models).forEach((model) => {
+                        if (models[model].webui.isStream !== false && !streamArray.includes(models[model].provider)) {
+                            streamArray.push(models[model].provider);
+                        }
+                    });
+                    if (streamArray.length > 0) {
+                        setStreamProviders(streamArray);
+                    }
                 }
             })
             .catch(err => {
@@ -30,7 +41,8 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     }, []);
 
     const values = useMemo(() => ({
-        models
+        models,
+        streamProviders,
     }), [models]);
 
     return (

@@ -19,7 +19,7 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
         fetch('/config/json')
             .then(res => res.json())
             .then(res => {
-                if (res && res.models) {
+                if (res && typeof res.models === 'object') {
                     setModels(res.models);
                     const streamArray = [];
                     Object.keys(models).forEach((model) => {
@@ -27,7 +27,7 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
                             streamArray.push(models[model].provider);
                         }
                     });
-                    if (Array.isArray(streamArray) && streamArray.length > 0) {
+                    if (streamArray.length > 0) {
                         setStreamProviders(streamArray);
                     }
                 }

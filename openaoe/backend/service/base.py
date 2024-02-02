@@ -72,6 +72,9 @@ async def base_stream(provider, url, method: str, headers: dict, stream_callback
     try:
         with httpx.stream(method, url, json=body, params=params, files=files, headers=headers_pure,
                           timeout=timeout) as res:
+            if res.status_code != 200:
+                raise Exception(f"request failed, model status code: {res.status_code}")
+
             # stream parser
             streamer = ObjectStreamer()
             sys.stdout = mystdout = StringIO()

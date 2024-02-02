@@ -79,14 +79,19 @@ def _construct_request_data(body: GooglePalmChatBody):
             }
         }
     else:
-        url = f"{api_base}/google/v1beta2/models/{model}:generateMessage?key={api_key}"
+        url = f"{api_base}/v1beta2/models/{model}:generateMessage?key={api_key}"
         params = {
             "key": api_key
         }
-        messages = [
-            {"content": msg.content, "author": msg.author}
-            for msg in body.prompt.messages or []
-        ]
+
+        messages = []
+        last_author = ""
+        # ignore not answered prompt
+        for item in body.prompt.messages:
+            if item.author == last_author:
+                messages.pop()
+            messages.append({"content": item.content, "author": item.author})
+            last_author = item.author
         body = {
             "prompt": {
                 "messages": messages

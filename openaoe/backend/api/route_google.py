@@ -13,5 +13,5 @@ async def palm_chat(body: GooglePalmChatBody):
     @param body: request body
     @return: response
     """
-    ret = palm_chat_svc(body)
+    ret = await palm_chat_svc(body)
     return ret

@@ -17,4 +17,13 @@ def log(name):
     return logger
 
 
+def clear_other_log():
+    for name, item in logging.Logger.manager.loggerDict.items():
+        if not isinstance(item, logging.Logger):
+            continue
+        if "aoe" not in name:
+            item.setLevel(logging.CRITICAL)
+
+
+clear_other_log()
 logger = log("util")

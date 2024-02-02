@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from typing import Optional
+
+from pydantic import BaseModel
 
 
 class AOEResponse(BaseModel):
@@ -11,3 +12,9 @@ class AOEResponse(BaseModel):
     data: Optional[object] = None
 
 
+class StreamResponse(BaseModel):
+    """
+    Standard OpenAOE stream response
+    """
+    success: Optional[bool] = True
+    msg: Optional[str] = ""

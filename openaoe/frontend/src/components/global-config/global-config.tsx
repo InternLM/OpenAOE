@@ -11,7 +11,7 @@ export interface GlobalInfoProps {
 
 const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
     const [models, setModels] = useState(defaultModels);
-    const [streamProviders, setStreamProviders] = useState(STREAM_BOT);
+    const [streamModels, setStreamProviders] = useState(STREAM_BOT);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,11 +20,13 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
             .then(res => res.json())
             .then(res => {
                 if (res && typeof res.models === 'object') {
-                    setModels(res.models);
+                    const rspModels = res.models;
                     const streamArray = [];
-                    Object.keys(models).forEach((model) => {
-                        if (models[model].webui.isStream !== false && !streamArray.includes(models[model].provider)) {
-                            streamArray.push(models[model].provider);
+                    setModels(rspModels);
+                    // stream status for every model
+                    Object.keys(rspModels).forEach((model) => {
+                        if (rspModels[model].webui.isStream !== false && !streamArray.includes(model)) {
+                            streamArray.push(model);
                         }
                     });
                     if (streamArray.length > 0) {
@@ -42,7 +44,7 @@ const GlobalConfig: FC<GlobalInfoProps> = ({ children }) => {
 
     const values = useMemo(() => ({
         models,
-        streamProviders,
+        streamModels,
     }), [models]);
 
     return (

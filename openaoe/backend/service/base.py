@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 from jsonstreamer import ObjectStreamer
 
 from openaoe.backend.config.constant import DEFAULT_TIMEOUT_SECONDS
-from openaoe.backend.model.aoe_response import AOEResponse
+from openaoe.backend.model.aoe_response import AOEResponse, StreamResponse
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
@@ -79,15 +79,20 @@ async def base_stream(provider, url, method: str, headers: dict, stream_callback
 
             for text in res.iter_text():
                 streamer.consume(text)
-                yield mystdout.getvalue()
+                res = mystdout.getvalue()
+                stream_res = json.dumps(jsonable_encoder(StreamResponse(msg=res)))
+                # format res
+                yield stream_res
                 # clear printed string
                 sys.stdout.seek(0)
                 sys.stdout.truncate()
 
     except Exception as e:
         print(traceback.format_exc())
-        response = AOEResponse()
-        response.msg = str(e)
+        res = json.dumps(jsonable_encoder(StreamResponse(
+            success=False,
+            msg=str(e)
+        )))
         logger.error(f"[{provider}] url: {url}, method: {method}, headers: {jsonable_encoder(headers_pure)}, "
-                     f"body: {body_str} failed, response: {jsonable_encoder(response)}")
-        yield response
+                     f"body: {body_str} failed, response: {res}")
+        yield res

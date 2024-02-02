@@ -1,8 +1,9 @@
-#! /bin/python3
+#!/usr/bin/env python3
 import json
 import sys
 import traceback
 from io import StringIO
+from typing import Callable
 
 import httpx
 from fastapi.encoders import jsonable_encoder
@@ -15,9 +16,24 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-async def base_request(provider, url, method: str, headers: dict, body=None, timeout=DEFAULT_TIMEOUT_SECONDS,
+async def base_request(provider: str, url: str, method: str, headers: dict, body=None, timeout=DEFAULT_TIMEOUT_SECONDS,
                        params=None,
                        files=None) -> AOEResponse:
+    """
+    common request function for http
+    Args:
+        provider: use for log
+        url: complete url
+        method: request method
+        headers: request headers, excluding user-agent, host and ip.
+        body: json body only
+        timeout: seconds
+        params: request params
+        files: request file
+
+    Returns:
+        AOEResponse
+    """
     response = AOEResponse()
 
     headers_pure = {}
@@ -50,10 +66,28 @@ async def base_request(provider, url, method: str, headers: dict, body=None, tim
     return response
 
 
-async def base_stream(provider, url, method: str, headers: dict, stream_callback, body=None,
+async def base_stream(provider: str, url: str, method: str, headers: dict, stream_callback: Callable, body=None,
                       timeout=DEFAULT_TIMEOUT_SECONDS,
                       params=None,
                       files=None):
+    """
+    common stream request
+    Args:
+        stream_callback:
+        provider: use for log
+        url: complete url
+        method: request method
+        headers: request headers, excluding user-agent, host and ip.
+        stream_callback: use ObjectStream to stream parse json, this method will be executed while any stream received,
+                         use print to output(we have redirected stdout to response stream)
+        body: json body only
+        timeout: seconds
+        params: request params
+        files: request file
+
+    Returns:
+        SSE response with StreamResponse json string
+    """
     headers_pure = {
         "Content-Type": "application/json"
     }

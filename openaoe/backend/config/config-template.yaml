@@ -48,6 +48,15 @@ models:
         api:
             api_base: https://generativelanguage.googleapis.com
             api_key:
+    gemini-pro:
+        provider: google
+        webui:
+            avatar: 'https://oss.openmmlab.com/frontend/OpenAOE/google-palm.webp'
+            isStream: true
+            background: 'linear-gradient(#b55a5a26 0%, #fa5ab1 100%)'
+        api:
+            api_base: https://generativelanguage.googleapis.com
+            api_key:
     abab5-chat:
         provider: minimax
         webui:

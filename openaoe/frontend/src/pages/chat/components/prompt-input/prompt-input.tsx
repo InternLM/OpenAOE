@@ -25,7 +25,7 @@ const BOT_PLACEHOLDER = {
 };
 
 const PromptInput = () => {
-    const { models, streamProviders } = useContext(GlobalConfigContext);
+    const { models, streamModels } = useContext(GlobalConfigContext);
     const chatStore = useChatStore();
     const botStore = useBotStore();
     const configStore = useConfigStore();
@@ -108,12 +108,12 @@ const PromptInput = () => {
             handleContentChange('');
             if (configStore.mode === SERIAL_MODE) {
                 const provider = models[botStore.currentBot]?.provider;
-                const isStream = streamProviders.includes(provider);
+                const isStream = streamModels.includes(botStore.currentBot);
                 chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION, isStream);
             } else {
                 botStore.chosenBotNames.forEach((botName) => {
                     const provider = models[botName]?.provider;
-                    const isStream = streamProviders.includes(provider);
+                    const isStream = streamModels.includes(botName);
                     chatStore.onUserInput(currPrompt, provider, botName, botName, isStream);
                 });
             }

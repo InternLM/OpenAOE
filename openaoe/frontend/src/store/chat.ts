@@ -116,7 +116,6 @@ export const useChatStore = create<ChatStore>()(
             onNewMessage(message, sessionIndex = 0) {
                 const session = get().sessions[sessionIndex];
                 session.messages.push(message);
-                console.log('[BOT] onNewMessage: ', message, sessionIndex);
                 set(() => ({ sessions: get().sessions }));
             },
             deleteMessage(sessionName, messageIndex) {
@@ -251,7 +250,7 @@ export const useChatStore = create<ChatStore>()(
                         onmessage: (event) => {
                             if (isStream && typeof event.data === 'string' && event.data.charAt(0) === '{') {
                                 const data = JSON.parse(event.data);
-                                if (data && data.success === 'true') {
+                                if (data && data.success.toString() === 'true') {
                                     if (data.stop_reason === 'max_token') { // max_token means abnormal interruption
                                         botMessage.stream = false;
                                         get().updateMessage(sessionIndex, messageIndex, (message) => {

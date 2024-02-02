@@ -2,7 +2,7 @@ import React from 'react';
 
 export const DefaultConfigInfo = {
     models: null,
-    streamProviders: []
+    streamModels: []
 };
 
 export const GlobalConfigContext = React.createContext(DefaultConfigInfo);

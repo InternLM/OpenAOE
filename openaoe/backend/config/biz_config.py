@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 import sys
@@ -8,7 +10,7 @@ import yaml
 from openaoe.backend.util.log import log
 
 logger = log(__name__)
-biz_config = None
+BIZ_CONFIG = None
 
 
 class BizConfig:
@@ -71,14 +73,14 @@ def load_config(config_path) -> BizConfig:
             logger.error("init configuration failed. Exit")
             sys.exit(-1)
 
-        global biz_config
-        biz_config = BizConfig(**m)
+        global BIZ_CONFIG
+        BIZ_CONFIG = BizConfig(**m)
     logger.info("init configuration successfully.")
-    return biz_config
+    return BIZ_CONFIG
 
 
 def get_model_configuration(provider: str, field, model_name: str = None):
-    models = biz_config.models_map
+    models = BIZ_CONFIG.models_map
     if not models:
         logger.error(f"invalid configuration file")
         sys.exit(-1)

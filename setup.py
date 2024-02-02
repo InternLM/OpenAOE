@@ -16,7 +16,7 @@ def recursive_files(base_dir):
 
 setup(
     name='openaoe',
-    version='0.0.3',
+    version='0.0.4',
     description='LLM Group Chat Framework: chat with multiple LLMs at the same time',
     long_description=utils.get_file_content("README.md"),
     long_description_content_type='text/markdown',

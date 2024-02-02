@@ -45,9 +45,7 @@ async def server():
 
 @app.get("/assets/{path:path}")
 async def build_resource(path: str):
-    print(ASSETS_RESOURCE_DIR, path)
     static_file = safe_join(ASSETS_RESOURCE_DIR, path)
-    print(static_file)
     return FileResponse(static_file)
 
 

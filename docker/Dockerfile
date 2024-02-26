@@ -9,6 +9,7 @@ COPY --from=frontend-builder /app/dist /app/openaoe/frontend/dist
 COPY openaoe/backend ./openaoe/backend
 COPY openaoe/main.py ./openaoe
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r openaoe/backend/requirements.txt
+RUN apt-get update && apt-get install -y libyajl2
 ENV CONFIG_PATH=/app/config.yaml
 EXPOSE 10099
 CMD ["python", "-u", "-m", "openaoe.main", "-f", "/app/config.yaml"]

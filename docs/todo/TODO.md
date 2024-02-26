@@ -6,3 +6,4 @@
 - [x] refactor the config.yaml to make the model setting looks more logical
 - [ ] dynamic add new model by editing external python files and the config.yaml 
 - [ ] build frontend project when OpenAOE start up
+- [ ] support image interaction

@@ -107,10 +107,11 @@ python -m openaoe.main -f /path/to/your/config-template.yaml
 
 
 > [!TIP]
-> `/path/to/your/config-template.yaml` is the configuration file loaded by OpenAOE at startup, 
+> `/path/to/your/config-template.yaml` is a configuration file loaded by OpenAOE at startup, 
 > which contains the relevant configuration information for the LLMs,
 > including: API URLs, AKSKs, Tokens, etc.
 > A template configuration yaml file can be found in `openaoe/backend/config/config-template.yaml`.
+> Note that, this `config-template.yaml` DOES NOT contain any API access data, you should add them by yourself.
 
 
 #  Tech Report

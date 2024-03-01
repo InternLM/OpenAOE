@@ -12,6 +12,7 @@ from openaoe.backend.api.route_internlm import router as internlm
 from openaoe.backend.api.route_minimax import router as minimax
 from openaoe.backend.api.route_openai import router as openai
 from openaoe.backend.api.route_xunfei import router as xunfei
+from openaoe.backend.api.route_mistral import router as mistral
 from openaoe.backend.config.biz_config import img_out_path, init_config
 from openaoe.backend.util.log import log
 from openaoe.backend.util.str_util import safe_join
@@ -71,6 +72,7 @@ app.include_router(google, prefix=f"/{API_VER}/google")
 app.include_router(claude, prefix=f"/{API_VER}/claude")
 app.include_router(xunfei, prefix=f"/{API_VER}/xunfei")
 app.include_router(internlm, prefix=f"/{API_VER}/internlm")
+app.include_router(mistral, prefix=f"/{API_VER}/mistral")
 
 
 def main():

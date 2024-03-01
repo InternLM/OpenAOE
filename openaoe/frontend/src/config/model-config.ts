@@ -67,7 +67,7 @@ export const models = {
             background: 'linear-gradient(180deg, rgba(207, 72, 72, 0.15) 0%, rgba(151, 43, 43, 0.7) 53.12%, #742828 100%)',
         }
     },
-    spark: {
+    'spark': {
         provider: 'spark',
         webui: {
             avatar: 'https://oss.openmmlab.com/frontend/OpenAOE/spark.svg',

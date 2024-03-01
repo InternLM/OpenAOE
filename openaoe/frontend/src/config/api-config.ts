@@ -82,6 +82,17 @@ const internlm = {
     stream: true
 };
 
+const mistral = {
+    model: 'mistral',
+    prompt: '',
+    messages: [],
+    role_meta: {
+        user_name: 'user',
+        bot_name: 'assistant'
+    },
+    stream: true
+};
+
 const API_PREFIX = '';
 
 const API = new Map();
@@ -109,6 +120,10 @@ API.set('spark', {
 API.set('internlm', {
     url: `${API_PREFIX}/v1/internlm/v1/chat/completions`,
     ...internlm
+});
+API.set('mistral', {
+    url: `${API_PREFIX}/v1/mistral/v1/mistral/chat`,
+    ...mistral
 });
 
 export default API;

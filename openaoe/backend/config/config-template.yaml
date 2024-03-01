@@ -77,4 +77,24 @@ models:
             app_id:
             ak:
             sk:
+    mistral-7b:
+        provider: mistral
+        webui:
+            avatar: 'https://oss.openmmlab.com/frontend/OpenAOE/mistral.webp'
+            isStream: true
+            background: 'linear-gradient(#4848cf26 0%, #7498be 100%)'
+            path: '/v1/mistral/v1/mistral/chat'
+            payload:
+                messages: [ ]
+                model: mistral
+                prompt: ""
+                role_meta:
+                    user_name: "user"
+                    bot_name: "assistant"
+                stream: true
+        api:
+            api_base: http://localhost:11434
+            app_id:
+            ak:
+            sk:
 ...

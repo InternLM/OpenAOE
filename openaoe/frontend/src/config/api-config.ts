@@ -41,6 +41,7 @@ const claude = {
     model: 'claude-1',
     max_tokens: 5000
 };
+
 const baidu = {
     messages: [
         {
@@ -93,6 +94,12 @@ const mistral = {
     stream: true
 };
 
+const gemma = {
+    model: 'gemma',
+    messages: [],
+    stream: true
+};
+
 const API_PREFIX = '';
 
 const API = new Map();
@@ -124,6 +131,10 @@ API.set('internlm', {
 API.set('mistral', {
     url: `${API_PREFIX}/v1/mistral/v1/mistral/chat`,
     ...mistral
+});
+API.set('gemma', {
+    url: `${API_PREFIX}/v1/google/v1/gemma/chat`,
+    ...gemma
 });
 
 export default API;

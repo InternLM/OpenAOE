@@ -16,11 +16,11 @@ English | [简体中文](docs/README_zh-CN.md)
 
 
 ## Latest Progress 🎉
-- \[March 2024\] Add gemma-7b model
-- \[February 2024\] Add mistral-7b model
-- \[February 2024\] Add gemini-pro model
+- \[March 2024\] Add gemma-7b model（based on Ollama）
+- \[February 2024\] Add mistral-7b model (based on Ollama)
+- \[February 2024\] Add gemini-pro model (based on Open API)
 - \[January 2024\] refactor the config-template.yaml to control the backend and the frontend settings at the same time, [click](https://github.com/InternLM/OpenAOE/blob/main/docs/tech-report/config-template.md) to find more introduction about the `config-template.yaml`
-- \[January 2024\] Add internlm2-chat-7b model
+- \[January 2024\] Add internlm2-chat-7b model (based on LMDeploy)
 - \[January 2024\] Released version v0.0.1, officially open source！
 ______________________________________________________________________
 

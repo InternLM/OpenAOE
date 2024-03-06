@@ -19,7 +19,7 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
     const payload = { ...API.get(provider) || API.get(DEFAULT_PROVIDER) };
     delete payload.url;
     payload.model = model;
-    if (['openai', 'internlm', 'gpt-4', 'mistral'].includes(provider)) {
+    if (['openai', 'internlm', 'gpt-4', 'mistral', 'gemma'].includes(provider)) {
         payload.prompt = prompt;
         payload.messages = messages;
     }
@@ -37,23 +37,28 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
         });
     }
     if (provider === 'google') {
-        // TODO: Messages must alternate between authors.
-        const defaultMessage = {
-            content: 'Hi! How can I help you today?',
-            author: '1'
-        };
-        const formatMessage = messages.map((item) => {
-            return {
-                content: item.text,
-                author: item.sender_type === 'user' ? '0' : '1',
+        if (['gemma-7b', 'gemma-2b'].includes(model)) {
+            payload.prompt = prompt;
+            payload.messages = messages;
+        } else {
+            // TODO: Messages must alternate between authors.
+            const defaultMessage = {
+                content: 'Hi! How can I help you today?',
+                author: '1'
             };
-        });
-        formatMessage.push({
-            content: prompt,
-            author: '0',
-        });
-        formatMessage.unshift(defaultMessage);
-        payload.prompt.messages = formatMessage;
+            const formatMessage = messages.map((item) => {
+                return {
+                    content: item.text,
+                    author: item.sender_type === 'user' ? '0' : '1',
+                };
+            });
+            formatMessage.push({
+                content: prompt,
+                author: '0',
+            });
+            formatMessage.unshift(defaultMessage);
+            payload.prompt.messages = formatMessage;
+        }
     }
     if (provider === 'baidu' || provider === 'claude') {
         const formatMessage = messages.map((item) => {

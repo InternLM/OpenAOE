@@ -114,6 +114,10 @@ def get_base_url(provider: str, model_name: str = None) -> str:
     return get_model_configuration(provider, "api_base", model_name)
 
 
+def get_api_path(provider: str, model_name: str = None) -> str:
+    return get_model_configuration(provider, "api_path", model_name)
+
+
 def get_api_key(provider: str, model_name: str = None) -> str:
     return get_model_configuration(provider, "api_key", model_name)
 

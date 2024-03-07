@@ -19,7 +19,7 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
     const payload = { ...API.get(provider) || API.get(DEFAULT_PROVIDER) };
     delete payload.url;
     payload.model = model;
-    if (['openai', 'internlm', 'gpt-4', 'mistral', 'gemma'].includes(provider)) {
+    if (['openai', 'internlm', 'gpt-4', 'mistral', 'gemma', 'ali'].includes(provider)) {
         payload.prompt = prompt;
         payload.messages = messages;
     }

@@ -17,20 +17,8 @@ stream: if false the response will be returned as a single response object, rath
 keep_alive: controls how long the model will stay loaded into memory following the request (default: 5m)
 """
 
-from typing import List, Optional, Literal, Dict
-from pydantic import BaseModel
+from openaoe.backend.model.openaoe import OllamaChatBody, OllamaMessage
 
 
-class Message(BaseModel):
-    role: Optional[Literal["user", "system", "assistant"]] = "user"
-    content: str
-    images: Optional[List[str]] = None  # img in base64
-
-
-class MistralChatBody(BaseModel):
-    model: str
-    messages: List[Message]
-    options: Optional[Dict] = {}
-    template: Optional[str] = None
-    stream: Optional[bool] = True
-    keep_alive: Optional[str] = '5m'
+class MistralChatBody(OllamaChatBody):
+    pass

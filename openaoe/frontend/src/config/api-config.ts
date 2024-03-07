@@ -100,6 +100,12 @@ const gemma = {
     stream: true
 };
 
+const ali = {
+    model: 'gemma',
+    messages: [],
+    stream: true
+};
+
 const API_PREFIX = '';
 
 const API = new Map();
@@ -135,6 +141,10 @@ API.set('mistral', {
 API.set('gemma', {
     url: `${API_PREFIX}/v1/google/v1/gemma/chat`,
     ...gemma
+});
+API.set('ali', {
+    url: `${API_PREFIX}/v1/ali/v1/qwen/chat`,
+    ...ali
 });
 
 export default API;

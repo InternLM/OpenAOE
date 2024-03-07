@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional, List
 
+from openaoe.backend.model.openaoe import OllamaChatBody
+
 
 class Message(BaseModel):
     content: str
@@ -21,4 +23,5 @@ class GooglePalmChatBody(BaseModel):
     candidate_count: Optional[int] = 1
 
 
-
+class GemmaChatBody(OllamaChatBody):
+    pass

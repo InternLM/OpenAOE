@@ -16,7 +16,7 @@ English | [简体中文](docs/README_zh-CN.md)
 
 
 ## Latest Progress 🎉
-- \[March 2024\] Add gemma-7b model（based on Ollama）
+- \[March 2024\] Add gemma-7b and qwen-7b models（based on Ollama）
 - \[February 2024\] Add mistral-7b model (based on Ollama)
 - \[February 2024\] Add gemini-pro model (based on Open API)
 - \[January 2024\] refactor the config-template.yaml to control the backend and the frontend settings at the same time, [click](https://github.com/InternLM/OpenAOE/blob/main/docs/tech-report/config-template.md) to find more introduction about the `config-template.yaml`

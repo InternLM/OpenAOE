@@ -109,12 +109,14 @@ const PromptInput = () => {
             if (configStore.mode === SERIAL_MODE) {
                 const provider = models[botStore.currentBot]?.provider;
                 const isStream = streamModels.includes(botStore.currentBot);
-                chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION, isStream);
+                const webui = models[botStore.currentBot]?.webui || { payload: { options: {} } }
+                chatStore.onUserInput(currPrompt, provider, botStore.currentBot, SERIAL_SESSION, isStream, webui);
             } else {
                 botStore.chosenBotNames.forEach((botName) => {
                     const provider = models[botName]?.provider;
                     const isStream = streamModels.includes(botName);
-                    chatStore.onUserInput(currPrompt, provider, botName, botName, isStream);
+                    const webui = models[botName]?.webui || { payload: { options: {} } }
+                    chatStore.onUserInput(currPrompt, provider, botName, botName, isStream, webui);
                 });
             }
         }

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { fetchEventSource } from '@fortaine/fetch-event-source';
 import { persist } from 'zustand/middleware';
 import { scrollToBottom } from '@utils/utils.ts';
-import { getHeaders, getPayload, getUrl } from '@services/fetch.ts';
+import { getHeaders, getPayload } from '@services/fetch.ts';
 import { fetchBotAnswer } from '@services/home.ts';
 import { DEFAULT_BOT, SERIAL_SESSION, STREAM_BOT } from '@constants/models.ts';
 
@@ -58,7 +58,7 @@ interface ChatStore {
     updateSession: (sessionIndex: number, override: Partial<ChatSession>) => void;
     onNewMessage: (message: ChatMessage, sessionIndex?: number) => void;
     deleteMessage: (sessionName: string, messageIndex: number) => void;
-    onUserInput: (content: string, provider: string, model: string, sessionId: string, isStreamApi: boolean) => Promise<void>;
+    onUserInput: (content: string, provider: string, model: string, sessionId: string, isStreamApi: boolean, webui: any) => Promise<void>;
     updateMessage: (
         sessionIndex: number,
         messageIndex: number,
@@ -68,7 +68,7 @@ interface ChatStore {
     lastBotMessage: (sessionName: string) => ChatMessage;
     lastUserMessage: (sessionName: string) => ChatMessage;
     closeController: (sessionName: string) => void;
-    retry: (sessionName: string, provider: string, model: string, isStreamApi: boolean) => void;
+    retry: (sessionName: string, provider: string, model: string, isStreamApi: boolean, webui: any) => void;
 
     clearAllData: () => void;
 }
@@ -125,7 +125,7 @@ export const useChatStore = create<ChatStore>()(
                     set(() => ({ sessions: get().sessions }));
                 }
             },
-            retry(bot: '', provider: '', model: '', isStreamApi = true) {
+            retry(bot: '', provider: '', model: '', isStreamApi = true, webui = {}) {
                 const text = get().lastUserMessage(bot).text;
                 if ((get().lastMessage(bot).id === get().lastBotMessage(bot).id) && get().getSession(bot).clearContextIndex !== get().getSession(bot).messages.length) {
                     // If the last message is a reply from the bot and the context is not cleared yet, replace the last two messages,
@@ -133,9 +133,9 @@ export const useChatStore = create<ChatStore>()(
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                     get().deleteMessage(bot, get().getSession(bot).messages.length - 1);
                 }
-                get().onUserInput(text, provider, model, bot, isStreamApi);
+                get().onUserInput(text, provider, model, bot, isStreamApi, webui);
             },
-            async onUserInput(text, provider, model, sessionName, isStreamApi = true) {
+            async onUserInput(text, provider, model, sessionName, isStreamApi = true, webui: any) {
                 const sessionIndex = get().sessions.findIndex((session) => session.name === sessionName);
                 const currSession = get().sessions[sessionIndex];
                 if (!currSession) {
@@ -179,15 +179,15 @@ export const useChatStore = create<ChatStore>()(
                     method: 'POST',
                     headers: getHeaders(),
                     body: JSON.stringify({
-                        ...getPayload(provider, model, text, messages),
+                        ...getPayload(provider, model, text, messages, webui.payload),
                     }),
                 };
 
-                const url = getUrl(provider);
+                const url = webui.path;
                 let isStream = true;
                 if (!isStreamApi) {
                     try {
-                        const rsp = await fetchBotAnswer(url, getPayload(provider, model, text, messages), abortController.signal);
+                        const rsp = await fetchBotAnswer(url, getPayload(provider, model, text, messages, webui.payload), abortController.signal);
                         if (rsp.msgCode === '10000' && rsp.data) {
                             if (provider === 'google') {
                                 // Google: The data format returned by the chat-stream interface is different and requires special processing

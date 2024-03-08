@@ -166,7 +166,8 @@ const ChatOperation = (props: ChatOperationProps) => {
         const model = currSession.name === SERIAL_SESSION ? botStore.currentBot : chatStore.lastBotMessage(currSession.name).model;
         const provider = models[model]?.provider || '';
         const isStream = streamModels.includes(model);
-        chatStore.retry(currSession.name, provider, model, isStream);
+        const webui = models[model]?.webui || { payload: { options: {} } }
+        chatStore.retry(currSession.name, provider, model, isStream, webui);
     };
 
     useEffect(() => {

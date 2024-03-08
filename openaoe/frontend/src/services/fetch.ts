@@ -9,22 +9,22 @@ export const getHeaders = () => {
 export const getUrl = (provider) => {
     return API.get(provider)?.url || API.get(DEFAULT_PROVIDER).url;
 };
-/** Build your own api payload here
+/** Build your own api payload here deprived
  * @param provider service provider, each provider has its own payload format and may have more than one model
  * @param model model name
  * @param prompt
  * @param messages
  */
-export const getPayload = (provider: string, model: string, prompt: string, messages: { text: string; sender_type: string; }[]) => {
+export const getPayload2 = (provider: string, model: string, prompt: string, messages: { text: string; sender_type: string; }[]) => {
     const payload = { ...API.get(provider) || API.get(DEFAULT_PROVIDER) };
     delete payload.url;
     payload.model = model;
     if (['openai', 'internlm', 'gpt-4', 'mistral'].includes(provider)) {
-        payload.prompt = prompt;
+        // payload.prompt = prompt;
         payload.messages = messages;
     }
     if (provider === 'minimax') {
-        payload.prompt = prompt;
+        // payload.prompt = prompt;
         payload.messages = messages.map((item) => {
             return {
                 text: item.text,
@@ -82,5 +82,27 @@ export const getPayload = (provider: string, model: string, prompt: string, mess
         delete payload.model;
         payload.payload.message.text = formatMessage;
     }
+    console.log('payload', payload);
     return payload;
+};
+
+/** Build your own api payload here
+ * @param provider service provider, each provider has its own payload format and may have more than one model
+ * @param model model name
+ * @param prompt
+ * @param messages
+ */
+ export const getPayload = (provider: string, model: string, prompt: string, messages: { text: string; sender_type: string; }[], payload: any) => {
+    console.log(provider, model, messages);
+    delete payload.url;
+    const requestParam = {
+        model,
+        messages: messages.map(item => ({
+            role: item.sender_type,
+            content: item.text
+        })),
+        options: payload?.options || {}
+    };
+    
+    return requestParam;
 };

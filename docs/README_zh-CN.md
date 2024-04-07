@@ -1,4 +1,4 @@
-<div align="center">
+<div style="text-align: center">
   <img src="_static/image/aoe-logo.svg" width="250"/>
 
 [![PyPI](https://img.shields.io/pypi/v/OpenAOE)](https://pypi.org/project/OpenAOE)
@@ -93,8 +93,20 @@ git clone https://github.com/internlm/OpenAOE
 cd OpenAOE/openaoe/frontend
 npm install
 npm run build
+
+# 如果你没有安装 Node.js，你可以通过以下方式安装：:
+# install NVM (Node 版本管理器)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# 下载并安装 Node.js，可以指定版本
+nvm install 20
+# 验证 Node.js 版本
+node -v # 应该打印 `v20.12.1`
+# 验证 NPM 版本
+npm -v # 应该打印 `10.5.0`
 ```
 
+> [!TIP]
+> 其他Node.js版本可以查询 [Node.js官网](https://nodejs.org/en/download/package-manager)。
 
 ### **运行**
 ```shell

@@ -1,4 +1,4 @@
-<div align="center">
+<div style="text-align: center">
   <img src="docs/_static/image/aoe-logo.svg" width="250"/>
 
 [![PyPI](https://img.shields.io/pypi/v/OpenAOE)](https://pypi.org/project/OpenAOE)
@@ -97,8 +97,20 @@ git clone https://github.com/internlm/OpenAOE
 cd OpenAOE/openaoe/frontend
 npm install
 npm run build
+
+# If you don't have NodeJS or npm, install it by:
+# installs NVM (Node Version Manager)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# download and install Node.js
+nvm install 20
+# verifies the right Node.js version is in the environment
+node -v # should print `v20.12.1`
+# verifies the right NPM version is in the environment
+npm -v # should print `10.5.0`
 ```
 
+> [!TIP]
+> Other latest Node.js versions can be found [here](https://nodejs.org/en/download/package-manager).
 
 ### **Start**
 ```shell

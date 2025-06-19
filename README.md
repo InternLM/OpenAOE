@@ -118,7 +118,7 @@ python -m openaoe.main -f /path/to/your/config-template.yaml
 
 #  Tech Report
 > **You are always welcome to fork this project to contribute your work**
-> **and find the [TODOs in furture](docs/todo/TODO.md).**
+> **and find the [TODOs in future](docs/todo/TODO.md).**
 
 If you want to add more LLMs' APIs or features based on OpenAOE, the following info might be helpful.
 
